@@ -32,7 +32,7 @@ def main():
 
     # create the parser for the change_energy command
     parser_a = subparsers.add_parser('mono', help='set monochromatic energy')
-    parser_a.add_argument('energy', type=float, help='energy in keV; ex: energy set 24.9')
+    parser_a.add_argument('energy', type=float, help='energy in keV; ex: energy mono 24.9')
 
     # create the parser for the "change2pink" command
     parser_b = subparsers.add_parser('pink', help='change to pink')
