@@ -366,14 +366,6 @@ def change_energy(energy_change_PVs, energy = 24.9):
         else:                                
             Filter = 0
             
-        move_filter(Filter, energy_change_PVs)
-        move_mirror(Mirr_YAvg, Mirr_Ang, energy_change_PVs)
-        move_DMM_Y(DMM_USY_OB, DMM_USY_IB, DMM_DSY, energy_change_PVs)    
-        move_DMM_arms(USArm, DSArm, energy_change_PVs)
-        move_DMM_M2Y(M2Y, energy_change_PVs)
-        move_DMM_X(DMM_USX, DMM_DSX, energy_change_PVs)
-        move_xia_slits_Y(XIASlitY, energy_change_PVs)
-
         log_lib.info(' ')
         log_lib.info('  *** Change Energy: Done!  *** ')
 
