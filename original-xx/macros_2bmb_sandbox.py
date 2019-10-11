@@ -8942,17 +8942,15 @@ def main():
     # change2Pink(ang=1.5)
     # change2White()
     # change2Pink(ang=2.657)
-    #change2Mono()
+    #change2Mono(24.90)
+    changeDMMEng(eng = 24.90)
+    # changeDMMEng()
+    print("done!")
     # original energy calibration from Xianghui
     # 55.00, 50.00, 45.00, 40.00, 35.00, 31.00, 27.40, 24.90, 22.70, 21.10, 20.20, 18.90, 17.60, 16.80, 16.00, 15.00, 14.40
     # New calibration at 33 keV
     # 50.00, 45.00, 40.00, 35.50, 32.00, 31.00, 27.40, 24.90, 22.70, 21.10, 20.20, 18.90, 17.60, 16.80, 16.00, 15.00, 14.40
-<<<<<<< HEAD
-    print("hi")
-	changeDMMEng(eng = 24.90)
-=======
-    changeDMMEng(eng = 14.40)
->>>>>>> 782744ab8e3d4f82f54f74c6df1bf542ecc72c28
+
 
 if __name__ == '__main__':
     main()
