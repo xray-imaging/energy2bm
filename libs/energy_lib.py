@@ -7,7 +7,7 @@ from __future__ import print_function
 from epics import PV
 import numpy as np
 
-import log_lib
+import libs.log_lib as log_lib
 
 TESTING = True
 
