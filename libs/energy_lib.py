@@ -6,11 +6,16 @@ from __future__ import print_function
 
 from epics import PV
 import numpy as np
+import time
 
 import libs.log_lib as log_lib
 
-TESTING = True
+TESTING = False
 
+ShutterA_Open_Value = 1
+ShutterA_Close_Value = 0
+ShutterB_Open_Value = 1
+ShutterB_Close_Value = 0
 
 def wait_pv(pv, wait_val, max_timeout_sec=-1):
 
