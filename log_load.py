@@ -13,7 +13,7 @@ import numpy as np
 from epics import PV
 from datetime import datetime
 
-import log_lib
+import libs.log_lib as log_lib
 
 variableDict = {
         'IOC_Prefix': '2bmbSP1:',         # options: 1. PointGrey: '2bmbPG3:', 2. Gbe '2bmbSP1:' 
