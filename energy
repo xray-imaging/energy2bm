@@ -46,11 +46,13 @@ def main():
     try:
         angle = args.angle
         angle_calibrated = energy_lib.change2pink(global_PVs, angle)
+        return
     except:
         angle = -1.0
     try:
         energy = args.energy
         energy_calibrated = energy_lib.change_energy(global_PVs, energy)
+        return
     except:
         energy = -1.0
 

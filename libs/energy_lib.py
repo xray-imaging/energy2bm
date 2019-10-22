@@ -10,7 +10,7 @@ import time
 
 import libs.log_lib as log_lib
 
-TESTING = False
+TESTING = True
 
 ShutterA_Open_Value = 1
 ShutterA_Close_Value = 0
@@ -45,10 +45,10 @@ def wait_pv(pv, wait_val, max_timeout_sec=-1):
 
 
 def yes_or_no(question):
-    answer = str(raw_input(question + " (Y/N): ")).lower().strip()
+    answer = str(input(question + " (Y/N): ")).lower().strip()
     while not(answer == "y" or answer == "yes" or answer == "n" or answer == "no"):
         log_lib.warning("Input yes or no")
-        answer = str(raw_input(question + "(Y/N): ")).lower().strip()
+        answer = str(input(question + "(Y/N): ")).lower().strip()
     if answer[0] == "y":
         return True
     else:
@@ -206,7 +206,7 @@ def find_nearest(array, value):
     return array[idx]
 
 
-def change2white(energy_change_PVs):
+def _change2white(energy_change_PVs):
 
     log_lib.info(' ')
     log_lib.info('  *** change to white  *** ')
@@ -221,7 +221,12 @@ def change2white(energy_change_PVs):
     log_lib.info(' ')
     log_lib.info('  *** change to white: Done!  *** ')
                     
+def change2white(energy_change_PVs):
+    log_lib.info('   *** Change to white beam ?')   
+    if yes_or_no('Yes or No'):
+        _change2white(energy_change_PVs)                
 
+    pass
 def change2mono(energy_change_PVs):
 
     log_lib.info(' ')
