@@ -33,8 +33,8 @@ def wait_pv(pv, wait_val, max_timeout_sec=-1):
                 curTime = time.time()
                 diffTime = curTime - startTime
                 if diffTime >= max_timeout_sec:
-                    log_lib.error('  *** ERROR: DROPPED IMAGES ***')
-                    log_lib.error('  *** wait_pv(%s, %d, %5.2f reached max timeout. Return False' % (pv.pvname, wait_val, max_timeout_sec))
+                    log_lib.error('     *** ERROR: DROPPED IMAGES ***')
+                    log_lib.error('     *** wait_pv(%s, %d, %5.2f reached max timeout. Return False' % (pv.pvname, wait_val, max_timeout_sec))
 
 
                     return False
@@ -56,31 +56,31 @@ def yes_or_no(question):
 
 def close_shutters(energy_change_PVs):
     log_lib.info(' ')
-    log_lib.info('  *** close_shutters')
+    log_lib.info('     *** close_shutters')
     if TESTING:
-        log_lib.warning('  *** testing mode - shutters are deactivated during the scans !!!!')
+        log_lib.warning('     *** testing mode - shutters are deactivated during the scans !!!!')
     else:
         energy_change_PVs['ShutterA_Close'].put(1, wait=True)
         wait_pv(energy_change_PVs['ShutterA_Move_Status'], ShutterA_Close_Value)
-        log_lib.info('  *** close_shutter A: Done!')
+        log_lib.info('     *** close_shutter A: Done!')
 
 def move_filter(filter, energy_change_PVs):
     log_lib.info(' ')
-    log_lib.info('  *** moving filters')
+    log_lib.info('     *** moving filters')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. Set filter:  %s ' % filter)
+        log_lib.warning('     *** testing mode. Set filter:  %s ' % filter)
     else:
-        log_lib.info('  *** Set filter:  %s ' % filter)
+        log_lib.info('     *** Set filter:  %s ' % filter)
         energy_change_PVs['Filter_Select'].put(filter, wait=True)
 
 def move_mirror(Mirr_YAvg, Mirr_Ang, energy_change_PVs):
     log_lib.info(' ')
-    log_lib.info('  *** moving mirror')
+    log_lib.info('     *** moving mirror')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. Mirr_YAvg %s mm' % Mirr_YAvg)
-        log_lib.warning('  *** testing mode. Mirr_Ang %s rad' % Mirr_Ang)
+        log_lib.warning('     *** testing mode. Mirr_YAvg %s mm' % Mirr_YAvg)
+        log_lib.warning('     *** testing mode. Mirr_Ang %s rad' % Mirr_Ang)
     else:
         log_lib.info('Mirr_YAvg %s mm' % Mirr_YAvg)
         energy_change_PVs['Mirr_YAvg'].put(Mirr_YAvg, wait=True)
@@ -91,11 +91,11 @@ def move_mirror(Mirr_YAvg, Mirr_Ang, energy_change_PVs):
 
 def move_DMM_X(DMM_USX, DMM_DSX, energy_change_PVs):
     log_lib.info(' ')
-    log_lib.info('  *** moving DMM_X')
+    log_lib.info('     *** moving DMM_X')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. DMM_USX %s mm' % DMM_USX)
-        log_lib.warning('  *** testing mode. DMM_DSX %s mm' % DMM_DSX)
+        log_lib.warning('     *** testing mode. DMM_USX %s mm' % DMM_USX)
+        log_lib.warning('     *** testing mode. DMM_DSX %s mm' % DMM_DSX)
     else:
         log_lib.info('     *** DMM_USX %s mm' % DMM_USX)
         energy_change_PVs['DMM_USX'].put(DMM_USX, wait=False)
@@ -106,12 +106,12 @@ def move_DMM_X(DMM_USX, DMM_DSX, energy_change_PVs):
 def move_DMM_Y(DMM_USY_OB, DMM_USY_IB, DMM_DSY, energy_change_PVs):
 
     log_lib.info(' ')
-    log_lib.info('  *** moving DMM_Y')
+    log_lib.info('     *** moving DMM_Y')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. DMM_USY_OB %s mm' % DMM_USY_OB) 
-        log_lib.warning('  *** testing mode. DMM_USY_IB %s mm' % DMM_USY_IB)    
-        log_lib.warning('  *** testing mode. DMM_DSY %s mm' % DMM_DSY)        
+        log_lib.warning('     *** testing mode. DMM_USY_OB %s mm' % DMM_USY_OB) 
+        log_lib.warning('     *** testing mode. DMM_USY_IB %s mm' % DMM_USY_IB)    
+        log_lib.warning('     *** testing mode. DMM_DSY %s mm' % DMM_DSY)        
     else:
         log_lib.info('     *** DMM_USY_OB %s mm' % DMM_USY_OB) 
         energy_change_PVs['DMM_USY_OB'].put(DMM_USY_OB, wait=False)
@@ -123,46 +123,46 @@ def move_DMM_Y(DMM_USY_OB, DMM_USY_IB, DMM_DSY, energy_change_PVs):
  
 def move_xia_slits_Y(XIASlitY, energy_change_PVs):
     log_lib.info(' ')
-    log_lib.info('  *** moving XIA Slits Y')
+    log_lib.info('     *** moving XIA Slits Y')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. Moving XIA Slits Y %s mm' % XIASlitY) 
+        log_lib.warning('     *** testing mode. Moving XIA Slits Y %s mm' % XIASlitY) 
     else:
-        log_lib.info('  *** Moving XIA Slits Y %s mm' % XIASlitY) 
+        log_lib.info('     *** Moving XIA Slits Y %s mm' % XIASlitY) 
         energy_change_PVs['XIASlitY'].put(XIASlitY, wait=True)
 
 def move_slits_center(Slit1Hcenter, energy_change_PVs):
     log_lib.info(' ')
-    log_lib.info('  *** moving XIA Slit center')
+    log_lib.info('     *** moving XIA Slit center')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. Moving XIA Slit center %s mm' % Slit1Hcenter) 
+        log_lib.warning('     *** testing mode. Moving XIA Slit center %s mm' % Slit1Hcenter) 
     else:
-        log_lib.info('  *** Moving XIA Slit center %s mm' % Slit1Hcenter) 
+        log_lib.info('     *** Moving XIA Slit center %s mm' % Slit1Hcenter) 
         energy_change_PVs['Slit1Hcenter'].put(Slit1Hcenter, wait=True)
 
 
 def move_DMM_M2Y(M2Y, energy_change_PVs):    
     log_lib.info(' ')
-    log_lib.info('  *** moving DMM_M2Y')
+    log_lib.info('     *** moving DMM_M2Y')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. Moving DMM_M2Y %s mm' % M2Y) 
+        log_lib.warning('     *** testing mode. Moving DMM_M2Y %s mm' % M2Y) 
     else:
-        log_lib.info('  *** Moving DMM_M2Y %s mm' % M2Y) 
+        log_lib.info('     *** Moving DMM_M2Y %s mm' % M2Y) 
         energy_change_PVs['M2Y'].put(M2Y, wait=True, timeout=1000.0)
 
 def move_DMM_arms(USArm, DSArm, energy_change_PVs):
     log_lib.info(' ')
-    log_lib.info('  *** moving DMM_arms')
+    log_lib.info('     *** moving DMM_arms')
 
     if TESTING:
-        log_lib.warning('  *** testing mode. Moving DMM USArm %s mm' % USArm) 
-        log_lib.warning('  *** testing mode. Moving DMM DSArm %s mm' % DSArm) 
+        log_lib.warning('     *** testing mode. Moving DMM USArm %s mm' % USArm) 
+        log_lib.warning('     *** testing mode. Moving DMM DSArm %s mm' % DSArm) 
     else:    
-        log_lib.info('  *** Moving DMM USArm %s mm' % USArm) 
+        log_lib.info('     *** Moving DMM USArm %s mm' % USArm) 
         energy_change_PVs['USArm'].put(USArm, wait=False, timeout=1000.0)
-        log_lib.info('  *** Moving DMM DSArm %s mm' % DSArm) 
+        log_lib.info('     *** Moving DMM DSArm %s mm' % DSArm) 
         energy_change_PVs['DSArm'].put(DSArm, wait=True, timeout=1000.0)
         time.sleep(3)
 
@@ -209,7 +209,7 @@ def find_nearest(array, value):
 def _change2white(energy_change_PVs):
 
     log_lib.info(' ')
-    log_lib.info('  *** change to white  *** ')
+    log_lib.info('   *** change to white  *** ')
     
     close_shutters(energy_change_PVs)
     move_filter(0, energy_change_PVs)
@@ -219,7 +219,7 @@ def _change2white(energy_change_PVs):
     move_xia_slits_Y(-1.65, energy_change_PVs)
 
     log_lib.info(' ')
-    log_lib.info('  *** change to white: Done!  *** ')
+    log_lib.info('   *** change to white: Done!  *** ')
                     
 def change2white(energy_change_PVs):
     log_lib.info('   *** Change to white beam ?')   
@@ -227,10 +227,12 @@ def change2white(energy_change_PVs):
         _change2white(energy_change_PVs)                
 
     pass
-def change2mono(energy_change_PVs):
+
+
+def set2mono(energy_change_PVs):
 
     log_lib.info(' ')
-    log_lib.info('  *** change to mono  *** ')
+    log_lib.info('   *** set the beamline to mono  *** ')
 
     close_shutters(energy_change_PVs)
 
@@ -241,21 +243,21 @@ def change2mono(energy_change_PVs):
     move_xia_slits_Y(30.35, energy_change_PVs)
 
     log_lib.info(' ')
-    log_lib.info('  *** change to mono: Done!  *** ')
+    log_lib.info('   *** set the beamline to mono: Done!  *** ')
                
 
 def change2pink(energy_change_PVs, angle=2.657):
 
     log_lib.info(' ')
-    log_lib.info('  *** change to pink  *** ')
+    log_lib.info('   *** change to pink  *** ')
 
     Mirr_Ang_list = np.array([1.500,1.800,2.000,2.100,2.657])
 
     angle_calibrated = find_nearest(Mirr_Ang_list, angle)
 
     if angle is not angle_calibrated:
-        log_lib.info('  *** Mirror angle entered is %s mrad, the closest tested angle is %s mrad' % (angle, angle_calibrated))
-        log_lib.info('  *** Options are %s mrad' % (Mirr_Ang_list))
+        log_lib.info('     *** Mirror angle entered is %s mrad, the closest tested angle is %s mrad' % (angle, angle_calibrated))
+        log_lib.info('     *** Options are %s mrad' % (Mirr_Ang_list))
     else:
         log_lib.info('   *** Mirror angle is set at %s mrad' % angle_calibrated)   
 
@@ -279,7 +281,7 @@ def change2pink(energy_change_PVs, angle=2.657):
 
         idx = np.where(Mirr_Ang_list==angle_calibrated)                
         if idx[0].size == 0:
-            log_lib.error('  *** ERROR: there is no specified calibrated calibrate in the calibrated angle lookup table. please choose a calibrated angle.')
+            log_lib.error('     *** ERROR: there is no specified calibrated calibrate in the calibrated angle lookup table. please choose a calibrated angle.')
             return    0                            
 
         Mirr_Ang = Mirr_Ang_list[idx[0][0]] 
@@ -297,7 +299,7 @@ def change2pink(energy_change_PVs, angle=2.657):
 
         Filter = Filter_list[idx[0][0]]
 
-        log_lib.info('  *** Angle is set at %s mrad' % angle_calibrated)                
+        log_lib.info('     *** Angle is set at %s mrad' % angle_calibrated)                
 
         close_shutters(energy_change_PVs)
 
@@ -310,7 +312,7 @@ def change2pink(energy_change_PVs, angle=2.657):
         move_xia_slits_Y(XIASlitY, energy_change_PVs)
             
         log_lib.info(' ')
-        log_lib.info('  *** change to pink: Done!  *** ')
+        log_lib.info('   *** change to pink: Done!  *** ')
         return angle_calibrated
 
     else:
@@ -318,10 +320,7 @@ def change2pink(energy_change_PVs, angle=2.657):
         log_lib.warning('   *** Mirror angle not changed')
 
 
-def change_energy(energy_change_PVs, energy = 24.9):
-
-    log_lib.info(' ')
-    log_lib.info(' *** Change Energy  *** ')
+def change2energy(energy_change_PVs, energy = 24.9):
 
     caliEng_list = np.array([55.00, 50.00, 45.00, 40.00, 35.00, 31.00, 27.40, 24.90, 22.70, 21.10, 20.20, 18.90, 17.60, 16.80, 16.00, 15.00, 14.40])
     energy_calibrated = find_nearest(caliEng_list, energy)
@@ -369,15 +368,27 @@ def change_energy(energy_change_PVs, energy = 24.9):
 
     log_lib.info('   *** Move to %s keV ?' % energy_calibrated)   
     if yes_or_no('Yes or No'):
-        change2mono(energy_change_PVs)                
+        # set2mono(energy_change_PVs)                
 
         if energy < 20.0:
             Filter = 4
         else:                                
             Filter = 0
+
+        log_lib.info(' ')
+        log_lib.info('   *** Change Energy  *** ')
+
+        move_filter(Filter, energy_change_PVs)
+        move_mirror(Mirr_YAvg, Mirr_Ang, energy_change_PVs)
+        move_DMM_Y(DMM_USY_OB, DMM_USY_IB, DMM_DSY, energy_change_PVs)    
+        move_DMM_arms(USArm, DSArm, energy_change_PVs)
+        time.sleep(3)                                            
+        move_DMM_M2Y(M2Y, energy_change_PVs)   
+        move_DMM_X(DMM_USX, DMM_DSX, energy_change_PVs)
+        move_xia_slits_Y(XIASlitY, energy_change_PVs)
             
         log_lib.info(' ')
-        log_lib.info('  *** Change Energy: Done!  *** ')
+        log_lib.info('   *** Change Energy: Done!  *** ')
 
         return energy_calibrated
     else:
