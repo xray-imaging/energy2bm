@@ -10,7 +10,7 @@ import time
 
 import libs.log_lib as log_lib
 
-TESTING = True
+TESTING = False
 
 ShutterA_Open_Value = 1
 ShutterA_Close_Value = 0
