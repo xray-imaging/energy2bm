@@ -9,7 +9,7 @@ from epics import PV
 import h5py
 import shutil
 import os
-import imp
+# import imp
 import traceback
 import numpy as np
 from datetime import datetime
@@ -26,12 +26,10 @@ import matplotlib.widgets as wdg
 from skimage import filters
 from skimage.color import rgb2gray  # only needed for incorrectly saved images
 from skimage.measure import regionprops
-
+from skimage.feature import register_translation
 import numexpr as ne
 
 global variableDict
-
-detector_resolution = 1.80 # micron/pixel
 
 variableDict = {
         'SampleXIn': 0, 
@@ -46,6 +44,7 @@ variableDict = {
         'Station': '2-BM-A',
         'ExposureTime': 0.1,                # to use this as default value comment the variableDict['ExposureTime'] = global_PVs['Cam1_AcquireTime'].get() line
         'IOC_Prefix': '2bmbSP1:',           # options: 1. PointGrey: '2bmbPG3:', 2. Gbe '2bmbSP1:' 
+        'detector_resolution': 1.0
         }
 
 global_PVs = {}
@@ -92,6 +91,52 @@ def as_float32(arr):
     return as_dtype(arr, np.float32)
 
 
+def get_resolution(global_PVs, variableDict):
+
+    def cleanup(signal, frame):
+        aps2bm_lib.stop_scan(global_PVs, variableDict)
+        sys.exit(0)
+    signal.signal(signal.SIGINT, cleanup)
+
+    if 'StopTheScan' in variableDict:
+        aps2bm_lib.stop_scan(global_PVs, variableDict)
+        return
+
+    sampple_x = 0.1
+    aps2bm_lib.pgInit(global_PVs, variableDict)
+    aps2bm_lib.pgSet(global_PVs, variableDict) 
+
+    aps2bm_lib.close_shutters(global_PVs, variableDict)
+    dark_field = acquire_dark(global_PVs, variableDict)
+    # plot(dark_field)
+
+    aps2bm_lib.open_shutters(global_PVs, variableDict)
+    white_field = acquire_flat(global_PVs, variableDict)
+    # plot(white_field)
+
+    log_lib.info('  *** moving X stage  to 0 mm position')
+    global_PVs["Motor_SampleX"].put(0, wait=True, timeout=600.0)
+    
+    log_lib.info('  *** acquire first image')
+    sphere_0 = normalize(acquire_image(global_PVs, variableDict), white_field, dark_field)
+ 
+    log_lib.info('  *** moving X stage to %f mm position' % sampple_x)
+    global_PVs["Motor_SampleX"].put(sampple_x, wait=True, timeout=600.0)
+    sphere_1 = normalize(acquire_image(global_PVs, variableDict), white_field, dark_field)
+
+    shift = register_translation(sphere_0, sphere_1, 1000, return_error=False)
+    log_lib.info('  *** shift %f' % shift[1])
+
+    resolution =  sampple_x / np.abs(shift[1]) * 1000.0
+    log_lib.info('  *** resolution %f μm/pixel' % resolution)
+
+
+    log_lib.info('  *** moving X stage back to 0 mm position')
+    global_PVs["Motor_SampleX"].put(0, wait=True, timeout=600.0)
+
+    return resolution
+
+
 def normalize(arr, flat, dark, cutoff=None, out=None):
     """
     Normalize raw projection data using the flat and dark field projections.
@@ -116,13 +161,18 @@ def normalize(arr, flat, dark, cutoff=None, out=None):
         Normalized 2D tomographic data.
     """
     arr = as_float32(arr)
-    l = np.float32(1e-6)
-    flat = np.mean(flat, dtype=np.float32)
-    dark = np.mean(dark, dtype=np.float32)
+    l = np.float32(1e-5)
+    log_lib.info(flat.shape)
+    # flat = np.mean(flat, axis=0, dtype=np.float32)
+    # dark = np.mean(dark, axis=0, dtype=np.float32)
+    flat = flat.astype('float32')
+    dark = dark.astype('float32')
 
-    denom = ne.evaluate('flat-dark')
+    denom = ne.evaluate('flat')
+    # denom = ne.evaluate('flat-dark')
     ne.evaluate('where(denom<l,l,denom)', out=denom)
-    out = ne.evaluate('arr-dark', out=out)
+    out = ne.evaluate('arr', out=out)
+    # out = ne.evaluate('arr-dark', out=out)
     ne.evaluate('out/denom', out=out, truediv=True)
     if cutoff is not None:
         cutoff = np.float32(cutoff)
@@ -169,6 +219,7 @@ def acquire_sphere(global_PVs, variableDict):
 
 def center_of_mass(image):
     threshold_value = filters.threshold_otsu(image)
+    log_lib.info("threshold_value: %f" % (threshold_value))
     labeled_foreground = (image < threshold_value).astype(int)
     properties = regionprops(labeled_foreground, image)
     return properties[0].weighted_centroid
@@ -176,12 +227,45 @@ def center_of_mass(image):
 
 def find_rotation_axis(global_PVs, variableDict):
 
+    sphere_0, sphere_180 = get_0_180(global_PVs, variableDict)
+
+    cmass_0 = center_of_mass(sphere_0)
+    cmass_180 = center_of_mass(sphere_180)
+
+    center = (cmass_180[1] + cmass_0[1]) / 2.0
+    log_lib.info('  *** difference vertical center of mass %f' % (cmass_180[0] - cmass_0[0]))
+    log_lib.info('  *** difference horizontal center of mass %f' % (cmass_180[1] - cmass_0[1]))
+    log_lib.info('  *** ratio %f' % ((cmass_180[0] - cmass_0[0]) / (cmass_180[1] - cmass_0[1])))
+
+    roll = np.rad2deg(np.arctan((cmass_180[0] - cmass_0[0]) / (cmass_180[1] - cmass_0[1])))
+    log_lib.info("roll:%f" % (roll))
+    # plot(sphere_0)
+    # plot(sphere_180)
+    # plot(sphere_180[:,::-1])
+    
+    shift = register_translation(sphere_0, sphere_180[:,::-1], 1000, return_error=False)
+    log_lib.info("shift: [%f, %f]" % (shift[0],shift[1]))
+    log_lib.info("Rotation axis location: %f" % (sphere_0.shape[1]/2.0 +(shift[1]/2)))
+    log_lib.info("Rotation axis offset: %f" % (shift[1]/2))
+    center = (sphere_0.shape[1]/2.0 +(shift[1]/2))
+    roll = np.rad2deg(np.arctan(shift[0]/shift[1]))
+    log_lib.info("new roll:%f" % (roll))
+    # shift = register_translation(sphere_0, sphere_180, 1000, return_error=False)
+    # roll = np.rad2deg(np.arctan(shift[0]/shift[1]))
+    # log_lib.info("new roll2:%f" % (roll))
+
+
+    return center, roll
+
+
+def get_0_180(global_PVs, variableDict):
+
     def cleanup(signal, frame):
         aps2bm_lib.stop_scan(global_PVs, variableDict)
         sys.exit(0)
     signal.signal(signal.SIGINT, cleanup)
 
-    if variableDict.has_key('StopTheScan'):
+    if 'StopTheScan' in variableDict:
         aps2bm_lib.stop_scan(global_PVs, variableDict)
         return
 
@@ -201,25 +285,15 @@ def find_rotation_axis(global_PVs, variableDict):
     
     log_lib.info('  *** acquire sphere at 0 deg')
     sphere_0 = normalize(acquire_sphere(global_PVs, variableDict), white_field, dark_field)
-    # plot(sphere_0)
-    cmass_0 = center_of_mass(sphere_0)
-
+ 
     log_lib.info('  *** moving rotary stage to 180 deg')
     global_PVs["Motor_SampleRot"].put(180, wait=True, timeout=600.0)
     
     log_lib.info('  *** acquire sphere at 180')
     sphere_180 = normalize(acquire_sphere(global_PVs, variableDict), white_field, dark_field)
-    # plot(sphere_180)
-    cmass_180 = center_of_mass(sphere_180)
 
-    center = (cmass_180[1] + cmass_0[1]) / 2.0
-    log_lib.info('  *** difference vertical center of mass %f' % (cmass_180[0] - cmass_0[0]))
-    log_lib.info('  *** difference horizontal center of mass %f' % (cmass_180[1] - cmass_0[1]))
-    log_lib.info('  *** ratio %f' % ((cmass_180[0] - cmass_0[0]) / (cmass_180[1] - cmass_0[1])))
+    return sphere_0, sphere_180
 
-    roll = np.rad2deg(np.arctan((cmass_180[0] - cmass_0[0]) / (cmass_180[1] - cmass_0[1])))
-
-    return center, roll
 
 def center_rotation_axis(global_PVs, variableDict):
 
@@ -231,7 +305,7 @@ def center_rotation_axis(global_PVs, variableDict):
     current_axis_position = global_PVs["Motor_SampleX"].get()
     log_lib.info('  *** current axis position: %f' % current_axis_position)
     time.sleep(.5)
-    correction = (((nCol / 2.0) - variableDict['center']) * detector_resolution / 1000.0) + current_axis_position
+    correction = (((nCol / 2.0) - variableDict['center']) * variableDict['detector_resolution'] / 1000.0) + current_axis_position
     log_lib.info('  *** correction: %f' % correction)
 
     log_lib.info('  *** moving to: %f (mm)' % correction)
@@ -267,8 +341,9 @@ def main():
             log_lib.info('*** The Point Grey Camera with EPICS IOC prefix %s and serial number %s is on' \
                 % (variableDict['IOC_Prefix'], detector_sn))
             variableDict['center'], variableDict['roll'] = find_rotation_axis(global_PVs, variableDict)
+            variableDict['detector_resolution'] = get_resolution(global_PVs, variableDict)
             center_rotation_axis(global_PVs, variableDict) 
-            log_lib.info('  *** rotary roll angle %f deg' % variableDict['roll'])
+            # # log_lib.info('  *** rotary roll angle %f deg' % variableDict['roll'])
         
         log_lib.info('  *** moving rotary stage to 0 deg position')
         global_PVs["Motor_SampleRot"].put(0, wait=True, timeout=600.0)
