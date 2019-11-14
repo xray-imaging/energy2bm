@@ -1,7 +1,6 @@
-'''
-    Auto center for 2-BM
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-'''
 import sys
 import json
 import time
@@ -9,7 +8,8 @@ from epics import PV
 import h5py
 import shutil
 import os
-# import imp
+import argparse
+
 import traceback
 import numpy as np
 from datetime import datetime
@@ -36,15 +36,15 @@ variableDict = {
         'SampleXOut': 4,
         'SampleRotStart': 0.0,
         'SampleRotEnd': 180.0,
-        'center': 0.0,
-        'roll': 0.0,
+        'AxisLocation': 0.0,
+        'Roll': 0.0,
         # ####################### DO NOT MODIFY THE PARAMETERS BELOW ###################################
         'CCD_Readout': 0.006,              # options: 1. 8bit: 0.006, 2. 16-bit: 0.01
         # 'CCD_Readout': 0.01,             # options: 1. 8bit: 0.006, 2. 16-bit: 0.01
         'Station': '2-BM-A',
         'ExposureTime': 0.1,                # to use this as default value comment the variableDict['ExposureTime'] = global_PVs['Cam1_AcquireTime'].get() line
         'IOC_Prefix': '2bmbSP1:',           # options: 1. PointGrey: '2bmbPG3:', 2. Gbe '2bmbSP1:' 
-        'detector_resolution': 1.0
+        'DetectorResolution': 1.0
         }
 
 global_PVs = {}
@@ -102,7 +102,7 @@ def get_resolution(global_PVs, variableDict):
         aps2bm_lib.stop_scan(global_PVs, variableDict)
         return
 
-    sampple_x = 0.1
+    sampple_x = 0.1 
     aps2bm_lib.pgInit(global_PVs, variableDict)
     aps2bm_lib.pgSet(global_PVs, variableDict) 
 
@@ -233,29 +233,29 @@ def find_rotation_axis(global_PVs, variableDict):
     cmass_180 = center_of_mass(sphere_180)
 
     center = (cmass_180[1] + cmass_0[1]) / 2.0
-    log_lib.info('  *** difference vertical center of mass %f' % (cmass_180[0] - cmass_0[0]))
-    log_lib.info('  *** difference horizontal center of mass %f' % (cmass_180[1] - cmass_0[1]))
-    log_lib.info('  *** ratio %f' % ((cmass_180[0] - cmass_0[0]) / (cmass_180[1] - cmass_0[1])))
+    log_lib.info('  *** shift (center of mass): [%f, %f]' % ((cmass_180[0] - cmass_0[0]) ,(cmass_180[1] - cmass_0[1])))
+    # log_lib.info('  *** difference horizontal center of mass %f' % (cmass_180[1] - cmass_0[1]))
+    # log_lib.info('  *** ratio %f' % ((cmass_180[0] - cmass_0[0]) / (cmass_180[1] - cmass_0[1])))
 
     roll = np.rad2deg(np.arctan((cmass_180[0] - cmass_0[0]) / (cmass_180[1] - cmass_0[1])))
-    log_lib.info("roll:%f" % (roll))
+    log_lib.info("  *** roll:%f" % (roll))
     # plot(sphere_0)
     # plot(sphere_180)
     # plot(sphere_180[:,::-1])
     
     shift = register_translation(sphere_0, sphere_180[:,::-1], 1000, return_error=False)
-    log_lib.info("shift: [%f, %f]" % (shift[0],shift[1]))
-    log_lib.info("Rotation axis location: %f" % (sphere_0.shape[1]/2.0 +(shift[1]/2)))
-    log_lib.info("Rotation axis offset: %f" % (shift[1]/2))
-    center = (sphere_0.shape[1]/2.0 +(shift[1]/2))
+    log_lib.info('  *** shift (cross correlation): [%f, %f]' % (shift[1],shift[0]))
+    log_lib.info('  *** rotation axis location: %f' % (sphere_0.shape[1]/2.0 +(shift[1]/2)))
+    log_lib.info('  *** rotation axis offset: %f' % (shift[1]/2))
+    AxisLocation = (sphere_0.shape[1]/2.0 + (shift[1]/2))
     roll = np.rad2deg(np.arctan(shift[0]/shift[1]))
-    log_lib.info("new roll:%f" % (roll))
+    log_lib.info("  *** new roll:%f" % (roll))
     # shift = register_translation(sphere_0, sphere_180, 1000, return_error=False)
     # roll = np.rad2deg(np.arctan(shift[0]/shift[1]))
     # log_lib.info("new roll2:%f" % (roll))
 
 
-    return center, roll
+    return AxisLocation, roll
 
 
 def get_0_180(global_PVs, variableDict):
@@ -305,7 +305,7 @@ def center_rotation_axis(global_PVs, variableDict):
     current_axis_position = global_PVs["Motor_SampleX"].get()
     log_lib.info('  *** current axis position: %f' % current_axis_position)
     time.sleep(.5)
-    correction = (((nCol / 2.0) - variableDict['center']) * variableDict['detector_resolution'] / 1000.0) + current_axis_position
+    correction = (((nCol / 2.0) - variableDict['AxisLocation']) * variableDict['DetectorResolution'] / 1000.0) + current_axis_position
     log_lib.info('  *** correction: %f' % correction)
 
     log_lib.info('  *** moving to: %f (mm)' % correction)
@@ -326,12 +326,22 @@ def main():
     if not os.path.exists(logs_home):
         os.makedirs(logs_home)
 
-    lfname = logs_home + 'center.log'
+    lfname = logs_home + 'auto.log'
     # lfname = logs_home + datetime.strftime(datetime.now(), "%Y-%m-%d_%H:%M:%S") + '.log'
     log_lib.setup_logger(lfname)
 
+    # # create the top-level parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--res', action="store_true", default=False, help='measure the image resolution (μm/pixel)')
+    parser.add_argument('--axis', action="store_true", default=False, help='find the rotation axis location')
+    parser.add_argument('--roll', action="store_true", default=False, help='measure the rotation axis roll')
+    parser.add_argument('--pitch', action="store_true", default=False, help='measure the rotation axis pitch')
+
+    args = parser.parse_args()
+
     aps2bm_lib.update_variable_dict(variableDict)
     aps2bm_lib.init_general_PVs(global_PVs, variableDict)
+
     try:
         detector_sn = global_PVs['Cam1_SerialNumber'].get()
         if ((detector_sn == None) or (detector_sn == 'Unknown')):
@@ -340,10 +350,25 @@ def main():
         else:
             log_lib.info('*** The Point Grey Camera with EPICS IOC prefix %s and serial number %s is on' \
                 % (variableDict['IOC_Prefix'], detector_sn))
-            variableDict['center'], variableDict['roll'] = find_rotation_axis(global_PVs, variableDict)
-            variableDict['detector_resolution'] = get_resolution(global_PVs, variableDict)
-            center_rotation_axis(global_PVs, variableDict) 
-            # # log_lib.info('  *** rotary roll angle %f deg' % variableDict['roll'])
+ 
+            if args.res:
+                log_lib.info('  *** measuring the image resolution (μm/pixel)')
+                variableDict['DetectorResolution'] = get_resolution(global_PVs, variableDict)
+
+            if args.axis:
+                log_lib.info('  *** finding the rotation axis location')
+                variableDict['AxisLocation'], variableDict['Roll'] = find_rotation_axis(global_PVs, variableDict)
+                variableDict['DetectorResolution'] = get_resolution(global_PVs, variableDict)
+                center_rotation_axis(global_PVs, variableDict) 
+
+            if args.roll:
+                log_lib.info('  *** measuring the rotation axis roll')
+                log_lib.warning('  *** not implemented')
+
+
+            if args.pitch:
+                log_lib.info('  *** measuring the rotation axis pitch')
+                log_lib.warning('  *** not implemented')
         
         log_lib.info('  *** moving rotary stage to 0 deg position')
         global_PVs["Motor_SampleRot"].put(0, wait=True, timeout=600.0)
