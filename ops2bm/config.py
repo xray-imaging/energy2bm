@@ -41,7 +41,7 @@ SECTIONS['general'] = {
         }
 
 SECTIONS['energy'] = {
-    'set': {
+    'energy-value': {
         'default': 24.9,
         'type': float,
         'help': "Desired double crystal multilayer (DMM) monochromator energy"},

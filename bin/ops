@@ -59,9 +59,9 @@ def main():
 
     cmd_parsers = [
         ('init',        init,           (),             "Create configuration file"),
-        ('set_energy',      run_energy,     mono_params,    "Set energy"),
-        ('set_white',       run_white,      white_params,   "Set white"),
-        ('set_pink',        run_pink,       pink_params,    "Set pink"),
+        ('set_energy',  run_energy,     mono_params,    "Set energy"),
+        ('set_white',   run_white,      white_params,   "Set white"),
+        ('set_pink',    run_pink,       pink_params,    "Set pink"),
         ('status',      run_status,     mono_params,    "Show status"),
     ]
 

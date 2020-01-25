@@ -130,19 +130,19 @@ def set_energy(params):
     energies_str = np.array(list(lookup.keys())[:])
     energies_flt = [float(i) for i in  energies_str]
 
-    energy_calibrated = find_nearest(energies_flt, params.set)
-    if float(params.set) != float(energy_calibrated):
-        log.warning('   *** Energy requested is %s keV, the closest calibrated energy is %s' % (params.set, energy_calibrated))
+    energy_calibrated = find_nearest(energies_flt, params.energy_value)
+    if float(params.energy_value) != float(energy_calibrated):
+        log.warning('   *** Energy requested is %s keV, the closest calibrated energy is %s' % (params.energy_value, energy_calibrated))
         log.info('   *** Options are %s keV' % (energies_str))
     else:
-        log.info('   *** Energy is set at %s keV' % params.set)   
+        log.info('   *** Energy is set at %s keV' % params.energy_value)   
 
-    log.info('   *** Move to %s keV instead of %s?' % (energy_calibrated, params.set))  
+    log.info('   *** Move to %s keV instead of %s?' % (energy_calibrated, params.energy_value))  
     if util.yes_or_no('   *** Yes or No'):
         log.info(' ')
         log.info('   *** Change Energy  *** ')
 
-        params.set = energy_calibrated
+        params.energy_value = energy_calibrated
         # set dmm motor and beamline positons
         params.Mirr_Ang = lookup[energy_calibrated]["Mirr_Ang"]
         params.Mirr_YAvg = lookup[energy_calibrated]["Mirr_YAvg"]
@@ -165,7 +165,7 @@ def set_energy(params):
 
         energy_change_PVs = epics_move.init_energy_change_PVs()
         # move ddm to set motor positions
-        epics_move.close_shutters(energy_change_PVs)
+        epics_move.close_shutters(energy_change_PVs, params)
         epics_move.move_filter(energy_change_PVs, params)
         epics_move.move_mirror(energy_change_PVs, params)
         epics_move.move_DMM_Y(energy_change_PVs, params)
