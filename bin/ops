@@ -27,7 +27,7 @@ def run_status(args):
 
   
 def run_energy(args):
-    dmm.set_energy(args)
+    dmm.change_energy(args)
     # update tomopy.conf
     config.update_log(args)
 
