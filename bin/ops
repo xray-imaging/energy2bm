@@ -34,7 +34,6 @@ def run_mono(args):
 
 
 def run_pink(args):
-    print(args)
     dmm.set_pink(args)
     # update tomopy.conf
     config.update_log(args)

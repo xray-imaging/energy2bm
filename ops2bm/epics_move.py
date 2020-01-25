@@ -47,7 +47,7 @@ def move_filter(energy_change_PVs, params):
     log.info('     *** moving filters')
 
     if TESTING:
-        log.warning('     *** testing mode. Set filter:  %s ' % params.filter)
+        log.warning('     *** testing mode:  set filter:  %s ' % params.filter)
     else:
         log.info('     *** Set filter:  %s ' % params.filter)
         # energy_change_PVs['filter'].put(params.filter, wait=True)
@@ -59,8 +59,8 @@ def move_mirror(energy_change_PVs, params):
     log.info('     *** moving mirror')
 
     if TESTING:
-        log.warning('     *** testing mode. mirror_vertical_position %s mm' % params.mirror_vertical_position)
-        log.warning('     *** testing mode. mirror_angle %s rad' % params.mirror_angle)
+        log.warning('     *** testing mode:  set mirror vertical position %s mm' % params.mirror_vertical_position)
+        log.warning('     *** testing mode:  set mirror angle %s rad' % params.mirror_angle)
     else:
         log.info('mirror_vertical_position %s mm' % params.mirror_vertical_position)
         # energy_change_PVs['mirror_vertical_position'].put(params.mirror_vertical_position, wait=True)
@@ -73,16 +73,16 @@ def move_mirror(energy_change_PVs, params):
 def move_DMM_Y(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving DMM_Y')
+    log.info('     *** moving dmm y')
 
     if TESTING:
-        log.warning('     *** testing mode. dmm_usy_ob %s mm' % params.dmm_usy_ob) 
-        log.warning('     *** testing mode. dmm_usy_ib %s mm' % params.dmm_usy_ib)    
-        log.warning('     *** testing mode. dmm_dsy %s mm' % params.dmm_dsy)        
+        log.warning('     *** testing mode:  set dmm usy ob %s mm' % params.dmm_usy_ob) 
+        log.warning('     *** testing mode:  set dmm usy ib %s mm' % params.dmm_usy_ib)    
+        log.warning('     *** testing mode:  set dmm dsy %s mm' % params.dmm_dsy)        
     else:
-        log.info('     *** dmm_usy_ob %s mm' % params.dmm_usy_ob) 
+        log.info('     *** dmm usy ob %s mm' % params.dmm_usy_ob) 
         # energy_change_PVs['dmm_usy_ob'].put(params.dmm_usy_ob, wait=False)
-        log.info('     *** dmm_usy_ib %s mm' % params.dmm_usy_ib)    
+        log.info('     *** dmm usy ib %s mm' % params.dmm_usy_ib)    
         # energy_change_PVs['dmm_usy_ib'].put(params.dmm_usy_ib, wait=False)
         log.info('     *** dmm_dsy %s mm' % params.dmm_dsy)        
         # energy_change_PVs['dmm_dsy'].put(params.dmm_dsy, wait=True)
@@ -92,15 +92,15 @@ def move_DMM_Y(energy_change_PVs, params):
 def move_DMM_arms(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving DMM_arms')
+    log.info('     *** moving dmm arms')
 
     if TESTING:
-        log.warning('     *** testing mode. Moving DMM dmm_us_arm %s mm' % params.dmm_us_arm) 
-        log.warning('     *** testing mode. Moving DMM dmm_ds_arm %s mm' % params.dmm_ds_arm) 
+        log.warning('     *** testing mode:  set DMM dmm_us_arm %s mm' % params.dmm_us_arm) 
+        log.warning('     *** testing mode:  set DMM dmm_ds_arm %s mm' % params.dmm_ds_arm) 
     else:    
-        log.info('     *** Moving DMM dmm_us_arm %s mm' % params.dmm_us_arm) 
+        log.info('     *** moving dmm us arm %s mm' % params.dmm_us_arm) 
         # energy_change_PVs['dmm_us_arm'].put(params.dmm_us_arm, wait=False, timeout=1000.0)
-        log.info('     *** Moving DMM dmm_ds_arm %s mm' % params.dmm_ds_arm) 
+        log.info('     *** moving dmm ds arm %s mm' % params.dmm_ds_arm) 
         # energy_change_PVs['dmm_ds_arm'].put(params.dmm_ds_arm, wait=True, timeout=1000.0)
         time.sleep(3)
 
@@ -108,27 +108,27 @@ def move_DMM_arms(energy_change_PVs, params):
 def move_DMM_dmm_m2y(energy_change_PVs, params):    
 
     log.info(' ')
-    log.info('     *** moving DMM_dmm_m2y')
+    log.info('     *** moving dmm m2y')
 
     if TESTING:
-        log.warning('     *** testing mode. Moving DMM_dmm_m2y %s mm' % params.dmm_m2y) 
+        log.warning('     *** testing mode:  set dmm m2y %s mm' % params.dmm_m2y) 
     else:
-        log.info('     *** Moving DMM_dmm_m2y %s mm' % params.dmm_m2y) 
+        log.info('     *** moving  dmm m2y %s mm' % params.dmm_m2y) 
         # energy_change_PVs['dmm_m2y'].put(params.dmm_m2y, wait=True, timeout=1000.0)
 
 
 def move_DMM_X(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving DMM_X')
+    log.info('     *** moving dmm x')
 
     if TESTING:
-        log.warning('     *** testing mode. dmm_usx %s mm' % params.dmm_usx)
-        log.warning('     *** testing mode. dmm_dsx %s mm' % params.dmm_dsx)
+        log.warning('     *** testing mode:  set dmm usx %s mm' % params.dmm_usx)
+        log.warning('     *** testing mode:  set dmm dsx %s mm' % params.dmm_dsx)
     else:
-        log.info('     *** dmm_usx %s mm' % params.dmm_usx)
+        log.info('     *** moving dmm usx %s mm' % params.dmm_usx)
         # energy_change_PVs['dmm_usx'].put(params.dmm_usx, wait=False)
-        log.info('     *** dmm_dsx %s mm' % params.dmm_dsx)
+        log.info('     *** moving dmm dsx %s mm' % params.dmm_dsx)
         # energy_change_PVs['dmm_dsx'].put(params.dmm_dsx, wait=True)
         time.sleep(3) 
 
@@ -136,15 +136,15 @@ def move_DMM_X(energy_change_PVs, params):
 def move_xia_slits(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving XIA Slits')
+    log.info('     *** moving xia slits')
 
     if TESTING:
-        log.warning('     *** testing mode. Moving XIA Slits H Center  %s mm' % params.xia_slits_h_center) 
-        log.warning('     *** testing mode. Moving XIA Slits Y %s mm' % params.xia_slits_y) 
+        log.warning('     *** testing mode:  set xia slits h center  %s mm' % params.xia_slits_h_center) 
+        log.warning('     *** testing mode:  set xia slits y %s mm' % params.xia_slits_y) 
     else:
-        log.info('     *** Moving XIA Slits H Center  %s mm' % params.xia_slits_h_center) 
+        log.info('     *** moving xia slits h center  %s mm' % params.xia_slits_h_center) 
         # energy_change_PVs['xia_slits_h_center'].put(params.xia_slits_h_center, wait=True)
-        log.info('     *** Moving XIA Slits Y %s mm' % params.xia_slits_y) 
+        log.info('     *** moving xia slits y %s mm' % params.xia_slits_y) 
         # energy_change_PVs['xia_slits_y'].put(params.xia_slits_y, wait=True)
 
 

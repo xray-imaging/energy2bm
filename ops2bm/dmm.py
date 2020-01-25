@@ -12,7 +12,6 @@ from ops2bm import log
 
 def set_pink(params):
 
-    print(params)
     log.info('changing pink')
     lookup={
     "1.500" : {"mirror_vertical_position": -0.1, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY":  8.75, "xia_slits_h_center": 4.85, "filter": 0},
