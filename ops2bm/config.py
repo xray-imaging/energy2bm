@@ -10,10 +10,11 @@ import numpy as np
 from collections import OrderedDict
 
 from ops2bm import log
+from ops2bm import util
 from ops2bm import __version__
 
 LOGS_HOME = os.path.join(str(pathlib.Path.home()), 'logs')
-CONFIG_FILE_NAME = os.path.join(str(pathlib.Path.home()), 'cli.conf')
+CONFIG_FILE_NAME = os.path.join(str(pathlib.Path.home()), 'ops2bm.conf')
 
 SECTIONS = OrderedDict()
 
@@ -46,7 +47,7 @@ SECTIONS['energy'] = {
         'help': "Desired double crystal multilayer (DMM) monochromator energy"},
       }
 
-SECTIONS['dmm-motor-positions'] = {
+SECTIONS['mono-motor-positions'] = {
     'Mirr-Ang': {
         'default':  2.657,
         'type': float,
@@ -93,11 +94,18 @@ SECTIONS['dmm-motor-positions'] = {
         'help': " "},           
       }
 
+SECTIONS['filter-selector'] = {
+    'filter': {
+        'choices': [0, 4],
+        'default': 0,
+        'type': util.positive_int,
+        'help': " "},
+}
 
-GENERAL_PARAMS = ('energy', 'dmm-motor-positions')
-SPECIFIC_PARAMS = ('energy', 'dmm-motor-positions')
+GENERAL_PARAMS = ('energy', 'mono-motor-positions', 'filter-selector')
+SPECIFIC_PARAMS = ('energy', 'mono-motor-positions', 'filter-selector')
 
-NICE_NAMES = ('General', 'DMM Energy', 'DMM Motor Positions')
+NICE_NAMES = ('General', 'DMM Energy', 'DMM Motor Positions', 'Filter Selector')
 
 def get_config_name():
     """Get the command line --config option."""

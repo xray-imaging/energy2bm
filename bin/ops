@@ -22,6 +22,7 @@ def init(args):
     else:
         log.error("{0} already exists".format(args.config))
 
+
 def run_status(args):
     config.log_values(args)
 
@@ -43,6 +44,7 @@ def run_white(args):
     # update tomopy.conf
     config.update_log(args)
 
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -54,7 +56,7 @@ def main():
     specific_params = config.SPECIFIC_PARAMS
 
     cmd_parsers = [
-        ('init',        init,            (),               "Create configuration file"),
+        ('init',        init,           (),                "Create configuration file"),
         ('energy',      run_energy,     general_params,    "Set energy"),
         ('white',       run_white,      general_params,    "Set white"),
         ('pink',        run_pink,       general_params,    "Set pink"),
