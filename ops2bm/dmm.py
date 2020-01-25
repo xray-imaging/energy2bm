@@ -9,6 +9,7 @@ from ops2bm import util
 from ops2bm import epics_move
 from ops2bm import log
 
+
 def set_pink(params):
 
     print(params)
@@ -23,7 +24,7 @@ def set_pink(params):
     angles_str = np.array(list(lookup.keys())[:])
     angles_flt = [float(i) for i in  angles_str]
 
-    angle_calibrated = find_nearest(angles_flt, params.mirror_angle)
+    angle_calibrated = util.find_nearest(angles_flt, params.mirror_angle)
     if float(params.mirror_angle) != float(angle_calibrated):
         log.warning('   *** Mirror angle requested is %s mrad, the closest calibrated angle is %s mrad' % (params.mirror_angle, angle_calibrated))
         log.info('   *** Options are %s mrad' % (angles_str))
@@ -103,7 +104,7 @@ def set_white(params):
         log.warning('   *** energy not changed')
 
 
-def set_energy(params):
+def set_mono(params):
 
     log.info('changing energy')
 
@@ -130,7 +131,7 @@ def set_energy(params):
     energies_str = np.array(list(lookup.keys())[:])
     energies_flt = [float(i) for i in  energies_str]
 
-    energy_calibrated = find_nearest(energies_flt, params.energy_value)
+    energy_calibrated = util.find_nearest(energies_flt, params.energy_value)
     if float(params.energy_value) != float(energy_calibrated):
         log.warning('   *** Energy requested is %s keV, the closest calibrated energy is %s' % (params.energy_value, energy_calibrated))
         log.info('   *** Options are %s keV' % (energies_str))
@@ -181,28 +182,3 @@ def set_energy(params):
     else:
         log.info(' ')
         log.warning('   *** Energy not changed')
-
-    # log.info(lookup[energy_calibrated]["mirror_angle"])
-
-    # params.mirror_angle = lookup[energy_calibrated]["mirror_angle"]
-    # params.mirror_vertical_position = lookup[energy_calibrated]["mirror_vertical_position"]
-
-    # params.dmm_usy_ob = lookup[energy_calibrated]["dmm_usy_ob"] 
-    # params.dmm_usy_ib = lookup[energy_calibrated]["dmm_usy_ib"]
-    # params.dmm_dsy = lookup[energy_calibrated]["dmm_dsy"]
-
-    # params.dmm_us_arm = lookup[energy_calibrated]["dmm_us_arm"]                
-    # params.dmm_ds_arm = lookup[energy_calibrated]["dmm_ds_arm"]
-
-    # params.dmm_m2y = lookup[energy_calibrated]["dmm_m2y"]
-    # params.dmm_usx = lookup[energy_calibrated]["dmm_usx"]
-    # params.dmm_dsx = lookup[energy_calibrated]["dmm_dsx"]
-    # params.xia_slits_y = lookup[energy_calibrated]["xia_slits_y"]   
-    # params.filter = lookup[energy_calibrated]["filter"]   
-
-
-def find_nearest(array, value):
-    array = np.asarray(array)
-    idx = (np.abs(array - value)).argmin()
-    value = "{0:4.3f}".format(array[idx])
-    return value

@@ -10,7 +10,6 @@ ShutterB_Open_Value = 1
 ShutterB_Close_Value = 0
 
 def init_energy_change_PVs():
-# def init_energy_change_PVs():
 
     energy_change_PVs = {}
 
@@ -150,7 +149,7 @@ def move_xia_slits(energy_change_PVs, params):
 
 
 def close_shutters(energy_change_PVs, params):
-# def close_shutters(energy_change_PVs):
+
     log.info(' ')
     log.info('     *** close_shutters')
     if TESTING:

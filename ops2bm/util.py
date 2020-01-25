@@ -20,3 +20,9 @@ def yes_or_no(question):
         return True
     else:
         return False
+
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    value = "{0:4.3f}".format(array[idx])
+    return value
