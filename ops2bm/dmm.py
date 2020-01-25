@@ -8,7 +8,7 @@ import numpy as np
 import tomopy
 import dxchange
 
-from cli import log
+from ops2bm import log
 
 def change_energy(params):
     log.info('... changing energy')

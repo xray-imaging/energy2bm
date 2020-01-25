@@ -9,8 +9,8 @@ import numpy as np
 
 from collections import OrderedDict
 
-from cli import log
-from cli import __version__
+from ops2bm import log
+from ops2bm import __version__
 
 LOGS_HOME = os.path.join(str(pathlib.Path.home()), 'logs')
 CONFIG_FILE_NAME = os.path.join(str(pathlib.Path.home()), 'cli.conf')
@@ -35,57 +35,69 @@ SECTIONS['general'] = {
         'action': 'store_true'}
         }
 
-SECTIONS['task-specific'] = {
+SECTIONS['energy'] = {
     'copy-log': {
         'default': False,
         'help': 'Verbose output',
         'action': 'store_true'},
-    'file-name': {
-        'default': '.',
-        'type': str,
-        'help': "Name of the last used hdf file or directory containing multiple hdf files",
-        'metavar': 'PATH'},
-    'file-format': {
-        'default': 'dx',
-        'type': str,
-        'help': "see from https://dxchange.readthedocs.io/en/latest/source/demo.html",
-        'choices': ['dx', 'anka', 'australian', 'als', 'elettra', 'esrf', 'aps1id', 'aps2bm', 'aps5bm', 'aps7bm', 'aps8bm', 'aps13bm', 'aps32id', 'petraP05', 'tomcat', 'xradia']},
+    'set': {
+        'default': 24.9,
+        'type': float,
+        'help': "Desired double crystal multilayer (DMM) monochromator energy"},
       }
 
-SECTIONS['gridrec'] = {
-    'gridrec-filter': {
-        'default': 'parzen',
-        'type': str,
-        'help': 'Filter used for gridrec reconstruction',
-        'choices': ['none', 'shepp', 'cosine', 'hann', 'hamming', 'ramlak', 'parzen', 'butterworth']},
-    'gridrec-padding': {
-        'default': False,
-        'help': "When set, raw data are padded/unpadded before/after reconstruction",
-        'action': 'store_true'},
-    }
+SECTIONS['dmm-motor-positions'] = {
+    'Mirr-Ang': {
+        'default':  2.657,
+        'type': float,
+        'help': " "},
+    'Mirr-YAvg': {
+        'default':  -0.2,
+        'type': float,
+        'help': " "}, 
+    'DMM-USY-OB': {
+        'default':  -0.1,
+        'type': float,
+        'help': " "}, 
+    'DMM-USY-IB': {
+        'default':  -0.1,
+        'type': float,
+        'help': " "}, 
+    'DMM-DSY': {
+        'default':  -0.2,
+        'type': float,
+        'help': " "}, 
+    'US-Arm': {
+        'default':  1.20,
+        'type': float,
+        'help': " "}, 
+    'DS-Arm': {
+        'default':  1.2235,
+        'type': float,
+        'help': " "}, 
+    'M2Y': {
+        'default':  14.37,
+        'type': float,
+        'help': " "}, 
+    'DMM-USX':  {
+        'default': 82.5,
+        'type': float,
+        'help': " "}, 
+    'DMM-DSX':  {
+        'default': 82.5,
+        'type': float,
+        'help': " "}, 
+    'XIA-Slit-Y':  {
+        'default': 30.35,
+        'type': float,
+        'help': " "},           
+      }
 
-SECTIONS['section'] = {
-    'section-filter': {
-        'default': 'parzen',
-        'type': str,
-        'help': 'Filter used for gridrec reconstruction',
-        'choices': ['none', 'shepp', 'cosine', 'hann', 'hamming', 'ramlak', 'parzen', 'butterworth']},
-    'section-padding': {
-        'default': False,
-        'help': "When set, raw data are padded/unpadded before/after reconstruction",
-        'action': 'store_true'},
-    }
 
+GENERAL_PARAMS = ('energy', 'dmm-motor-positions')
+SPECIFIC_PARAMS = ('energy', 'dmm-motor-positions')
 
-    
-
-
-GENERAL_PARAMS = ('task-specific', 'gridrec', 'section')
-SPECIFIC_PARAMS = ('gridrec', 'section')
-
-# PREPROC_PARAMS = ('flat-correction', 'remove-stripe', 'retrieve-phase')
-
-NICE_NAMES = ('General', 'Task Specific', 'Gridrec', 'Section')
+NICE_NAMES = ('General', 'DMM Energy', 'DMM Motor Positions')
 
 def get_config_name():
     """Get the command line --config option."""

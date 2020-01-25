@@ -10,9 +10,9 @@ import shutil
 import pathlib
 from datetime import datetime
 
-from ops import config, __version__
-from ops import log
-from ops import dmm
+from ops2bm import config, __version__
+from ops2bm import log
+from ops2bm import dmm
 
 
 def init(args):
