@@ -48,25 +48,25 @@ SECTIONS['energy'] = {
       }
 
 SECTIONS['mirror-angle-positions'] = {
-    'Mirr-Ang': {
+    'mirror-angle': {
         'default':  2.657,
         'type': float,
         'help': " "},
         }
 
 SECTIONS['mirror-vertical-positions'] = {
-    'Mirr-YAvg': {
+    'mirror-vertical-position': {
         'default':  -0.2,
         'type': float,
         'help': " "}, 
         }
 
 SECTIONS['xia-slits-motor-positions'] = {
-    'XIA-Slits-H-Center':  {
+    'xia-slits-h-center':  {
         'default': 7.2,
         'type': float,
         'help': " "},           
-    'XIA-Slits-Y':  {
+    'xia-slits-y':  {
         'choices': [-1.65, 30.35],
         'default': 30.35,
         'type': float,
@@ -74,35 +74,35 @@ SECTIONS['xia-slits-motor-positions'] = {
         }
 
 SECTIONS['dmm-motor-positions'] = {
-    'DMM-USY-OB': {
+    'dmm-usy-ob': {
         'default':  -0.1,
         'type': float,
         'help': " "}, 
-    'DMM-USY-IB': {
+    'dmm-usy-ib': {
         'default':  -0.1,
         'type': float,
         'help': " "}, 
-    'DMM-DSY': {
+    'dmm-dsy': {
         'default':  -0.2,
         'type': float,
         'help': " "}, 
-    'US-Arm': {
+    'dmm-us-arm': {
         'default':  1.20,
         'type': float,
         'help': " "}, 
-    'DS-Arm': {
+    'dmm-ds-arm': {
         'default':  1.2235,
         'type': float,
         'help': " "}, 
-    'M2Y': {
+    'dmm-m2y': {
         'default':  14.37,
         'type': float,
         'help': " "}, 
-    'DMM-USX':  {
+    'dmm-usx':  {
         'default': 82.5,
         'type': float,
         'help': " "}, 
-    'DMM-DSX':  {
+    'dmm-dsx':  {
         'default': 82.5,
         'type': float,
         'help': " "}, 
