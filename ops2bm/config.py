@@ -33,21 +33,21 @@ SECTIONS['general'] = {
     'verbose': {
         'default': False,
         'help': 'Verbose output',
-        'action': 'store_true'}
-        }
-
-SECTIONS['energy'] = {
+        'action': 'store_true'},
     'copy-log': {
         'default': False,
         'help': 'Verbose output',
         'action': 'store_true'},
+        }
+
+SECTIONS['energy'] = {
     'set': {
         'default': 24.9,
         'type': float,
         'help': "Desired double crystal multilayer (DMM) monochromator energy"},
       }
 
-SECTIONS['mono-motor-positions'] = {
+SECTIONS['mirror-motor-positions'] = {
     'Mirr-Ang': {
         'default':  2.657,
         'type': float,
@@ -56,6 +56,21 @@ SECTIONS['mono-motor-positions'] = {
         'default':  -0.2,
         'type': float,
         'help': " "}, 
+        }
+
+SECTIONS['xia-slits-motor-positions'] = {
+    'XIA-Slits-H-Center':  {
+        'default': 7.2,
+        'type': float,
+        'help': " "},           
+    'XIA-Slits-Y':  {
+        'choices': [-1.65, 30.35],
+        'default': 30.35,
+        'type': float,
+        'help': " "},           
+        }
+
+SECTIONS['dmm-motor-positions'] = {
     'DMM-USY-OB': {
         'default':  -0.1,
         'type': float,
@@ -88,10 +103,6 @@ SECTIONS['mono-motor-positions'] = {
         'default': 82.5,
         'type': float,
         'help': " "}, 
-    'XIA-Slit-Y':  {
-        'default': 30.35,
-        'type': float,
-        'help': " "},           
       }
 
 SECTIONS['filter-selector'] = {
@@ -102,10 +113,12 @@ SECTIONS['filter-selector'] = {
         'help': " "},
 }
 
-GENERAL_PARAMS = ('energy', 'mono-motor-positions', 'filter-selector')
-SPECIFIC_PARAMS = ('energy', 'mono-motor-positions', 'filter-selector')
 
-NICE_NAMES = ('General', 'DMM Energy', 'DMM Motor Positions', 'Filter Selector')
+
+MONO_PARAMS = ('energy', 'dmm-motor-positions', 'filter-selector')
+WHITE_PARAMS = ()
+
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
 
 def get_config_name():
     """Get the command line --config option."""
@@ -251,7 +264,7 @@ def log_values(args):
 
 def update_log(args):
        # update tomopy.conf
-        sections = GENERAL_PARAMS
+        sections = MONO_PARAMS
         write(args.config, args=args, sections=sections)
         if (args.copy_log):
             head, tail = os.path.split(args.file_name)

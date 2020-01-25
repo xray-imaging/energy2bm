@@ -52,15 +52,15 @@ def main():
     parser.add_argument('--version', action='version',
                         version='%(prog)s {}'.format(__version__))
 
-    general_params = config.GENERAL_PARAMS
-    specific_params = config.SPECIFIC_PARAMS
+    mono_params = config.MONO_PARAMS
+    white_params = config.WHITE_PARAMS
 
     cmd_parsers = [
-        ('init',        init,           (),                "Create configuration file"),
-        ('energy',      run_energy,     general_params,    "Set energy"),
-        ('white',       run_white,      general_params,    "Set white"),
-        ('pink',        run_pink,       general_params,    "Set pink"),
-        ('status',      run_status,     general_params,    "Show status"),
+        ('init',        init,           (),             "Create configuration file"),
+        ('energy',      run_energy,     mono_params,    "Set energy"),
+        ('white',       run_white,      white_params,   "Set white"),
+        ('pink',        run_pink,       mono_params,    "Set pink"),
+        ('status',      run_status,     mono_params,    "Show status"),
     ]
 
     subparsers = parser.add_subparsers(title="Commands", metavar='')

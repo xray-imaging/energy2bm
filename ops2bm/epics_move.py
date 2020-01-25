@@ -129,14 +129,30 @@ def move_DMM_X(energy_change_PVs, params):
         time.sleep(3) 
 
 
-def move_xia_slits_Y(energy_change_PVs, params):
+def move_xia_slits(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving XIA Slits Y')
+    log.info('     *** moving XIA Slits')
 
     if TESTING:
-        log.warning('     *** testing mode. Moving XIA Slits Y %s mm' % params.XIA_Slit_Y) 
+        log.warning('     *** testing mode. Moving XIA Slits H Center  %s mm' % params.XIA_Slits_H_Center) 
+        log.warning('     *** testing mode. Moving XIA Slits Y %s mm' % params.XIA_Slits_Y) 
     else:
-        log.info('     *** Moving XIA Slits Y %s mm' % params.XIA_Slit_Y) 
+        log.info('     *** Moving XIA Slits H Center  %s mm' % params.XIA_Slits_H_Center) 
+        # energy_change_PVs['Slit1Hcenter'].put(params.XIA_Slits_H_Center, wait=True)
+        log.info('     *** Moving XIA Slits Y %s mm' % params.XIA_Slits_Y) 
         # energy_change_PVs['XIASlitY'].put(params.XIASlitY, wait=True)
 
+
+def close_shutters(energy_change_PVs, params):
+# def close_shutters(energy_change_PVs):
+    log.info(' ')
+    log.info('     *** close_shutters')
+    if TESTING:
+        log.warning('     *** testing mode - shutters are deactivated during the scans !!!!')
+    else:
+        # energy_change_PVs['ShutterA_Close'].put(1, wait=True)
+        # wait_pv(energy_change_PVs['ShutterA_Move_Status'], ShutterA_Close_Value)
+        log.info('     *** close_shutter A: Done!')
+
+        
