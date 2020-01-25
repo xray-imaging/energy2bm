@@ -34,6 +34,7 @@ def run_energy(args):
 
 
 def run_pink(args):
+    print(args)
     dmm.set_pink(args)
     # update tomopy.conf
     config.update_log(args)
@@ -54,12 +55,13 @@ def main():
 
     mono_params = config.MONO_PARAMS
     white_params = config.WHITE_PARAMS
+    pink_params = config.PINK_PARAMS
 
     cmd_parsers = [
         ('init',        init,           (),             "Create configuration file"),
-        ('energy',      run_energy,     mono_params,    "Set energy"),
-        ('white',       run_white,      white_params,   "Set white"),
-        ('pink',        run_pink,       mono_params,    "Set pink"),
+        ('set_energy',      run_energy,     mono_params,    "Set energy"),
+        ('set_white',       run_white,      white_params,   "Set white"),
+        ('set_pink',        run_pink,       pink_params,    "Set pink"),
         ('status',      run_status,     mono_params,    "Show status"),
     ]
 

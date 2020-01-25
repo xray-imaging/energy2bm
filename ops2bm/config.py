@@ -47,11 +47,14 @@ SECTIONS['energy'] = {
         'help': "Desired double crystal multilayer (DMM) monochromator energy"},
       }
 
-SECTIONS['mirror-motor-positions'] = {
+SECTIONS['mirror-angle-positions'] = {
     'Mirr-Ang': {
         'default':  2.657,
         'type': float,
         'help': " "},
+        }
+
+SECTIONS['mirror-vertical-positions'] = {
     'Mirr-YAvg': {
         'default':  -0.2,
         'type': float,
@@ -114,11 +117,11 @@ SECTIONS['filter-selector'] = {
 }
 
 
-
 MONO_PARAMS = ('energy', 'dmm-motor-positions', 'filter-selector')
+PINK_PARAMS = ('mirror-angle-positions', )
 WHITE_PARAMS = ()
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Angle Motor Positions', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
 
 def get_config_name():
     """Get the command line --config option."""
