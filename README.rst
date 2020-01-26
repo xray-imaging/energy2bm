@@ -44,7 +44,7 @@ to list of all available options::
     
       init         Create configuration file
       set_mono     Set energy
-      save_mono    Associate the current beamline positions to an energy value and save 
+      save_mono    Associate the current beamline positions to an energy value and save in a config file
       set_white    Set white
       set_pink     Set pink
       status       Show status
