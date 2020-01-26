@@ -68,7 +68,7 @@ to list of all **ops save_mono** options::
 
     $ ops save_mono -h
 
-You can associate the beamline positions to an energy value and saved to a config file with::
+You can associate the beamline positions to an energy value and save them to a unique config file with::
 
     $ ops save_mono --energy-value 12 --copy-log
 
