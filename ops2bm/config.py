@@ -67,7 +67,7 @@ SECTIONS['xia-slits-motor-positions'] = {
         'type': float,
         'help': " "},           
     'xia-slits-y':  {
-        'choices': [-1.65, 30.35],
+        # 'choices': [-1.65, 30.35],
         'default': 30.35,
         'type': float,
         'help': " "},           
@@ -110,16 +110,17 @@ SECTIONS['dmm-motor-positions'] = {
 
 SECTIONS['filter-selector'] = {
     'filter': {
-        'choices': [0, 4],
+        # 'choices': [0, 4],
         'default': 0,
         'type': util.positive_int,
         'help': " "},
 }
 
 
-MONO_PARAMS = ('energy', 'dmm-motor-positions', 'filter-selector')
+MONO_PARAMS = ('energy', 'mirror-angle-positions', 'mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
 PINK_PARAMS = ('mirror-angle-positions', )
 WHITE_PARAMS = ()
+SAVE_MONO_PARAMS = ('energy', )
 
 NICE_NAMES = ('General', 'DMM Energy', 'Mirror Angle Motor Positions', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
 
@@ -266,16 +267,40 @@ def log_values(args):
 
 
 def update_log(args):
-       # update tomopy.conf
+    # update tomopy.conf
+    sections = MONO_PARAMS
+    write(args.config, args=args, sections=sections)
+
+
+def save_current_positions_to_log(args):
+    if (args.copy_log):
+        log.warning('save current beamline positions to log')
+        # args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
+        # args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
+        # args.xia_slits_h_center         = energy_change_PVs['xia_slits_h_center'].get()       
+        # args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
+        # args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
+        # args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
+        # args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
+        # args.dmm_us_arm                 = energy_change_PVs['dmm_us_arm'].get()              
+        # args.dmm_ds_arm                 = energy_change_PVs['dmm_ds_arm'].get()              
+        # args.dmm_m2y                    = energy_change_PVs['dmm_m2y'].get()                 
+        # args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
+        # args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
+        # args.filter                     = energy_change_PVs['filter'].get()  
+
+        # update tomopy.conf
         sections = MONO_PARAMS
         write(args.config, args=args, sections=sections)
-        if (args.copy_log):
-            head, tail = os.path.split(args.file_name)
-            log_fname = head + os.sep + "test" + os.path.split(args.config)[1]
-            try:
-                shutil.copyfile(args.config, log_fname)
-                log.info('  *** copied %s to %s ' % (args.config, log_fname))
-            except:
-                log.error('  *** attempt to copy %s to %s failed' % (args.config, log_fname))
-                pass
-            log.warning(' *** command to repeat the reconstruction: tomopy recon --config {:s}'.format(log_fname))
+
+        head, tail = os.path.splitext(args.config)
+        log_name_energy = head + '_'+ str(args.energy_value) + tail
+        try:
+            shutil.copyfile(args.config, log_name_energy)
+            log.info('  *** copied %s to %s ' % (args.config, log_name_energy))
+        except:
+            log.error('  *** attempt to copy %s to %s failed' % (args.config, log_name_energy))
+            pass
+        log.warning(' *** command to repeat the reconstruction: ops set_mono --config {:s}'.format(log_name_energy))
+
+    

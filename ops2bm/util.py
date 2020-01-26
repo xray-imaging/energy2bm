@@ -14,7 +14,7 @@ def positive_int(value):
 def yes_or_no(question):
     answer = str(input(question + " (Y/N): ")).lower().strip()
     while not(answer == "y" or answer == "yes" or answer == "n" or answer == "no"):
-        log_lib.warning("Input yes or no")
+        log.warning("Input yes or no")
         answer = str(input(question + "(Y/N): ")).lower().strip()
     if answer[0] == "y":
         return True
