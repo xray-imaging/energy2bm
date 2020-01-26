@@ -1,8 +1,9 @@
-==========
-tomopy-cli
-==========
+=======
+ops-cli
+=======
 
-**tomopy** is commad-line-interface for `tomopy <https://github.com/tomopy/tomopy>`_ an open-source Python package for tomographic data processing and image reconstruction. 
+**ops-cli** is commad-line-interface to operate `beamline 2bm <https://2bm-docs.readthedocs.io>`_ of the 
+`APS <https://aps.anl.gov/>`_.
 
 
 Installation
@@ -10,18 +11,13 @@ Installation
 
 ::
 
+    $ git clone https://github.com/xray-imaging/2bm-ops.git
+    $ cd 2bm-ops
     $ python setup.py install
 
 in a prepared virtualenv or as root for system-wide installation.
 
 .. warning:: If your python installation is in a location different from #!/usr/bin/env python please edit the first line of the bin/tomopy file to match yours.
-
-Dependencies
-============
-
-Install the following package::
-
-    $ conda install -c conda-forge tomopy
 
 
 Usage
@@ -30,35 +26,37 @@ Usage
 Reconstruction
 --------------
 
-To do a tomographic reconstruction::
+To set the beamline energy to 20 keV::
 
-    $ tomopy recon --hdf-file /local/data.h5
-
-from the command line. To get correct results, you may need to append
-options such as `--rotation-axis` to set the rotation axis position::
-
-    $ tomopy recon --rotation-axis 1024.0 --hdf-file /local/data.h5
+    $ ops set_mono --energy-value 20 
 
 to list of all available options::
 
-    $ tomopy recon -h
+    $ ops -h
 
 
 Configuration File
 ------------------
 
-Reconstruction parameters are stored in **tomopy.conf**. You can create a template with::
+The beamline status is stored in **ops.conf**. You can create a template with::
 
-    $ tomopy init
+    $ ops init
 
-**tomopy.conf** is constantly updated to keep track of the last stored parameters, as initalized by **init** or modified by setting a new option value. For example to re-run the last reconstrusction with identical parameters just use::
+**osp2bm.conf** is constantly updated to keep track of the last stored parameters, as initalized by **init** or modified by setting a new option value. For example to set the beamline to the last energy configuration ::
 
-    $ tomopy recon
+    $ ops set_mono
 
-To run a reconstruction with a different and previously stored configuration file **old_tomopy.conf** just use::
+If the beamline has been manually optimized after setting a preset energy configuration, you can save the current beamline status in the default config file **osp2bm.conf** with::  
 
-    $ tomopy recon --config old_tomopy.conf
+    $ ops save_mono --energy-value 12
 
+or you can save it in **osp2bm_12.0.conf** with::
+
+    $ ops save_mono --energy-value 12 --copy-log
+
+In this way you be to restore the optimize baemline configuration with::
+
+    $ ops set_mono --config ops2bm_12.0.conf
 
 Find Center
 -----------
