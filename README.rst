@@ -64,10 +64,14 @@ If the beamline has been manually optimized after setting a preset energy config
 
     $ ops save_mono --energy-value 12
 
-or you can save it in **osp2bm_12.0.conf** with::
+to list of all **ops save_mono** options::
+
+    $ ops save_mono -h
+
+You can associate the beamline positions to an energy value and saved to a config file with::
 
     $ ops save_mono --energy-value 12 --copy-log
 
-In this way you be able to restore the beamline in the optimize energy configuration with::
+The config file name is named **osp2bm_12.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
 
     $ ops set_mono --config ops2bm_12.0.conf
