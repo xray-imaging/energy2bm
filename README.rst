@@ -33,7 +33,6 @@ To set the beamline energy to 20 keV::
 to list of all available options::
 
     $ ops -h
-    $ ops -h
   usage: ops [-h] [--config FILE] [--version]  ...
 
   optional arguments:
