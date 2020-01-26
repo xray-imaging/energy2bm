@@ -60,13 +60,13 @@ The beamline status is stored in **ops.conf**. You can create a template with::
 
     $ ops set_mono
 
-If the beamline has been manually optimized after setting a preset energy configuration, you can save the current beamline status in the default config file **osp2bm.conf** with::  
-
-    $ ops save_mono --energy-value 12
-
 to list of all **ops save_mono** options::
 
     $ ops save_mono -h
+    
+If the beamline has been manually optimized after setting a preset energy configuration, you can save the current beamline status in the default config file **osp2bm.conf** with::  
+
+    $ ops save_mono --energy-value 12
 
 You can associate the beamline positions to an energy value and save them to a unique config file with::
 
