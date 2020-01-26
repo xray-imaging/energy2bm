@@ -69,6 +69,6 @@ or you can save it in **osp2bm_12.0.conf** with::
 
     $ ops save_mono --energy-value 12 --copy-log
 
-In this way you be to restore the optimize baemline configuration with::
+In this way you be able to restore the beamline in the optimize energy configuration with::
 
     $ ops set_mono --config ops2bm_12.0.conf
