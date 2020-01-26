@@ -273,22 +273,26 @@ def update_log(args):
 
 
 def save_current_positions_to_log(args):
-    if (args.copy_log):
-        log.warning('save current beamline positions to log')
-        # args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
-        # args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
-        # args.xia_slits_h_center         = energy_change_PVs['xia_slits_h_center'].get()       
-        # args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
-        # args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
-        # args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
-        # args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
-        # args.dmm_us_arm                 = energy_change_PVs['dmm_us_arm'].get()              
-        # args.dmm_ds_arm                 = energy_change_PVs['dmm_ds_arm'].get()              
-        # args.dmm_m2y                    = energy_change_PVs['dmm_m2y'].get()                 
-        # args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
-        # args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
-        # args.filter                     = energy_change_PVs['filter'].get()  
 
+    log.warning('save current beamline positions to log')
+    # args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
+    # args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
+    # args.xia_slits_h_center         = energy_change_PVs['xia_slits_h_center'].get()       
+    # args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
+    # args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
+    # args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
+    # args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
+    # args.dmm_us_arm                 = energy_change_PVs['dmm_us_arm'].get()              
+    # args.dmm_ds_arm                 = energy_change_PVs['dmm_ds_arm'].get()              
+    # args.dmm_m2y                    = energy_change_PVs['dmm_m2y'].get()                 
+    # args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
+    # args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
+    # args.filter                     = energy_change_PVs['filter'].get()  
+
+    # update tomopy.conf
+    sections = MONO_PARAMS
+    write(args.config, args=args, sections=sections)
+    if (args.copy_log):
         # update tomopy.conf
         sections = MONO_PARAMS
         write(args.config, args=args, sections=sections)
