@@ -1,0 +1,104 @@
+#!/usr/bin/env python
+
+import os
+import re
+import sys
+import argparse
+import logging
+import time
+import shutil
+import pathlib
+from datetime import datetime
+
+from ops2bm import config, __version__
+from ops2bm import log
+from ops2bm import dmm
+
+
+def init(args):
+
+    if not os.path.exists(str(args.config)):
+        config.write(args.config)
+    else:
+        log.error("{0} already exists".format(args.config))
+
+
+def run_status(args):
+    config.log_values(args)
+
+  
+def run_mono(args):
+    dmm.set_mono(args)
+    # update tomopy.conf
+    config.update_log(args)
+
+def run_save_mono(args):
+    config.save_current_positions_to_log(args)
+
+def run_pink(args):
+    dmm.set_pink(args)
+    # update tomopy.conf
+    config.update_log(args)
+
+
+def run_white(args):
+    dmm.set_white(args)
+    # update tomopy.conf
+    config.update_log(args)
+
+
+def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', **config.SECTIONS['general']['config'])
+    parser.add_argument('--version', action='version',
+                        version='%(prog)s {}'.format(__version__))
+
+    mono_params = config.MONO_PARAMS
+    white_params = config.WHITE_PARAMS
+    pink_params = config.PINK_PARAMS
+
+    cmd_parsers = [
+        ('init',        init,           (),             "Create configuration file"),
+        ('set_mono',    run_mono,       mono_params,    "Set energy"),
+        ('save_mono',   run_save_mono,  mono_params,    "Associate the current beamline positions to an energy value and save in a config file"),
+        ('set_white',   run_white,      white_params,   "Set white"),
+        ('set_pink',    run_pink,       pink_params,    "Set pink"),
+        ('status',      run_status,     mono_params,    "Show status"),
+    ]
+
+    subparsers = parser.add_subparsers(title="Commands", metavar='')
+
+    for cmd, func, sections, text in cmd_parsers:
+        cmd_params = config.Params(sections=sections)
+        cmd_parser = subparsers.add_parser(cmd, help=text, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        cmd_parser = cmd_params.add_arguments(cmd_parser)
+        cmd_parser.set_defaults(_func=func)
+
+    args = config.parse_known_args(parser, subparser=True)
+
+    # create logger
+    logs_home = args.logs_home
+
+    # make sure logs directory exists
+    if not os.path.exists(logs_home):
+        os.makedirs(logs_home)
+
+    lfname = os.path.join(logs_home, 'cli_' + datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S") + '.log')
+ 
+    log.setup_custom_logger(lfname)
+    log.info("Saving log at %s" % lfname)
+
+    try:
+        args._func(args)
+    except RuntimeError as e:
+        log.error(str(e))
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
+
+def dummy_scan(args):
+    # do nothing
+    return args
