@@ -1,6 +1,6 @@
 
 from epics import PV
-from ops2bm import log
+from energy2bm import log
 
 TESTING = True
 

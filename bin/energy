@@ -10,9 +10,9 @@ import shutil
 import pathlib
 from datetime import datetime
 
-from ops2bm import config, __version__
-from ops2bm import log
-from ops2bm import dmm
+from energy2bm import config, __version__
+from energy2bm import log
+from energy2bm import dmm
 
 
 def init(args):

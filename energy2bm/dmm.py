@@ -5,9 +5,9 @@ import shutil
 from pathlib import Path
 import numpy as np
 
-from ops2bm import util
-from ops2bm import epics_move
-from ops2bm import log
+from energy2bm import util
+from energy2bm import epics_move
+from energy2bm import log
 
 def set_default_config(params):
     
@@ -42,26 +42,20 @@ def set_default_config(params):
     energies_str = np.array(list(lookup[params.mode].keys())[:])
     energies_flt = [float(i) for i in  energies_str]
     energy_calibrated = util.find_nearest(energies_flt, params.energy_value)
-    print(energy_calibrated)
     if float(params.energy_value) != float(energy_calibrated):
         log.warning('   *** Energy requested is %s keV, the closest calibrated energy is %s' % (params.energy_value, energy_calibrated))
         log.info('   *** Options are %s keV' % (energies_str))
         log.info('   *** Energy is set at %s keV' % params.energy_value)   
         log.info('   *** Move to %s keV instead of %s?' % (energy_calibrated, params.energy_value))  
+    log.info('   *** Change Energy for %s as %s *** ' % (params.mode, energy_calibrated) )
     if not util.yes_or_no('   *** Yes or No'):                
         log.info(' ')
         log.warning('   *** Energy not changed')
         return
-    log.info(' ')
-    log.info('   *** Options are %s keV' % (energies_str))
-    log.info('   *** Change Energy for %s *** ' % (params.mode) )
 
     params.energy_value = energy_calibrated
 
     # set dmm motor and beamline positons
-    print(energy_calibrated)
-    print(params.mode)
-    print(lookup[params.mode][energy_calibrated])
     params.mirror_angle = lookup[params.mode][energy_calibrated]["mirror_angle"]
     params.mirror_vertical_position = lookup[params.mode][energy_calibrated]["mirror_vertical_position"]
     params.dmm_usy_ob = lookup[params.mode][energy_calibrated]["dmm_usy_ob"] 

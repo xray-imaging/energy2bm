@@ -9,13 +9,13 @@ import numpy as np
 
 from collections import OrderedDict
 
-from ops2bm import log
-from ops2bm import util
-from ops2bm import epics_move
-from ops2bm import __version__
+from energy2bm import log
+from energy2bm import util
+from energy2bm import epics_move
+from energy2bm import __version__
 
 LOGS_HOME = os.path.join(str(pathlib.Path.home()), 'logs')
-CONFIG_FILE_NAME = os.path.join(str(pathlib.Path.home()), 'ops2bm.conf')
+CONFIG_FILE_NAME = os.path.join(str(pathlib.Path.home()), 'conf/energy2bm.conf')
 
 SECTIONS = OrderedDict()
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from ops2bm import log
+from energy2bm import log
 
 
 def positive_int(value):

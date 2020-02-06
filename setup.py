@@ -9,7 +9,7 @@ setup(
     url='https://github.com/xray-imaging/2bm-ops',
     packages=find_packages(),
     include_package_data = True,
-    scripts=['bin/ops'],
+    scripts=['bin/energy'],
     description='ops',
     zip_safe=False,
 )
