@@ -42,11 +42,10 @@ SECTIONS['energy'] = {
         'default': 24.9,
         'type': float,
         'help': "Desired double crystal multilayer (DMM) monochromator energy"},
-    'energy-mode': {
+    'mode': {
         'default': 'mono',
         'type': str,
-        'choices': ['mono', 'pink', 'white']},
-        }
+        'choices': ['mono', 'pink', 'white']},        }
 
 SECTIONS['mirror-vertical-positions'] = {
     'mirror-angle': {
@@ -115,11 +114,8 @@ SECTIONS['filter-selector'] = {
 }
 
 
-MONO_PARAMS = ('energy','mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
-PINK_PARAMS = ('energy','mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
-WHITE_PARAMS = ()
-SAVE_MONO_PARAMS = ('energy', )
-SAVE_PINK_PARAMS = ('energy', )
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
+SAVE_PARAMS = ('energy', )
 
 NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
 
@@ -267,7 +263,7 @@ def log_values(args):
 def save_params_to_config(args):
 
     # update tomopy.conf
-    sections = MONO_PARAMS
+    sections = BEAMLINE_PARAMS
     write(CONFIG_FILE_NAME, args=args, sections=sections)
     log.info('  *** saved to %s ' % (CONFIG_FILE_NAME))
     
@@ -291,14 +287,9 @@ def save_current_positions_to_config(args):
     args.filter                     = energy_change_PVs['filter'].get()  
 
     # update tomopy.conf
-    sections = MONO_PARAMS
+    sections = BEAMLINE_PARAMS
     head, tail = os.path.splitext(args.config)
-    if(args.energy_mode == 'mono'):
-        config_name_energy = head + '_' + 'mono_' + str(args.energy_value) + tail
-    if(args.energy_mode == 'pink'):
-        config_name_energy = head + '_' + 'pink_' + str(args.energy_value) + tail
-    if(args.energy_mode == 'white'):
-        config_name_energy = head + '_' + 'white_' + str(args.energy_value) + tail
+    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
     
