@@ -28,22 +28,44 @@ def run_status(args):
 
   
 def run_mono(args):
-    dmm.set_mono(args)
+    args.energy_mode = 'mono'
+    if (config.CONFIG_FILE_NAME == args.config):
+        dmm.set_mono(args, True)
+    else:
+        dmm.set_mono(args, False)
     # update tomopy.conf
-    config.update_log(args)
-
+    config.save_params_to_config(args)
+    
 def run_save_mono(args):
-    config.save_current_positions_to_log(args)
+    if (args.energy_mode!='mono'):
+        log.error('Wrong mode %s' % args.energy_mode)
+        return    
+    config.save_current_positions_to_config(args)
 
-def run_pink(args):
-    dmm.set_pink(args)
+def run_pink(args):    
+    
+    if (config.CONFIG_FILE_NAME == args.config):
+        args.energy_mode = 'pink'
+        dmm.set_pink(args, True)
+    else:
+        if (args.energy_mode!='pink'):
+            log.error('Wrong mode %s' % args.energy_mode)
+            return
+        dmm.set_pink(args, False)
     # update tomopy.conf
-    config.update_log(args)
+    config.save_params_to_config(args)
+    
+def run_save_pink(args):
+    if (args.energy_mode!='pink'):
+       log.error('Wrong mode %s' % args.energy_mode)
+       return
+    config.save_current_positions_to_config(args)
 
 
 def run_white(args):
     dmm.set_white(args)
     # update tomopy.conf
+    config.save_params_to_config(args)
     config.update_log(args)
 
 
@@ -64,6 +86,7 @@ def main():
         ('save_mono',   run_save_mono,  mono_params,    "Associate the current beamline positions to an energy value and save in a config file"),
         ('set_white',   run_white,      white_params,   "Set white"),
         ('set_pink',    run_pink,       pink_params,    "Set pink"),
+        ('save_pink',   run_save_pink,  pink_params,    "Associate the current beamline positions to a pink energy value and save in a config file"),
         ('status',      run_status,     mono_params,    "Show status"),
     ]
 

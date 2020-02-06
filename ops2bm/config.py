@@ -11,6 +11,7 @@ from collections import OrderedDict
 
 from ops2bm import log
 from ops2bm import util
+from ops2bm import epics_move
 from ops2bm import __version__
 
 LOGS_HOME = os.path.join(str(pathlib.Path.home()), 'logs')
@@ -34,10 +35,6 @@ SECTIONS['general'] = {
         'default': False,
         'help': 'Verbose output',
         'action': 'store_true'},
-    'copy-log': {
-        'default': False,
-        'help': 'Verbose output',
-        'action': 'store_true'},
         }
 
 SECTIONS['energy'] = {
@@ -45,16 +42,17 @@ SECTIONS['energy'] = {
         'default': 24.9,
         'type': float,
         'help': "Desired double crystal multilayer (DMM) monochromator energy"},
-      }
-
-SECTIONS['mirror-angle-positions'] = {
-    'mirror-angle': {
-        'default':  2.657,
-        'type': float,
-        'help': " "},
+    'energy-mode': {
+        'default': 'mono',
+        'type': str,
+        'choices': ['mono', 'pink', 'white']},
         }
 
 SECTIONS['mirror-vertical-positions'] = {
+    'mirror-angle': {
+        'default':  2.657,
+        'type': float,
+        'help': " "}, 
     'mirror-vertical-position': {
         'default':  -0.2,
         'type': float,
@@ -117,12 +115,13 @@ SECTIONS['filter-selector'] = {
 }
 
 
-MONO_PARAMS = ('energy', 'mirror-angle-positions', 'mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
-PINK_PARAMS = ('mirror-angle-positions', )
+MONO_PARAMS = ('energy','mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
+PINK_PARAMS = ('energy','mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
 WHITE_PARAMS = ()
 SAVE_MONO_PARAMS = ('energy', )
+SAVE_PINK_PARAMS = ('energy', )
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Angle Motor Positions', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
 
 def get_config_name():
     """Get the command line --config option."""
@@ -232,9 +231,8 @@ def write(config_file, args=None, sections=None):
 
             if name != 'config':
                 config.set(section, prefix + name, str(value))
-
-
-    with open(config_file, 'w') as f:
+    #print(args.energy_value)
+    with open(config_file, 'w') as f:        
         config.write(f)
 
 
@@ -266,45 +264,41 @@ def log_values(args):
     log.warning('tomopy-cli status end')
 
 
-def update_log(args):
-    # update tomopy.conf
-    sections = MONO_PARAMS
-    write(args.config, args=args, sections=sections)
-
-
-def save_current_positions_to_log(args):
-
-    log.warning('save current beamline positions to log')
-    # args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
-    # args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
-    # args.xia_slits_h_center         = energy_change_PVs['xia_slits_h_center'].get()       
-    # args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
-    # args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
-    # args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
-    # args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
-    # args.dmm_us_arm                 = energy_change_PVs['dmm_us_arm'].get()              
-    # args.dmm_ds_arm                 = energy_change_PVs['dmm_ds_arm'].get()              
-    # args.dmm_m2y                    = energy_change_PVs['dmm_m2y'].get()                 
-    # args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
-    # args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
-    # args.filter                     = energy_change_PVs['filter'].get()  
+def save_params_to_config(args):
 
     # update tomopy.conf
     sections = MONO_PARAMS
-    write(args.config, args=args, sections=sections)
-    if (args.copy_log):
-        # update tomopy.conf
-        sections = MONO_PARAMS
-        write(args.config, args=args, sections=sections)
+    write(CONFIG_FILE_NAME, args=args, sections=sections)
+    log.info('  *** saved to %s ' % (CONFIG_FILE_NAME))
+    
 
-        head, tail = os.path.splitext(args.config)
-        log_name_energy = head + '_'+ str(args.energy_value) + tail
-        try:
-            shutil.copyfile(args.config, log_name_energy)
-            log.info('  *** copied %s to %s ' % (args.config, log_name_energy))
-        except:
-            log.error('  *** attempt to copy %s to %s failed' % (args.config, log_name_energy))
-            pass
-        log.warning(' *** command to repeat the reconstruction: ops set_mono --config {:s}'.format(log_name_energy))
+def save_current_positions_to_config(args):
 
+    energy_change_PVs = epics_move.init_energy_change_PVs()
+    log.warning('save current beamline positions to config')
+    args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
+    args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
+    args.xia_slits_h_center         = energy_change_PVs['xia_slits_h_center'].get()       
+    args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
+    args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
+    args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
+    args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
+    args.dmm_us_arm                 = energy_change_PVs['dmm_us_arm'].get()              
+    args.dmm_ds_arm                 = energy_change_PVs['dmm_ds_arm'].get()              
+    args.dmm_m2y                    = energy_change_PVs['dmm_m2y'].get()                 
+    args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
+    args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
+    args.filter                     = energy_change_PVs['filter'].get()  
+
+    # update tomopy.conf
+    sections = MONO_PARAMS
+    head, tail = os.path.splitext(args.config)
+    if(args.energy_mode == 'mono'):
+        config_name_energy = head + '_' + 'mono_' + str(args.energy_value) + tail
+    if(args.energy_mode == 'pink'):
+        config_name_energy = head + '_' + 'pink_' + str(args.energy_value) + tail
+    if(args.energy_mode == 'white'):
+        config_name_energy = head + '_' + 'white_' + str(args.energy_value) + tail
+    write(config_name_energy, args=args, sections=sections)
+    log.info('  *** saved to %s ' % (config_name_energy))
     

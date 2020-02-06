@@ -10,65 +10,66 @@ from ops2bm import epics_move
 from ops2bm import log
 
 
-def set_pink(params):
+def set_pink(params, default_config):
 
     log.info('changing pink')
     lookup={
-    "1.500" : {"mirror_vertical_position": -0.1, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY":  8.75, "xia_slits_h_center": 4.85, "filter": 0},
-    "1.800" : {"mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 11.75, "xia_slits_h_center": 4.85, "filter": 0},
-    "2.000" : {"mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 13.75, "xia_slits_h_center":  7.5, "filter": 0},
-    "2.100" : {"mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 14.75, "xia_slits_h_center":  7.5, "filter": 0},
-    "2.657" : {"mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 18.75, "xia_slits_h_center":  7.2, "filter": 0}
+    "55.000" : {"mirror_angle": 1.500, "mirror_vertical_position": -0.1, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY":  8.75, "xia_slits_h_center": 4.85, "filter": 0},
+    "50.000" : {"mirror_angle": 1.800, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 11.75, "xia_slits_h_center": 4.85, "filter": 0},
+    "45.000" : {"mirror_angle": 2.000, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 13.75, "xia_slits_h_center":  7.5, "filter": 0},
+    "40.000" : {"mirror_angle": 2.100, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 14.75, "xia_slits_h_center":  7.5, "filter": 0},
+    "30.000" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10, "dmm_usy_ib": -10, "dmm_dsy": -10, "dmm_usx": 50, "dmm_dsx": 50, "XIASlitY": 18.75, "xia_slits_h_center":  7.2, "filter": 0}
     }
-    angles_str = np.array(list(lookup.keys())[:])
-    angles_flt = [float(i) for i in  angles_str]
+    energies_str = np.array(list(lookup.keys())[:])
+    energies_flt = [float(i) for i in  energies_str]
 
-    angle_calibrated = util.find_nearest(angles_flt, params.mirror_angle)
-    if float(params.mirror_angle) != float(angle_calibrated):
-        log.warning('   *** Mirror angle requested is %s mrad, the closest calibrated angle is %s mrad' % (params.mirror_angle, angle_calibrated))
-        log.info('   *** Options are %s mrad' % (angles_str))
-    else:
-        log.info('   *** Mirror angle is set at %s mrad' % params.mirror_angle)   
-
-    log.info('   *** Move to %s mrad instead of %s?' % (angle_calibrated, params.mirror_angle))
-    if util.yes_or_no('   *** Yes or No'):
-        log.info(' ')
-        log.info('   *** change to pink  *** ')
-
-        params.mirror_angle = params.mirror_angle
-        # set mirror and beamline motor positons
-        params.mirror_vertical_position = lookup[angle_calibrated]["mirror_vertical_position"] 
-
-        params.dmm_usy_ob = lookup[angle_calibrated]["dmm_usy_ob"] 
-        params.dmm_usy_ib = lookup[angle_calibrated]["dmm_usy_ib"]
-        params.dmm_dsy = lookup[angle_calibrated]["dmm_dsy"]
-        params.dmm_usx = lookup[angle_calibrated]["dmm_usx"]
-        params.dmm_dsx = lookup[angle_calibrated]["dmm_dsx"]
-
-        params.xia_slits_y = lookup[angle_calibrated]["XIASlitY"]          
-        params.xia_slits_h_center = lookup[angle_calibrated]["xia_slits_h_center"] 
-
-        params.filter =  lookup[angle_calibrated]["filter"]
-
-        energy_change_PVs = epics_move.init_energy_change_PVs()
-        
-        # move mirror and beamline motor positons
-        epics_move.close_shutters(energy_change_PVs, params)
-
-        epics_move.move_filter(energy_change_PVs, params)
-        epics_move.move_mirror(energy_change_PVs, params)
-        epics_move.move_DMM_X(energy_change_PVs, params)
-        epics_move.move_DMM_Y(energy_change_PVs, params)
-        
-        epics_move.move_xia_slits(energy_change_PVs, params)
-            
-        log.info(' ')
-        log.info('   *** change to pink: Done!  *** ')
-       
-
-    else:
+    energy_calibrated = util.find_nearest(energies_flt, params.energy_value)
+    if float(params.energy_value) != float(energy_calibrated):
+        log.warning('   *** Mirror energy requested is %s keV, the closest calibrated energy is %s keV' % (params.energy_value, energy_calibrated))
+        log.info('   *** Options are %s keV' % (energies_str))
+        log.info('   *** Mirror energy is set at %s keV' %params.energy_value)   
+        log.info('   *** Move to %s keV instead of %s?' % (energy_calibrated, params.energy_value))
+    if not util.yes_or_no('   *** Yes or No'):
         log.info(' ')
         log.warning('   *** energy not changed')
+        return
+    log.info(' ')
+    log.info('   *** change to pink  *** ')
+
+    params.energy_value = energy_calibrated
+
+    if (default_config):
+        # set mirror and beamline motor positons
+        params.mirror_angle = lookup[energy_calibrated]["mirror_angle"]
+        params.mirror_vertical_position = lookup[energy_calibrated]["mirror_vertical_position"] 
+
+        params.dmm_usy_ob = lookup[energy_calibrated]["dmm_usy_ob"] 
+        params.dmm_usy_ib = lookup[energy_calibrated]["dmm_usy_ib"]
+        params.dmm_dsy = lookup[energy_calibrated]["dmm_dsy"]
+        params.dmm_usx = lookup[energy_calibrated]["dmm_usx"]
+        params.dmm_dsx = lookup[energy_calibrated]["dmm_dsx"]
+
+        params.xia_slits_y = lookup[energy_calibrated]["XIASlitY"]          
+        params.xia_slits_h_center = lookup[energy_calibrated]["xia_slits_h_center"] 
+
+        params.filter =  lookup[energy_calibrated]["filter"]
+
+    energy_change_PVs = epics_move.init_energy_change_PVs()
+    
+    # move mirror and beamline motor positons
+    epics_move.close_shutters(energy_change_PVs, params)
+
+    epics_move.move_filter(energy_change_PVs, params)
+    epics_move.move_mirror(energy_change_PVs, params)
+    epics_move.move_DMM_X(energy_change_PVs, params)
+    epics_move.move_DMM_Y(energy_change_PVs, params)
+    
+    epics_move.move_xia_slits(energy_change_PVs, params)
+        
+    log.info(' ')
+    log.info('   *** change to pink: Done!  *** ')
+
+
 
 def set_white(params):
 
@@ -103,7 +104,7 @@ def set_white(params):
         log.warning('   *** energy not changed')
 
 
-def set_mono(params):
+def set_mono(params, default_config=True):
 
     log.info('changing energy')
 
@@ -134,14 +135,17 @@ def set_mono(params):
     if float(params.energy_value) != float(energy_calibrated):
         log.warning('   *** Energy requested is %s keV, the closest calibrated energy is %s' % (params.energy_value, energy_calibrated))
         log.info('   *** Options are %s keV' % (energies_str))
-    else:
         log.info('   *** Energy is set at %s keV' % params.energy_value)   
-
-    log.info('   *** Move to %s keV instead of %s?' % (energy_calibrated, params.energy_value))  
-    if util.yes_or_no('   *** Yes or No'):
+        log.info('   *** Move to %s keV instead of %s?' % (energy_calibrated, params.energy_value))  
+    if not util.yes_or_no('   *** Yes or No'):                
         log.info(' ')
-        log.info('   *** Change Energy  *** ')
+        log.warning('   *** Energy not changed')
+        return
+    log.info(' ')
+    log.info('   *** Options are %s keV' % (energies_str))
+    log.info('   *** Change Energy  *** ')
 
+    if (default_config):
         params.energy_value = energy_calibrated
         # set dmm motor and beamline positons
         params.mirror_angle = lookup[energy_calibrated]["mirror_angle"]
@@ -163,21 +167,18 @@ def set_mono(params):
 
         params.filter = lookup[energy_calibrated]["filter"]   
 
-        energy_change_PVs = epics_move.init_energy_change_PVs()
-        # move ddm to set motor positions
-        epics_move.close_shutters(energy_change_PVs, params)
-        epics_move.move_filter(energy_change_PVs, params)
-        epics_move.move_mirror(energy_change_PVs, params)
-        epics_move.move_DMM_Y(energy_change_PVs, params)
-        epics_move.move_DMM_arms(energy_change_PVs, params)
-        epics_move.move_DMM_dmm_m2y(energy_change_PVs, params)
-        epics_move.move_DMM_X(energy_change_PVs, params)
-        epics_move.move_xia_slits(energy_change_PVs, params)
-            
-        log.info(' ')
-        log.info('   *** Change Energy: Done!  *** ')
+    energy_change_PVs = epics_move.init_energy_change_PVs()
+    # move ddm to set motor positions
+    epics_move.close_shutters(energy_change_PVs, params)
+    epics_move.move_filter(energy_change_PVs, params)
+    epics_move.move_mirror(energy_change_PVs, params)
+    epics_move.move_DMM_Y(energy_change_PVs, params)
+    epics_move.move_DMM_arms(energy_change_PVs, params)
+    epics_move.move_DMM_dmm_m2y(energy_change_PVs, params)
+    epics_move.move_DMM_X(energy_change_PVs, params)
+    epics_move.move_xia_slits(energy_change_PVs, params)
+        
+    log.info(' ')
+    log.info('   *** Change Energy: Done!  *** ')
 
-        return energy_calibrated
-    else:
-        log.info(' ')
-        log.warning('   *** Energy not changed')
+    return energy_calibrated
