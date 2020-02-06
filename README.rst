@@ -1,10 +1,8 @@
-=======
-ops-cli
-=======
+==========
+energy-cli
+==========
 
-**ops-cli** is commad-line-interface to operate `beamline 2bm <https://2bm-docs.readthedocs.io>`_ of the 
-`APS <https://aps.anl.gov/>`_.
-
+**energy-cli** is commad-line-interface to set and tune`beamline 2bm <https://2bm-docs.readthedocs.io>`_ mode changes between mono, pink and white beam
 
 Installation
 ============
@@ -24,54 +22,51 @@ Usage
 =====
 
 Set energy
------------
+----------
 
 To set the beamline energy to 20 keV::
 
-    $ ops set_mono --energy-value 20 
+    $ energy set --energy-value 20 
 
 to list of all available options::
 
-    $ ops -h
-  usage: ops [-h] [--config FILE] [--version]  ...
+    $ energy -h
+      usage: energy [-h] [--config FILE] [--version]  ...
 
-  optional arguments:
-    -h, --help     show this help message and exit
-    --config FILE  File name of configuration file
-    --version      show program's version number and exit
+      optional arguments:
+        -h, --help     show this help message and exit
+        --config FILE  File name of configuration file
+        --version      show program's version number and exit
 
-  Commands:
-    
+    Commands:
+  
       init         Create configuration file
-      set_mono     Set energy
-      save_mono    Associate the current beamline positions to an energy value and save in a config file
-      set_white    Set white
-      set_pink     Set pink
+      set          Set energy
+      save         Associate the current beamline positions to an energy value
+                   and save in a config file
       status       Show status
+
+
 
 Configuration File
 ------------------
 
-The beamline status is stored in **ops.conf**. You can create a template with::
+The beamline status is stored in **ops2bm.conf**. You can create a template with::
 
-    $ ops init
+    $ energy init
 
 **osp2bm.conf** is constantly updated to keep track of the last stored parameters, as initalized by **init** or modified by setting a new option value. For example to set the beamline to the last energy configuration ::
 
-    $ ops set_mono
+    $ energy set
 
-to list of all **ops save_mono** options::
+to list of all **energy save** options::
 
-    $ ops save_mono -h
+    $ energy save -h
     
-If the beamline has been manually optimized after setting a preset energy configuration, you can save the current beamline status in the default config file **osp2bm.conf** with::  
+If the beamline has been manually optimized after setting a preset energy configuration, you can save the current beamline status in a custom config file with::  
 
-    $ ops save_mono --energy-value 12
+    $ energy save --energy-value 27
 
-You can associate the beamline positions to an energy value and save them to a unique config file with::
+The config file name is named **ops2bm_mono_27.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
 
-    $ ops save_mono --energy-value 12 --copy-log
-
-The config file name is named **osp2bm_12.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
-
-    $ ops set_mono --config ops2bm_12.0.conf
+    $ energy set --config ops2bm_mono_27.0.conf
