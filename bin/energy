@@ -28,9 +28,9 @@ def run_status(args):
 
 def run(args):
     if (config.CONFIG_FILE_NAME == args.config):
-        dmm.set_default_config(args)        
-    dmm.move(args)
-    config.save_params_to_config(args)
+        dmm.set_default_config(args)            
+    if(dmm.move(args)):    
+        config.save_params_to_config(args)
     
 def run_save(args):
     config.save_current_positions_to_config(args)

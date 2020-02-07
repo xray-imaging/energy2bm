@@ -1,8 +1,9 @@
 
 from epics import PV
 from energy2bm import log
+import time
 
-TESTING = True
+TESTING = False
 
 ShutterA_Open_Value = 1
 ShutterA_Close_Value = 0
@@ -62,10 +63,10 @@ def move_mirror(energy_change_PVs, params):
         log.warning('     *** testing mode:  set mirror vertical position %s mm' % params.mirror_vertical_position)
         log.warning('     *** testing mode:  set mirror angle %s mrad' % params.mirror_angle)
     else:
-        log.info('mirror_vertical_position %s mm' % params.mirror_vertical_position)
+        log.info('     *** mirror_vertical_position %s mm' % params.mirror_vertical_position)
         energy_change_PVs['mirror_vertical_position'].put(params.mirror_vertical_position, wait=True)
         time.sleep(1) 
-        log.info('mirror_angle %s mrad' % params.mirror_angle)
+        log.info('     *** mirror_angle %s mrad' % params.mirror_angle)
         energy_change_PVs['mirror_angle'].put(params.mirror_angle, wait=True)
         time.sleep(1) 
 
