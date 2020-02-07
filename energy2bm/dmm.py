@@ -26,10 +26,10 @@ def set_default_config(params):
     "20.200" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.35, "dmm_ds_arm": 1.373 , "dmm_m2y": 17.04, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 33.35, "filter": 0},           
     "18.900" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.40, "dmm_ds_arm": 1.4165, "dmm_m2y": 17.67, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 34.35, "filter": 0},           
     "17.600" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.45, "dmm_ds_arm": 1.472 , "dmm_m2y": 18.89, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 34.35, "filter": 4},           
-    "16.800" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.50, "dmm_ds_arm": 1.5165, "dmm_m2y": 19.47, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 52.35, "filter": 4},           
-    "16.000" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.55, "dmm_ds_arm": 1.568 , "dmm_m2y": 20.57, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 53.35, "filter": 4},           
-    "15.000" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.60, "dmm_ds_arm": 1.6195, "dmm_m2y": 21.27, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 54.35, "filter": 4},           
-    "14.400" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.65, "dmm_ds_arm": 1.67  , "dmm_m2y": 22.27, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 51.35, "filter": 4}},
+    "16.800" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.50, "dmm_ds_arm": 1.5165, "dmm_m2y": 19.47, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 35.35, "filter": 4},           
+    "16.000" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.55, "dmm_ds_arm": 1.568 , "dmm_m2y": 20.57, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 35.35, "filter": 4},           
+    "15.000" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.60, "dmm_ds_arm": 1.6195, "dmm_m2y": 21.27, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 36.35, "filter": 4},           
+    "14.400" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.65, "dmm_ds_arm": 1.67  , "dmm_m2y": 22.27, "dmm_usx": 82.5, "dmm_dsx": 82.5, "xia_slits_h_center": 7.2,  "xia_slits_y": 37.35, "filter": 4}},
     "pink": {
     "55.000" : {"mirror_angle": 1.500, "mirror_vertical_position": -0.1, "dmm_usy_ob": -10,  "dmm_usy_ib": -10,  "dmm_dsy": -10,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "xia_slits_h_center": 4.85, "xia_slits_y":  8.75, "filter": 0},
     "50.000" : {"mirror_angle": 1.800, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10,  "dmm_usy_ib": -10,  "dmm_dsy": -10,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "xia_slits_h_center": 4.85, "xia_slits_y": 11.75, "filter": 0},
@@ -48,10 +48,6 @@ def set_default_config(params):
         log.info('   *** Energy is set at %s keV' % params.energy_value)   
         log.info('   *** Move to %s keV instead of %s?' % (energy_calibrated, params.energy_value))  
     log.info('   *** Change Energy for %s as %s *** ' % (params.mode, energy_calibrated) )
-    if not util.yes_or_no('   *** Yes or No'):                
-        log.info(' ')
-        log.warning('   *** Energy not changed')
-        return
 
     params.energy_value = energy_calibrated
 
@@ -72,8 +68,14 @@ def set_default_config(params):
     params.xia_slits_h_center = lookup[params.mode][energy_calibrated]["xia_slits_h_center"]  
     params.xia_slits_y = lookup[params.mode][energy_calibrated]["xia_slits_y"]   
     params.filter = lookup[params.mode][energy_calibrated]["filter"]   
+    return 0
 
 def move(params):
+
+    if not util.yes_or_no('   *** Yes or No'):                
+        log.info(' ')
+        log.warning('   *** Energy not changed')
+        return False
 
     log.info('move motors')
     energy_change_PVs = epics_move.init_energy_change_PVs()
@@ -95,3 +97,4 @@ def move(params):
     
     log.info(' ')
     log.info('   *** Change Energy: Done!  *** ')
+    return True
