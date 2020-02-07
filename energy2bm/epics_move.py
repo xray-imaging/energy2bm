@@ -38,7 +38,7 @@ def init_energy_change_PVs():
     energy_change_PVs['dmm_m2y'] = PV('2bma:m32.VAL')
 
     energy_change_PVs['xia_slits_y'] = PV('2bma:m7.VAL')
-    energy_change_PVs['xia_slits_h_center'] = PV('2bma:Slit1Hcenter.VAL')
+    energy_change_PVs['a_slits_h_center'] = PV('2bma:Slit1Hcenter.VAL')
  
     return energy_change_PVs
 
@@ -140,11 +140,11 @@ def move_xia_slits(energy_change_PVs, params):
     log.info('     *** moving xia slits')
 
     if TESTING:
-        log.warning('     *** testing mode:  set xia slits h center  %s mm' % params.xia_slits_h_center) 
+        log.warning('     *** testing mode:  set xia slits h center  %s mm' % params.a_slits_h_center) 
         log.warning('     *** testing mode:  set xia slits y %s mm' % params.xia_slits_y) 
     else:
-        log.info('     *** moving xia slits h center  %s mm' % params.xia_slits_h_center) 
-        energy_change_PVs['xia_slits_h_center'].put(params.xia_slits_h_center, wait=True)
+        log.info('     *** moving xia slits h center  %s mm' % params.a_slits_h_center) 
+        energy_change_PVs['a_slits_h_center'].put(params.a_slits_h_center, wait=True)
         log.info('     *** moving xia slits y %s mm' % params.xia_slits_y) 
         energy_change_PVs['xia_slits_y'].put(params.xia_slits_y, wait=True)
 

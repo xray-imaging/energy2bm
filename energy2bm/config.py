@@ -58,8 +58,8 @@ SECTIONS['mirror-vertical-positions'] = {
         'help': " "}, 
         }
 
-SECTIONS['xia-slits-motor-positions'] = {
-    'xia-slits-h-center':  {
+SECTIONS['slits-motor-positions'] = {
+    'a-slits-h-center':  {
         'default': 7.2,
         'type': float,
         'help': " "},           
@@ -114,7 +114,7 @@ SECTIONS['filter-selector'] = {
 }
 
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','xia-slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
 SAVE_PARAMS = ('energy', )
 
 NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
