@@ -10,9 +10,9 @@ import shutil
 import pathlib
 from datetime import datetime
 
-from ops2bm import config, __version__
-from ops2bm import log
-from ops2bm import dmm
+from energy2bm import config, __version__
+from energy2bm import log
+from energy2bm import dmm
 
 
 def init(args):
@@ -26,27 +26,15 @@ def init(args):
 def run_status(args):
     config.log_values(args)
 
-  
-def run_mono(args):
-    dmm.set_mono(args)
-    # update tomopy.conf
-    config.update_log(args)
-
-def run_save_mono(args):
-    config.save_current_positions_to_log(args)
-
-def run_pink(args):
-    dmm.set_pink(args)
-    # update tomopy.conf
-    config.update_log(args)
-
-
-def run_white(args):
-    dmm.set_white(args)
-    # update tomopy.conf
-    config.update_log(args)
-
-
+def run(args):
+    if (config.CONFIG_FILE_NAME == args.config):
+        dmm.set_default_config(args)            
+    if(dmm.move(args)):    
+        config.save_params_to_config(args)
+    
+def run_save(args):
+    config.save_current_positions_to_config(args)
+    
 def main():
 
     parser = argparse.ArgumentParser()
@@ -54,17 +42,14 @@ def main():
     parser.add_argument('--version', action='version',
                         version='%(prog)s {}'.format(__version__))
 
-    mono_params = config.MONO_PARAMS
-    white_params = config.WHITE_PARAMS
-    pink_params = config.PINK_PARAMS
-
+    beamline_params = config.BEAMLINE_PARAMS    
+    save_params = config.SAVE_PARAMS
+    
     cmd_parsers = [
         ('init',        init,           (),             "Create configuration file"),
-        ('set_mono',    run_mono,       mono_params,    "Set energy"),
-        ('save_mono',   run_save_mono,  mono_params,    "Associate the current beamline positions to an energy value and save in a config file"),
-        ('set_white',   run_white,      white_params,   "Set white"),
-        ('set_pink',    run_pink,       pink_params,    "Set pink"),
-        ('status',      run_status,     mono_params,    "Show status"),
+        ('set',         run,            beamline_params,    "Set energy"),
+        ('save',        run_save,       save_params,    "Associate the current beamline positions to an energy value and save in a config file"),             
+        ('status',      run_status,     beamline_params,    "Show status"),
     ]
 
     subparsers = parser.add_subparsers(title="Commands", metavar='')
