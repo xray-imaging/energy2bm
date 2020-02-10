@@ -150,10 +150,10 @@ def move_xia_slits(energy_change_PVs, params):
     log.info('     *** moving xia slits')
 
     if TESTING:
-        log.warning('     *** testing mode:  set xia slits h center  %s mm' % params.a_slits_h_center) 
+        log.warning('     *** testing mode:  set A slits h center  %s mm' % params.a_slits_h_center) 
         log.warning('     *** testing mode:  set xia slits y %s mm' % params.xia_slits_y) 
     else:
-        log.info('     *** moving xia slits h center  %s mm' % params.a_slits_h_center) 
+        log.info('     *** moving A slits h center  %s mm' % params.a_slits_h_center) 
         energy_change_PVs['a_slits_h_center'].put(params.a_slits_h_center, wait=True)
         log.info('     *** moving xia slits y %s mm' % params.xia_slits_y) 
         energy_change_PVs['xia_slits_y'].put(params.xia_slits_y, wait=True)
