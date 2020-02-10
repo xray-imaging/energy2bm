@@ -94,7 +94,9 @@ def move(params):
         epics_move.move_DMM_Y(energy_change_PVs, params)        
 
     epics_move.move_xia_slits(energy_change_PVs, params)
-    
+
+    epics_move.user_info_pv_update_from_params(global_PVs, params)
+
     log.info(' ')
     log.info('   *** Change Energy: Done!  *** ')
     return True

@@ -39,8 +39,18 @@ def init_energy_change_PVs():
 
     energy_change_PVs['xia_slits_y'] = PV('2bma:m7.VAL')
     energy_change_PVs['a_slits_h_center'] = PV('2bma:Slit1Hcenter.VAL')
+
+    global_PVs['Energy'] = PV('2bmS1:ExpInfo:Energy.VAL')
+    global_PVs['Energy_Mode'] = PV('2bmS1:ExpInfo:EnergyMode.VAL')
  
     return energy_change_PVs
+
+
+def user_info_pv_update_from_params(global_PVs, params):
+
+    global_PVs['Energy_Mode'].put(params.mode, wait=True)
+    global_PVs['Energy'].put(params.energy_value, wait=True)
+
 
 def move_filter(energy_change_PVs, params):
 
