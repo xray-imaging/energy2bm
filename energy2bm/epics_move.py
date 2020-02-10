@@ -46,7 +46,7 @@ def init_energy_change_PVs():
     return energy_change_PVs
 
 
-def user_info_pv_update_from_params(energy_change_PVs, params):
+def energy_pv(energy_change_PVs, params):
 
     energy_change_PVs['Energy_Mode'].put(params.mode, wait=True)
     energy_change_PVs['Energy'].put(params.energy_value, wait=True)
