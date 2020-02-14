@@ -40,6 +40,9 @@ def init_energy_change_PVs():
     energy_change_PVs['xia_slits_y'] = PV('2bma:m7.VAL')
     energy_change_PVs['a_slits_h_center'] = PV('2bma:Slit1Hcenter.VAL')
 
+    energy_change_PVs['camera_y'] = PV('2bma:m21.VAL')
+    energy_change_PVs['table_y'] = PV('2bma:m33.VAL')
+
     energy_change_PVs['Energy'] = PV('2bmS1:ExpInfo:Energy.VAL')
     energy_change_PVs['Energy_Mode'] = PV('2bmS1:ExpInfo:EnergyMode.VAL')
  
