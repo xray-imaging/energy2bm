@@ -70,3 +70,13 @@ If the beamline has been manually optimized after setting a preset energy config
 The config file name is named **ops2bm_mono_27.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
 
     $ energy set --config ops2bm_mono_27.0.conf
+
+
+Testing mode
+------------
+
+In testing mode, the motor positions are printed but not actual motor motion occurs. To enable testing mode set:: 
+
+    TESTING = True 
+
+in `epics_move <https://github.com/xray-imaging/2bm-ops/blob/master/energy2bm/epics_move.py>`_
