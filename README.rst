@@ -2,7 +2,7 @@
 energy-cli
 ==========
 
-**energy-cli** is commad-line-interface to set and tune`beamline 2bm <https://docs2bm.readthedocs.io>`_ mode changes between mono, pink and white beam
+**energy-cli** is commad-line-interface to set and tune beamline `2bm <https://docs2bm.readthedocs.io>` mode changes between mono, pink and white beam
 
 Installation
 ============
