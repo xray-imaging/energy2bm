@@ -2,7 +2,7 @@
 energy-cli
 ==========
 
-**energy-cli** is commad-line-interface to set and tune beamline `2bm <https://docs2bm.readthedocs.io>` mode changes between mono, pink and white beam
+**energy-cli** is commad-line-interface to set and tune beamline `2bm <https://docs2bm.readthedocs.io>`_ mode changes between mono, pink and white beam
 
 Installation
 ============
@@ -79,4 +79,8 @@ In testing mode, the motor positions are printed but not actual motor motion occ
 
     TESTING = True 
 
-in `epics_move <https://github.com/xray-imaging/2bm-ops/blob/master/energy2bm/epics_move.py>`_
+in `epics_move <https://github.com/xray-imaging/2bm-ops/blob/master/energy2bm/epics_move.py>`_ file, then re-install with::
+
+    $ cd 2bm-ops
+    $ python setup.py install
+
