@@ -2,7 +2,7 @@
 energy-cli
 ==========
 
-**energy-cli** is commad-line-interface to set and tune`beamline 2bm <https://2bm-docs.readthedocs.io>`_ mode changes between mono, pink and white beam
+**energy-cli** is commad-line-interface to set and tune beamline `2bm <https://docs2bm.readthedocs.io>`_ mode changes between mono, pink and white beam
 
 Installation
 ============
@@ -70,3 +70,17 @@ If the beamline has been manually optimized after setting a preset energy config
 The config file name is named **ops2bm_mono_27.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
 
     $ energy set --config ops2bm_mono_27.0.conf
+
+
+Testing mode
+------------
+
+In testing mode, the motor positions are printed but not actual motor motion occurs. To enable testing mode set:: 
+
+    TESTING = True 
+
+in `epics_move <https://github.com/xray-imaging/2bm-ops/blob/master/energy2bm/epics_move.py>`_ file, then re-install with::
+
+    $ cd 2bm-ops
+    $ python setup.py install
+
