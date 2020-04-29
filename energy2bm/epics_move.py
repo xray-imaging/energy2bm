@@ -43,8 +43,8 @@ def init_energy_change_PVs():
     energy_change_PVs['camera_y'] = PV('2bma:m21.VAL')
     energy_change_PVs['table_y'] = PV('2bma:m33.VAL')
 
-    energy_change_PVs['Energy'] = PV('2bmS1:ExpInfo:Energy.VAL')
-    energy_change_PVs['Energy_Mode'] = PV('2bmS1:ExpInfo:EnergyMode.VAL')
+    energy_change_PVs['Energy'] = PV('2bma:TomoScan:Energy.VAL')
+    energy_change_PVs['Energy_Mode'] = PV('2bma:TomoScan:EnergyMode.VAL')
  
     return energy_change_PVs
 
