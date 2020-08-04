@@ -66,7 +66,7 @@ def set_default_config(params):
     params.dmm_usy_ib = lookup[params.mode][energy_calibrated]["dmm_usy_ib"]
     params.dmm_dsy = lookup[params.mode][energy_calibrated]["dmm_dsy"]
 
-    if(params.mode=="mono"):
+    if(params.mode=="Mono"):
         params.dmm_us_arm = lookup[params.mode][energy_calibrated]["dmm_us_arm"]                
         params.dmm_ds_arm = lookup[params.mode][energy_calibrated]["dmm_ds_arm"]
         params.dmm_m2y = lookup[params.mode][energy_calibrated]["dmm_m2y"]
@@ -92,12 +92,12 @@ def move(params):
     epics_move.move_filter(energy_change_PVs, params)
     epics_move.move_mirror(energy_change_PVs, params)
 
-    if(params.mode=="mono"):
+    if(params.mode=="Mono"):
         epics_move.move_DMM_Y(energy_change_PVs, params)
         epics_move.move_DMM_arms(energy_change_PVs, params)
         epics_move.move_DMM_dmm_m2y(energy_change_PVs, params)
         epics_move.move_DMM_X(energy_change_PVs, params)
-    elif(params.mode=="pink" or params.mode=="white"):            
+    elif(params.mode=="Pink" or params.mode=="White"):            
         epics_move.move_DMM_X(energy_change_PVs, params)
         epics_move.move_DMM_Y(energy_change_PVs, params)        
 
