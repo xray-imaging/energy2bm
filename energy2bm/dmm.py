@@ -12,7 +12,7 @@ from energy2bm import log
 def set_default_config(params):
     
     log.info('set default motor values')
-    lookup = {"mono":{
+    lookup = {"Mono":{
     "50.000" : {"mirror_angle": 1.200, "mirror_vertical_position":  0.2, "dmm_usy_ob": -5.1, "dmm_usy_ib": -5.1, "dmm_dsy": -5.1, "dmm_us_arm": 0.95, "dmm_ds_arm": 0.973 , "dmm_m2y": 11.63, "dmm_usx": 27.5, "dmm_dsx": 27.5, "a_slits_h_center": 7.2,  "xia_slits_y": 19.65, "filter": 0,  "table_y": 0.00, "camera_y": -8.9, "foil": 'None'  },
     "45.000" : {"mirror_angle": 1.500, "mirror_vertical_position": -0.2, "dmm_usy_ob": -5.1, "dmm_usy_ib": -5.1, "dmm_dsy": -5.1, "dmm_us_arm": 1.00, "dmm_ds_arm": 1.022 , "dmm_m2y": 12.58, "dmm_usx": 27.5, "dmm_dsx": 27.5, "a_slits_h_center": 7.2,  "xia_slits_y": 23.20, "filter": 0,  "table_y": 0.00, "camera_y": -6.3, "foil": 'None'  },
     "40.000" : {"mirror_angle": 1.500, "mirror_vertical_position": -0.2, "dmm_usy_ob": -5.1, "dmm_usy_ib": -5.1, "dmm_dsy": -5.1, "dmm_us_arm": 1.05, "dmm_ds_arm": 1.072 , "dmm_m2y": 13.38, "dmm_usx": 27.5, "dmm_dsx": 27.5, "a_slits_h_center": 7.2,  "xia_slits_y": 24.20, "filter": 0,  "table_y": 0.00, "camera_y": -5.3, "foil": 'None'  },
@@ -38,13 +38,13 @@ def set_default_config(params):
     "23.220" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.13, "dmm_ds_arm": 1.172, "dmm_m2y": 13.00, "dmm_usx": 82.5, "dmm_dsx": 82.5, "a_slits_h_center": 7.2,  "xia_slits_y": 29.85, "filter": 4,  "table_y": 0.00, "camera_y":  1.50, "foil": 'Rh'  },
     "24.350" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.11, "dmm_ds_arm": 1.150, "dmm_m2y": 12.60, "dmm_usx": 82.5, "dmm_dsx": 82.5, "a_slits_h_center": 7.2,  "xia_slits_y": 29.45, "filter": 4,  "table_y": 0.00, "camera_y":  1.00, "foil": 'Pd'  },
     "25.510" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -0.1, "dmm_usy_ib": -0.1, "dmm_dsy": -0.1, "dmm_us_arm": 1.07, "dmm_ds_arm": 1.103, "dmm_m2y": 11.58, "dmm_usx": 82.5, "dmm_dsx": 82.5, "a_slits_h_center": 7.2,  "xia_slits_y": 28.55, "filter": 4,  "table_y": 0.00, "camera_y":  0.10, "foil": 'Ag'  }},
-    "pink": {
+    "Pink": {
     # "55.000" : {"mirror_angle": 1.500, "mirror_vertical_position": -0.1, "dmm_usy_ob": -10,  "dmm_usy_ib": -10,  "dmm_dsy": -10,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "a_slits_h_center": 4.85, "xia_slits_y":  8.75, "filter": 0},
     # "50.000" : {"mirror_angle": 1.800, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10,  "dmm_usy_ib": -10,  "dmm_dsy": -10,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "a_slits_h_center": 4.85, "xia_slits_y": 11.75, "filter": 0},
     # "45.000" : {"mirror_angle": 2.000, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10,  "dmm_usy_ib": -10,  "dmm_dsy": -10,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "a_slits_h_center": 7.5,  "xia_slits_y": 13.75, "filter": 0},
     # "40.000" : {"mirror_angle": 2.100, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10,  "dmm_usy_ib": -10,  "dmm_dsy": -10,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "a_slits_h_center": 7.5,  "xia_slits_y": 14.75, "filter": 0},
     "30.000" : {"mirror_angle": 2.657, "mirror_vertical_position":  0.0, "dmm_usy_ob": -10,  "dmm_usy_ib": -10,  "dmm_dsy": -10,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "a_slits_h_center": 7.2,  "xia_slits_y": 18.75, "filter": 0}},
-    "white": {
+    "White": {
     "100.000": {"mirror_angle": 0,     "mirror_vertical_position":  -4,  "dmm_usy_ob": -16,  "dmm_usy_ib": -16,  "dmm_dsy": -16,                                                              "dmm_usx": 50,   "dmm_dsx": 50,   "a_slits_h_center": 7.2,  "xia_slits_y": -1.65, "filter": 0}}}
 
     energies_str = np.array(list(lookup[params.mode].keys())[:])
