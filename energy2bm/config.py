@@ -45,7 +45,7 @@ SECTIONS['energy'] = {
     'mode': {
         'default': 'mono',
         'type': str,
-        'choices': ['Mono', 'Pink', 'White']},        }
+        'choices': ['mono', 'pink', 'white']},        }
 
 SECTIONS['mirror-vertical-positions'] = {
     'mirror-angle': {
