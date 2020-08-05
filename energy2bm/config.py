@@ -43,7 +43,7 @@ SECTIONS['energy'] = {
         'type': float,
         'help': "Desired double crystal multilayer (DMM) monochromator energy"},
     'mode': {
-        'default': 'mono',
+        'default': 'Mono',
         'type': str,
         'choices': ['Mono', 'Pink', 'White']},        }
 
