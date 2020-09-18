@@ -69,7 +69,7 @@ If the beamline has been manually optimized after setting a preset energy config
 
 The config file name is named **ops2bm_mono_27.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
 
-    $ energy set --config ops2bm_mono_27.0.conf
+    $ energy set --config ~/logs/energy2bm_mono_35.5.conf
 
 
 Testing mode
