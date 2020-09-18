@@ -51,11 +51,11 @@ to list of all available options::
 Configuration File
 ------------------
 
-The beamline status is stored in **ops2bm.conf**. You can create a template with::
+The beamline status is stored in **~logs/energy2bm.conf**. You can create a template with::
 
     $ energy init
 
-**osp2bm.conf** is constantly updated to keep track of the last stored parameters, as initalized by **init** or modified by setting a new option value. For example to set the beamline to the last energy configuration ::
+**~logs/energy2bm.conf** is constantly updated to keep track of the last stored parameters, as initalized by **init** or modified by setting a new option value. For example to set the beamline to the last energy configuration ::
 
     $ energy set
 
@@ -67,9 +67,9 @@ If the beamline has been manually optimized after setting a preset energy config
 
     $ energy save --energy-value 27
 
-The config file name is named **ops2bm_mono_27.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
+The config file name is named **~/log/energy2bm_mono_27.0.conf**. You can restore the beamline positions for the optimized energy configuration with::
 
-    $ energy set --config ~/logs/energy2bm_mono_35.5.conf
+    $ energy set --config ~/logs/energy2bm_mono_27.0.conf
 
 
 Testing mode
