@@ -69,7 +69,7 @@ def main():
     if not os.path.exists(logs_home):
         os.makedirs(logs_home)
 
-    lfname = os.path.join(logs_home, 'cli_' + datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S") + '.log')
+    lfname = os.path.join(logs_home, 'energy_' + datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S") + '.log')
  
     log.setup_custom_logger(lfname)
     log.info("Saving log at %s" % lfname)

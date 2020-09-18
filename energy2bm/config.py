@@ -15,7 +15,7 @@ from energy2bm import epics_move
 from energy2bm import __version__
 
 LOGS_HOME = os.path.join(str(pathlib.Path.home()), 'logs')
-CONFIG_FILE_NAME = os.path.join(str(pathlib.Path.home()), 'conf/energy2bm.conf')
+CONFIG_FILE_NAME = os.path.join(str(pathlib.Path.home()), 'logs/energy2bm.conf')
 
 SECTIONS = OrderedDict()
 
@@ -167,7 +167,7 @@ def config_to_list(config_name=CONFIG_FILE_NAME):
         for name, opts in ((n, o) for n, o in SECTIONS[section].items() if config.has_option(section, n)):
             value = config.get(section, name)
 
-            if value is not '' and value != 'None':
+            if value != '' and value != 'None':
                 action = opts.get('action', None)
 
                 if action == 'store_true' and value == 'True':
@@ -223,7 +223,7 @@ def write(config_file, args=None, sections=None):
             else:
                 value = opts['default'] if opts['default'] is not None else ''
 
-            prefix = '# ' if value is '' else ''
+            prefix = '# ' if value == '' else ''
 
             if name != 'config':
                 config.set(section, prefix + name, str(value))
