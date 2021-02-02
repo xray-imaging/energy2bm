@@ -71,6 +71,8 @@ The config file name is named **~/log/energy2bm_mono_27.0.conf**. You can restor
 
     $ energy set --config ~/logs/energy2bm_mono_27.0.conf
 
+.. warning:: The file name after --config must include the full path. 
+
 
 Testing mode
 ------------
