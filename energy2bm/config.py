@@ -35,6 +35,10 @@ SECTIONS['general'] = {
         'default': False,
         'help': 'Verbose output',
         'action': 'store_true'},
+    'testing': {
+        'default': False,
+        'help': 'Enable test mode, tomography scan will not run',
+        'action': 'store_true'},        
         }
 
 SECTIONS['energy'] = {

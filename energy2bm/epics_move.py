@@ -3,8 +3,6 @@ from epics import PV
 from energy2bm import log
 import time
 
-TESTING = True
-
 ShutterA_Open_Value = 1
 ShutterA_Close_Value = 0
 ShutterB_Open_Value = 1
@@ -14,7 +12,7 @@ def init_energy_change_PVs(params):
 
     energy_change_PVs = {}
 
-    if TESTING:
+    if params.testing:
         log.info('     *** testing mode:  set PVs')
         log.warning('     *** energy PVs: %s' % (params.tomoscan_prefix + 'Energy.VAL'))
         log.warning('     *** energy PVs: %s' % (params.tomoscan_prefix + 'EnergyMode.VAL'))
@@ -56,7 +54,7 @@ def init_energy_change_PVs(params):
 
 def energy_pv(energy_change_PVs, params):
 
-    if TESTING:
+    if params.testing:
         log.info('     *** testing mode:  set tomoScan energy and mode PVs')
     else:
         energy_change_PVs['Energy_Mode'].put(params.mode, wait=True)
@@ -68,7 +66,7 @@ def move_filter(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** moving filters')
 
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode:  set filter:  %s ' % params.filter)
     else:
         log.info('     *** Set filter:  %s ' % params.filter)
@@ -80,7 +78,7 @@ def move_mirror(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** moving mirror')
 
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode:  set mirror vertical position %s mm' % params.mirror_vertical_position)
         log.warning('     *** testing mode:  set mirror angle %s mrad' % params.mirror_angle)
     else:
@@ -97,7 +95,7 @@ def move_DMM_Y(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** moving dmm y')
 
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode:  set dmm usy ob %s mm' % params.dmm_usy_ob) 
         log.warning('     *** testing mode:  set dmm usy ib %s mm' % params.dmm_usy_ib)    
         log.warning('     *** testing mode:  set dmm dsy %s mm' % params.dmm_dsy)        
@@ -116,7 +114,7 @@ def move_DMM_arms(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** moving dmm arms')
 
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode:  set DMM dmm_us_arm %s mm' % params.dmm_us_arm) 
         log.warning('     *** testing mode:  set DMM dmm_ds_arm %s mm' % params.dmm_ds_arm) 
     else:    
@@ -132,7 +130,7 @@ def move_DMM_dmm_m2y(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** moving dmm m2y')
 
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode:  set dmm m2y %s mm' % params.dmm_m2y) 
     else:
         log.info('     *** moving  dmm m2y %s mm' % params.dmm_m2y) 
@@ -144,7 +142,7 @@ def move_DMM_X(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** moving dmm x')
 
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode:  set dmm usx %s mm' % params.dmm_usx)
         log.warning('     *** testing mode:  set dmm dsx %s mm' % params.dmm_dsx)
     else:
@@ -160,7 +158,7 @@ def move_xia_slits(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** moving xia slits')
 
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode:  set A slits h center  %s mm' % params.a_slits_h_center) 
         log.warning('     *** testing mode:  set xia slits y %s mm' % params.xia_slits_y) 
     else:
@@ -174,7 +172,7 @@ def close_shutters(energy_change_PVs, params):
 
     log.info(' ')
     log.info('     *** close_shutters')
-    if TESTING:
+    if params.testing:
         log.warning('     *** testing mode - shutters are deactivated during the scans !!!!')
     else:
         energy_change_PVs['ShutterA_Close'].put(1, wait=True)
