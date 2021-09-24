@@ -113,11 +113,17 @@ SECTIONS['filter-selector'] = {
         'help': " "},
 }
 
+SECTIONS['tomoscan'] = {
+    'tomoscan-prefix':{
+        'default': '2bma:TomoScan:',
+        'type': str,
+        'help': "The tomoscan IOC prefix, i.e.'2bma:TomoScan:' "},
+    }
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tomoscan')
 SAVE_PARAMS = ('energy', )
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'TomoScan')
 
 def get_config_name():
     """Get the command line --config option."""
