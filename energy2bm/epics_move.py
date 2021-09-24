@@ -10,44 +10,46 @@ ShutterA_Close_Value = 0
 ShutterB_Open_Value = 1
 ShutterB_Close_Value = 0
 
-def init_energy_change_PVs():
+def init_energy_change_PVs(params):
 
     energy_change_PVs = {}
 
     if TESTING:
         log.info('     *** testing mode:  set PVs')
+        log.warning('     *** energy PVs: %s' % (params.tomoscan_prefix + 'Energy.VAL'))
+        log.warning('     *** energy PVs: %s' % (params.tomoscan_prefix + 'EnergyMode.VAL'))
+
     else:
         # shutter pv's
-        energy_change_PVs['ShutterA_Open'] = PV('2bma:A_shutter:open.VAL')
-        energy_change_PVs['ShutterA_Close'] = PV('2bma:A_shutter:close.VAL')
-        energy_change_PVs['ShutterA_Move_Status'] = PV('PA:02BM:STA_A_FES_OPEN_PL')
-        energy_change_PVs['ShutterB_Open'] = PV('2bma:B_shutter:open.VAL')
-        energy_change_PVs['ShutterB_Close'] = PV('2bma:B_shutter:close.VAL')
-        energy_change_PVs['ShutterB_Move_Status'] = PV('PA:02BM:STA_B_SBS_OPEN_PL')
-
-
-        energy_change_PVs['filter'] = PV('2bma:fltr1:select.VAL')
-        energy_change_PVs['mirror_angle'] = PV('2bma:M1angl.VAL')
+        energy_change_PVs['ShutterA_Open']            = PV('2bma:A_shutter:open.VAL')
+        energy_change_PVs['ShutterA_Close']           = PV('2bma:A_shutter:close.VAL')
+        energy_change_PVs['ShutterA_Move_Status']     = PV('PA:02BM:STA_A_FES_OPEN_PL')
+        energy_change_PVs['ShutterB_Open']            = PV('2bma:B_shutter:open.VAL')
+        energy_change_PVs['ShutterB_Close']           = PV('2bma:B_shutter:close.VAL')
+        energy_change_PVs['ShutterB_Move_Status']     = PV('PA:02BM:STA_B_SBS_OPEN_PL')
+    
+        energy_change_PVs['filter']                   = PV('2bma:fltr1:select.VAL')
+        energy_change_PVs['mirror_angle']             = PV('2bma:M1angl.VAL')
         energy_change_PVs['mirror_vertical_position'] = PV('2bma:M1avg.VAL')
         
-        energy_change_PVs['dmm_usx'] = PV('2bma:m25.VAL')
-        energy_change_PVs['dmm_dsx'] = PV('2bma:m28.VAL')
-        energy_change_PVs['dmm_usy_ob'] = PV('2bma:m26.VAL')
-        energy_change_PVs['dmm_usy_ib'] = PV('2bma:m27.VAL')
-        energy_change_PVs['dmm_dsy'] = PV('2bma:m29.VAL')
+        energy_change_PVs['dmm_usx']                  = PV('2bma:m25.VAL')
+        energy_change_PVs['dmm_dsx']                  = PV('2bma:m28.VAL')
+        energy_change_PVs['dmm_usy_ob']               = PV('2bma:m26.VAL')
+        energy_change_PVs['dmm_usy_ib']               = PV('2bma:m27.VAL')
+        energy_change_PVs['dmm_dsy']                  = PV('2bma:m29.VAL')
 
-        energy_change_PVs['dmm_us_arm'] = PV('2bma:m30.VAL')
-        energy_change_PVs['dmm_ds_arm'] = PV('2bma:m31.VAL')
-        energy_change_PVs['dmm_m2y'] = PV('2bma:m32.VAL')
+        energy_change_PVs['dmm_us_arm']               = PV('2bma:m30.VAL')
+        energy_change_PVs['dmm_ds_arm']               = PV('2bma:m31.VAL')
+        energy_change_PVs['dmm_m2y']                  = PV('2bma:m32.VAL')
 
-        energy_change_PVs['xia_slits_y'] = PV('2bma:m7.VAL')
-        energy_change_PVs['a_slits_h_center'] = PV('2bma:Slit1Hcenter.VAL')
+        energy_change_PVs['xia_slits_y']              = PV('2bma:m7.VAL')
+        energy_change_PVs['a_slits_h_center']         = PV('2bma:Slit1Hcenter.VAL')
 
-        energy_change_PVs['camera_y'] = PV('2bma:m21.VAL')
-        energy_change_PVs['table_y'] = PV('2bma:m33.VAL')
+        energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
+        energy_change_PVs['table_y']                  = PV('2bma:m33.VAL')
 
-        energy_change_PVs['Energy'] = PV('2bma:TomoScan:Energy.VAL')
-        energy_change_PVs['Energy_Mode'] = PV('2bma:TomoScan:EnergyMode.VAL')
+        energy_change_PVs['Energy']                   = PV(params.tomoscan_prefix + 'Energy.VAL')
+        energy_change_PVs['Energy_Mode']              = PV(params.tomoscan_prefix + 'EnergyMode.VAL')
  
     return energy_change_PVs
 

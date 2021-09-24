@@ -276,7 +276,7 @@ def save_params_to_config(args):
 
 def save_current_positions_to_config(args):
 
-    energy_change_PVs = epics_move.init_energy_change_PVs()
+    energy_change_PVs = epics_move.init_energy_change_PVs(args)
     log.warning('save current beamline positions to config')
     args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
     args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()

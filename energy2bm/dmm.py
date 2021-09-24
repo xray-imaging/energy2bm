@@ -56,7 +56,7 @@ def move(params):
         return False
 
     log.info('move motors')
-    energy_change_PVs = epics_move.init_energy_change_PVs()
+    energy_change_PVs = epics_move.init_energy_change_PVs(params)
     
     epics_move.close_shutters(energy_change_PVs, params)
     epics_move.move_filter(energy_change_PVs, params)
