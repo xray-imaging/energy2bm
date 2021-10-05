@@ -4,7 +4,6 @@ import shutil
 import pathlib
 import argparse
 import configparser
-import h5py
 import numpy as np
 
 from collections import OrderedDict
