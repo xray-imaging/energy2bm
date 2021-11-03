@@ -36,7 +36,7 @@ SECTIONS['general'] = {
         'action': 'store_true'},
     'testing': {
         'default': False,
-        'help': 'Enable test mode, tomography scan will not run',
+        'help': 'Enable test mode to show DMM new motor positions. The DMM motors will not move',
         'action': 'store_true'},        
         }
 
@@ -124,7 +124,7 @@ SECTIONS['tomoscan'] = {
     }
 
 BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tomoscan')
-SAVE_PARAMS = ('energy', )
+SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'tomoscan')
 
 NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'TomoScan')
 
