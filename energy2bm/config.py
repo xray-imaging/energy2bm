@@ -4,7 +4,6 @@ import shutil
 import pathlib
 import argparse
 import configparser
-import h5py
 import numpy as np
 
 from collections import OrderedDict
@@ -35,6 +34,10 @@ SECTIONS['general'] = {
         'default': False,
         'help': 'Verbose output',
         'action': 'store_true'},
+    'testing': {
+        'default': False,
+        'help': 'Enable test mode, tomography scan will not run',
+        'action': 'store_true'},        
         }
 
 SECTIONS['energy'] = {
@@ -113,11 +116,17 @@ SECTIONS['filter-selector'] = {
         'help': " "},
 }
 
+SECTIONS['tomoscan'] = {
+    'tomoscan-prefix':{
+        'default': '2bma:TomoScan:',
+        'type': str,
+        'help': "The tomoscan IOC prefix, i.e.'2bma:TomoScan:' "},
+    }
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tomoscan')
 SAVE_PARAMS = ('energy', )
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'TomoScan')
 
 def get_config_name():
     """Get the command line --config option."""
@@ -270,7 +279,7 @@ def save_params_to_config(args):
 
 def save_current_positions_to_config(args):
 
-    energy_change_PVs = epics_move.init_energy_change_PVs()
+    energy_change_PVs = epics_move.init_energy_change_PVs(args)
     log.warning('save current beamline positions to config')
     args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
     args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
