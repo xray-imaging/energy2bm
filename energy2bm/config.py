@@ -301,7 +301,7 @@ def save_current_positions_to_config(args):
     head, tail = os.path.splitext(args.config)
     now = datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S")
 
-    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + now + tail
+    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
     
