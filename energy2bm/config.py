@@ -7,6 +7,7 @@ import configparser
 import numpy as np
 
 from collections import OrderedDict
+from datetime import datetime
 
 from energy2bm import log
 from energy2bm import util
@@ -298,7 +299,9 @@ def save_current_positions_to_config(args):
     # update tomopy.conf
     sections = BEAMLINE_PARAMS
     head, tail = os.path.splitext(args.config)
-    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + tail
+    now = datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S")
+
+    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + now + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
     
