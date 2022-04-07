@@ -7,6 +7,7 @@ import configparser
 import numpy as np
 
 from collections import OrderedDict
+from datetime import datetime
 
 from energy2bm import log
 from energy2bm import util
@@ -116,17 +117,28 @@ SECTIONS['filter-selector'] = {
         'help': " "},
 }
 
+SECTIONS['tabley-flag'] = {
+    'table-y': {
+        'default': 0,
+        'type': float,
+        'help': " "},
+    'flag': {
+        'default': 0,
+        'type': float,
+        'help': " "},
+}
+
 SECTIONS['tomoscan'] = {
     'tomoscan-prefix':{
-        'default': '2bma:TomoScan:',
+        'default': '2bmb:TomoScan:',
         'type': str,
-        'help': "The tomoscan IOC prefix, i.e.'2bma:TomoScan:' "},
+        'help': "The tomoscan IOC prefix, i.e.'2bmb:TomoScan:' "},
     }
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tomoscan')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'tomoscan')
 SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'tomoscan')
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'TomoScan')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'TomoScan')
 
 def get_config_name():
     """Get the command line --config option."""
@@ -249,7 +261,7 @@ def log_values(args):
     """
     args = args.__dict__
 
-    log.warning('tomopy-cli status start')
+    log.warning('2bm-ops status start')
     for section, name in zip(SECTIONS, NICE_NAMES):
         entries = sorted((k for k in args.keys() if k.replace('_', '-') in SECTIONS[section]))
 
@@ -294,11 +306,15 @@ def save_current_positions_to_config(args):
     args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
     args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
     args.filter                     = energy_change_PVs['filter'].get()  
+    args.table_y                    = energy_change_PVs['table_y'].get()  
+    args.flag                       = energy_change_PVs['flag'].get()  
 
     # update tomopy.conf
     sections = BEAMLINE_PARAMS
     head, tail = os.path.splitext(args.config)
-    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + tail
+    now = datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S")
+
+    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
     

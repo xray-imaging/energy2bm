@@ -27,6 +27,7 @@ def run_status(args):
     config.log_values(args)
 
 def run(args):
+    config.log_values(args)
     if (config.CONFIG_FILE_NAME == args.config):
         dmm.set_default_config(args)            
     if(dmm.move(args)):    
