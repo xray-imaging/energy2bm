@@ -38,7 +38,14 @@ def init_energy_change_PVs(params):
     energy_change_PVs['xia_slits_y']              = PV('2bma:m7.VAL')
     energy_change_PVs['a_slits_h_center']         = PV('2bma:Slit1Hcenter.VAL')
     energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
-    energy_change_PVs['table_y']                  = PV('2bma:m33.VAL')
+
+    if params.tomoscan_prefix=='2bmb:TomoScan:':
+        energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')        
+    else:
+        energy_change_PVs['table_y']                  = PV('2bma:m33.VAL')
+    
+    energy_change_PVs['flag']                     = PV('2bma:m44.VAL')
+
     energy_change_PVs['Energy']                   = PV(params.tomoscan_prefix + 'Energy.VAL')
     energy_change_PVs['Energy_Mode']              = PV(params.tomoscan_prefix + 'EnergyMode.VAL')
  
@@ -159,6 +166,22 @@ def move_xia_slits(energy_change_PVs, params):
         energy_change_PVs['a_slits_h_center'].put(params.a_slits_h_center, wait=True)
         log.info('     *** moving xia slits y %s mm' % params.xia_slits_y) 
         energy_change_PVs['xia_slits_y'].put(params.xia_slits_y, wait=True)
+
+def move_tabley_flag(energy_change_PVs, params):
+
+    log.info(' ')
+    log.info('     *** moving Table Y in hutch B and Flag')
+
+    if params.testing:
+        log.warning('     *** testing mode:  set Table Y in station B %s mm' % params.table_y) 
+        log.warning('     *** testing mode:  set Flag y %s mm' % params.flag) 
+    else:
+        if params.table_y==0 and params.flag==0:
+            log.warning('Ignore moving Table Y and Flag since they have not been initialized')
+        log.info('     *** moving Table Y in station B  %s mm' % params.table_y) 
+        energy_change_PVs['table_y'].put(params.table_y, wait=True)
+        log.info('     *** moving Flag %s mm'  % params.flag) 
+        energy_change_PVs['flag'].put(params.flag, wait=True)
 
 
 def close_shutters(energy_change_PVs, params):

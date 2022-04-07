@@ -46,6 +46,8 @@ def set_default_config(params):
     params.a_slits_h_center = lookup[params.mode][energy_calibrated]["a_slits_h_center"]  
     params.xia_slits_y = lookup[params.mode][energy_calibrated]["xia_slits_y"]   
     params.filter = lookup[params.mode][energy_calibrated]["filter"]   
+    params.table_y = lookup[params.mode][energy_calibrated]["table_y"]   
+    params.flag = lookup[params.mode][energy_calibrated]["flag"]   
     return 0
 
 def move(params):
@@ -72,6 +74,7 @@ def move(params):
         epics_move.move_DMM_Y(energy_change_PVs, params)        
 
     epics_move.move_xia_slits(energy_change_PVs, params)
+    epics_move.move_tabley_flag(energy_change_PVs, params)
 
     epics_move.energy_pv(energy_change_PVs, params)
 
