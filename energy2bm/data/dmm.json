@@ -15,8 +15,9 @@
             "foil": "Zn",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 48.75
+            "xia_slits_y": 48.75,
+            "table_y": 0,
+            "flag": 0
         },
         "17.040": {
             "a_slits_h_center": 7.2,
@@ -33,8 +34,9 @@
             "foil": "Y",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 34.45
+            "xia_slits_y": 34.45,
+            "table_y": 0,
+            "flag": 0
         },
         "18.000": {
             "a_slits_h_center": 7.2,
@@ -51,8 +53,9 @@
             "foil": "Zr",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 33.65
+            "xia_slits_y": 33.65,
+            "table_y": 0,
+            "flag": 0
         },
         "18.990": {
             "a_slits_h_center": 7.2,
@@ -69,8 +72,9 @@
             "foil": "Nb",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 32.85
+             "xia_slits_y": 32.85,
+            "table_y": 0,
+            "flag": 0
         },
         "20.000": {
             "a_slits_h_center": 7.2,
@@ -87,8 +91,9 @@
             "foil": "Mo",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 32.15
+            "xia_slits_y": 32.15,
+            "table_y": 0,
+            "flag": 0
         },
         "23.220": {
             "a_slits_h_center": 7.2,
@@ -105,8 +110,9 @@
             "foil": "Rh",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 29.85
+            "xia_slits_y": 29.85,
+            "table_y": 0,
+            "flag": 0
         },
         "24.350": {
             "a_slits_h_center": 7.2,
@@ -123,8 +129,9 @@
             "foil": "Pd",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 29.45
+            "xia_slits_y": 29.45,
+            "table_y": 0,
+            "flag": 0
         },
         "25.510": {
             "a_slits_h_center": 7.2,
@@ -140,9 +147,10 @@
             "filter": 4,
             "foil": "Ag",
             "mirror_angle": 2.657,
-            "mirror_vertical_position": 0.0,
-            "table_y": 0.0,
-            "xia_slits_y": 28.55
+            "mirror_vertical_position": 0.0,            
+            "xia_slits_y": 28.55,
+            "table_y": 0,
+            "flag": 0
         },
         "40.000": {
             "a_slits_h_center": 7.2,
@@ -159,8 +167,9 @@
             "foil": "None",
             "mirror_angle": 1.5,
             "mirror_vertical_position": -0.2,
-            "table_y": 0.0,
-            "xia_slits_y": 24.2
+            "xia_slits_y": 24.2,
+            "table_y": 0,
+            "flag": 0
         },
         "45.000": {
             "a_slits_h_center": 7.2,
@@ -177,8 +186,9 @@
             "foil": "None",
             "mirror_angle": 1.5,
             "mirror_vertical_position": -0.2,
-            "table_y": 0.0,
-            "xia_slits_y": 23.2
+            "xia_slits_y": 23.2,
+            "table_y": 0,
+            "flag": 0
         },
         "50.000": {
             "a_slits_h_center": 7.2,
@@ -195,8 +205,9 @@
             "foil": "None",
             "mirror_angle": 1.2,
             "mirror_vertical_position": 0.2,
-            "table_y": 0.0,
-            "xia_slits_y": 19.65
+            "xia_slits_y": 19.65,
+            "table_y": 0,
+            "flag": 0
         }
     },
     "Pink": {
@@ -210,7 +221,9 @@
             "filter": 0,
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-            "xia_slits_y": 18.75
+            "xia_slits_y": 18.75,
+            "table_y": 0,
+            "flag": 0
         }
     },
     "White": {
@@ -224,7 +237,9 @@
             "filter": 0,
             "mirror_angle": 0,
             "mirror_vertical_position": -4,
-            "xia_slits_y": -1.65
+            "xia_slits_y": -1.65,
+            "table_y": 0,
+            "flag": 0
         }
     }
 }
