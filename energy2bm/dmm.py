@@ -73,7 +73,8 @@ def move(params):
         epics_move.move_DMM_X(energy_change_PVs, params)
         epics_move.move_DMM_Y(energy_change_PVs, params)        
 
-    epics_move.move_xia_slits(energy_change_PVs, params)
+    #epics_move.move_xia_slits(energy_change_PVs, params)
+    log.warning('Do not move slits since they are not reproducible')
     epics_move.move_tabley_flag(energy_change_PVs, params)
 
     epics_move.energy_pv(energy_change_PVs, params)

@@ -178,6 +178,7 @@ def move_tabley_flag(energy_change_PVs, params):
     else:
         if params.table_y==0 and params.flag==0:
             log.warning('Ignore moving Table Y and Flag since they have not been initialized')
+            return
         log.info('     *** moving Table Y in station B  %s mm' % params.table_y) 
         energy_change_PVs['table_y'].put(params.table_y, wait=True)
         log.info('     *** moving Flag %s mm'  % params.flag) 
