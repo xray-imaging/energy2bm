@@ -47,10 +47,10 @@ def main():
     save_params = config.SAVE_PARAMS
     
     cmd_parsers = [
-        ('init',        init,           (),             "Create configuration file"),
-        ('set',         run,            beamline_params,    "Set energy"),
-        ('save',        run_save,       save_params,    "Associate the current beamline positions to an energy value and save in a config file"),             
-        ('status',      run_status,     beamline_params,    "Show status"),
+        ('init',        init,           (),               "Create configuration file"),
+        ('set',         run,            beamline_params,  "Set energy"),
+        ('save',        run_save,       save_params,      "Associate the current beamline positions to an energy value and save in a config file"),             
+        ('status',      run_status,     beamline_params,  "Show status"),
     ]
 
     subparsers = parser.add_subparsers(title="Commands", metavar='')
