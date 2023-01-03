@@ -13,8 +13,8 @@ def init_energy_change_PVs(params):
     energy_change_PVs = {}
 
     log.info('     *** testing mode:  set PVs')
-    log.warning('     *** energy PVs: %s' % (params.tomoscan_prefix + 'Energy.VAL'))
-    log.warning('     *** energy PVs: %s' % (params.tomoscan_prefix + 'EnergyMode.VAL'))
+    log.warning('     *** energy PVs: %s' % (params.energyioc_prefix + 'Energy.VAL'))
+    log.warning('     *** energy PVs: %s' % (params.energyioc_prefix + 'EnergyMode.VAL'))
     # shutter pv's
     energy_change_PVs['ShutterA_Open']            = PV('2bma:A_shutter:open.VAL')
     energy_change_PVs['ShutterA_Close']           = PV('2bma:A_shutter:close.VAL')
@@ -39,15 +39,16 @@ def init_energy_change_PVs(params):
     energy_change_PVs['a_slits_h_center']         = PV('2bma:Slit1Hcenter.VAL')
     energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
 
-    if params.tomoscan_prefix=='2bmb:TomoScan:':
+    # before we used the tomoscan prefix so if A or B are selected we could move the A or B table. Now we only move the B table
+    if params.energyioc_prefix=='2bm:MCTOptics:':  
         energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')        
     else:
         energy_change_PVs['table_y']                  = PV('2bma:m33.VAL')
     
     energy_change_PVs['flag']                     = PV('2bma:m44.VAL')
 
-    energy_change_PVs['Energy']                   = PV(params.tomoscan_prefix + 'Energy.VAL')
-    energy_change_PVs['Energy_Mode']              = PV(params.tomoscan_prefix + 'EnergyMode.VAL')
+    energy_change_PVs['Energy']                   = PV(params.energyioc_prefix + 'Energy.VAL')
+    energy_change_PVs['Energy_Mode']              = PV(params.energyioc_prefix + 'EnergyMode.VAL')
  
     return energy_change_PVs
 

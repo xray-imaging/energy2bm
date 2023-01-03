@@ -128,17 +128,17 @@ SECTIONS['tabley-flag'] = {
         'help': " "},
 }
 
-SECTIONS['tomoscan'] = {
-    'tomoscan-prefix':{
-        'default': '2bmb:TomoScan:',
+SECTIONS['energyioc'] = {
+    'energyioc-prefix':{
+        'default': '2bm:MCTOptics:',
         'type': str,
-        'help': "The tomoscan IOC prefix, i.e.'2bmb:TomoScan:' "},
+        'help': "The epics IOC hosting the Energy PV, i.e.'2bm:MCTOptics:' "},
     }
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'tomoscan')
-SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'tomoscan')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
+SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'energyioc')
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'TomoScan')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'EnergyIOC')
 
 def get_config_name():
     """Get the command line --config option."""
