@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='ops',
+    name='energy2bm',
     version=open('VERSION').read().strip(),
     #version=__version__,
     author='Francesco De Carlo',
