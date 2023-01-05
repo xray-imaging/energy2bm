@@ -45,7 +45,8 @@ def set_default_config(params):
     params.dmm_dsx = lookup[params.mode][energy_calibrated]["dmm_dsx"]
     params.fast_shutter_y = lookup[params.mode][energy_calibrated]["fast_shutter_y"]   
     params.filter = lookup[params.mode][energy_calibrated]["filter"]   
-    params.table_y = lookup[params.mode][energy_calibrated]["table_y"]   
+    params.table_a_y = lookup[params.mode][energy_calibrated]["table_a_y"]   
+    params.table_b_y = lookup[params.mode][energy_calibrated]["table_b_y"]   
     params.flag = lookup[params.mode][energy_calibrated]["flag"]   
     return 0
 
@@ -72,9 +73,13 @@ def move(params):
         epics_move.move_DMM_X(energy_change_PVs, params)
         epics_move.move_DMM_Y(energy_change_PVs, params)        
 
-    #epics_move.move_xia_slits(energy_change_PVs, params)
-    log.warning('Do not move slits since they are not reproducible')
-    epics_move.move_tabley_flag(energy_change_PVs, params)
+
+    if params.station=='2-BM-A':  
+        epics_move.move_fast_shutter(energy_change_PVs, params)
+
+
+    epics_move.move_table(energy_change_PVs, params)
+    epics_move.move_flag(energy_change_PVs, params)
 
     epics_move.energy_pv(energy_change_PVs, params)
 

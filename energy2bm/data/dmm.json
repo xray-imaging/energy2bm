@@ -15,7 +15,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
             "fast_shutter_y": 48.75,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "17.040": {
@@ -33,7 +34,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
             "fast_shutter_y": 34.45,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "18.000": {
@@ -51,7 +53,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
             "fast_shutter_y": 33.65,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "18.990": {
@@ -68,8 +71,9 @@
             "foil": "Nb",
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
-             "fast_shutter_y": 32.85,
-            "table_y": 0,
+            "fast_shutter_y": 32.85,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "20.000": {
@@ -87,7 +91,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
             "fast_shutter_y": 32.15,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "23.220": {
@@ -105,7 +110,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
             "fast_shutter_y": 29.85,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "24.350": {
@@ -123,7 +129,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
             "fast_shutter_y": 29.45,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "25.510": {
@@ -141,7 +148,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,            
             "fast_shutter_y": 28.55,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "40.000": {
@@ -159,7 +167,8 @@
             "mirror_angle": 1.5,
             "mirror_vertical_position": -0.2,
             "fast_shutter_y": 24.2,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "45.000": {
@@ -177,7 +186,8 @@
             "mirror_angle": 1.5,
             "mirror_vertical_position": -0.2,
             "fast_shutter_y": 23.2,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         },
         "50.000": {
@@ -195,7 +205,8 @@
             "mirror_angle": 1.2,
             "mirror_vertical_position": 0.2,
             "fast_shutter_y": 19.65,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         }
     },
@@ -210,7 +221,8 @@
             "mirror_angle": 2.657,
             "mirror_vertical_position": 0.0,
             "fast_shutter_y": 18.75,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         }
     },
@@ -225,7 +237,8 @@
             "mirror_angle": 0,
             "mirror_vertical_position": -4,
             "fast_shutter_y": -1.65,
-            "table_y": 0,
+            "table_a_y": 0,
+            "table_b_y": 0,
             "flag": 0
         }
     }

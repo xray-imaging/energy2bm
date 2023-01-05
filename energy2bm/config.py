@@ -119,10 +119,14 @@ SECTIONS['filter-selector'] = {
 }
 
 SECTIONS['tabley-flag'] = {
-    'table-y': {
+    'table-a-y': {
         'default': 0,
         'type': float,
-        'help': " "},
+        'help': "Table in 2-BM-A vertical position"},
+    'table-b-y': {
+        'default': 0,
+        'type': float,
+        'help': "Table in 2-BM-B vertical position"},
     'flag': {
         'default': 0,
         'type': float,
@@ -306,7 +310,8 @@ def save_current_positions_to_config(args):
     args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
     args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
     args.filter                     = energy_change_PVs['filter'].get()  
-    args.table_y                    = energy_change_PVs['table_y'].get()  
+    args.table_a_y                  = energy_change_PVs['table_a_y'].get()  
+    args.table_b_y                  = energy_change_PVs['table_b_y'].get()  
     args.flag                       = energy_change_PVs['flag'].get()  
 
     # update tomopy.conf

@@ -35,14 +35,11 @@ def init_energy_change_PVs(params):
     energy_change_PVs['dmm_us_arm']               = PV('2bma:m30.VAL')
     energy_change_PVs['dmm_ds_arm']               = PV('2bma:m31.VAL')
     energy_change_PVs['dmm_m2y']                  = PV('2bma:m32.VAL')
-    energy_change_PVs['fast_shutter_y']              = PV('2bma:m7.VAL')
+    energy_change_PVs['fast_shutter_y']           = PV('2bma:m7.VAL')
     energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
 
-    # before we used the tomoscan prefix so if A or B are selected we could move the A or B table. Now we only move the B table
-    if params.energyioc_prefix=='2bm:MCTOptics:':  
-        energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')        
-    else:
-        energy_change_PVs['table_y']                  = PV('2bma:m33.VAL')
+    energy_change_PVs['table_a_y']                = PV('2bma:m33.VAL')
+    energy_change_PVs['table_b_y']                = PV('2bmb:table3.Y')        
     
     energy_change_PVs['flag']                     = PV('2bma:m44.VAL')
 
@@ -153,31 +150,54 @@ def move_DMM_X(energy_change_PVs, params):
         time.sleep(3) 
 
 
-def move_xia_slits(energy_change_PVs, params):
+def move_fast_shutter(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving xia slits')
+    log.info('     *** moving fast shutter')
 
     if params.testing:
-        log.warning('     *** testing mode:  set xia slits y %s mm' % params.fast_shutter_y) 
+        log.warning('     *** testing mode:  set fast shutter y %s mm' % params.fast_shutter_y) 
     else:
-        log.info('     *** moving xia slits y %s mm' % params.fast_shutter_y) 
+        log.info('     *** moving fast shutter y %s mm' % params.fast_shutter_y) 
         energy_change_PVs['fast_shutter_y'].put(params.fast_shutter_y, wait=True)
 
-def move_tabley_flag(energy_change_PVs, params):
+def move_table(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving Table Y in hutch B and Flag')
+    log.info('     *** moving Table Y')
 
     if params.testing:
-        log.warning('     *** testing mode:  set Table Y in station B %s mm' % params.table_y) 
-        log.warning('     *** testing mode:  set Flag y %s mm' % params.flag) 
+        if params.station=='2-BM-A':  
+            log.warning('     *** testing mode:  set Table Y in station A %s mm' % params.table_a_y) 
+        else:
+            log.warning('     *** testing mode:  set Table Y in station B %s mm' % params.table_b_y) 
     else:
-        if params.table_y==0 and params.flag==0:
+        if params.table_a_y==0 and params.flag==0:
             log.warning('Ignore moving Table Y and Flag since they have not been initialized')
             return
-        log.info('     *** moving Table Y in station B  %s mm' % params.table_y) 
-        energy_change_PVs['table_y'].put(params.table_y, wait=True)
+        elif params.table_b_y==0 and params.flag==0:
+            log.warning('Ignore moving Table Y and Flag since they have not been initialized')
+            return
+
+    if params.station=='2-BM-A':  
+        log.info('     *** moving Table Y in station A  %s mm' % params.table_a_y) 
+        energy_change_PVs['table_a_y'].put(params.table_a_y, wait=True)   
+    else:
+        log.info('     *** moving Table Y in station B  %s mm' % params.table_b_y) 
+        energy_change_PVs['table_b_y'].put(params.table_b_y, wait=True)
+
+def move_flag(energy_change_PVs, params):
+
+    log.info(' ')
+    log.info('     *** moving Flag')
+
+    if params.testing:
+        log.warning('     *** testing mode:  set Flag y %s mm' % params.flag) 
+    else:
+        if params.flag==0:
+            log.warning('Ignore moving Flag since they have not been initialized')
+            return
+
         log.info('     *** moving Flag %s mm'  % params.flag) 
         energy_change_PVs['flag'].put(params.flag, wait=True)
 
