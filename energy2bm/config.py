@@ -67,14 +67,6 @@ SECTIONS['mirror-vertical-positions'] = {
         'help': " "}, 
         }
 
-SECTIONS['fast-shutter-motor-positions'] = {
-    'fast-shutter-y':  {
-        # 'choices': [-1.65, 30.35],
-        'default': 30.35,
-        'type': float,
-        'help': " "},           
-        }
-
 SECTIONS['dmm-motor-positions'] = {
     'dmm-usy-ob': {
         'default':  -0.1,
@@ -112,21 +104,16 @@ SECTIONS['dmm-motor-positions'] = {
 
 SECTIONS['filter-selector'] = {
     'filter': {
-        # 'choices': [0, 4],
         'default': 0,
         'type': util.positive_int,
         'help': " "},
 }
 
 SECTIONS['tabley-flag'] = {
-    'table-a-y': {
+    'table-y': {
         'default': 0,
         'type': float,
-        'help': "Table in 2-BM-A vertical position"},
-    'table-b-y': {
-        'default': 0,
-        'type': float,
-        'help': "Table in 2-BM-B vertical position"},
+        'help': "Table vertical position"},
     'flag': {
         'default': 0,
         'type': float,
@@ -140,10 +127,10 @@ SECTIONS['energyioc'] = {
         'help': "The epics IOC hosting the Energy PV, i.e.'2bm:MCTOptics:' "},
     }
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','fast-shutter-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
 SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'energyioc')
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'EnergyIOC')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'EnergyIOC')
 
 def get_config_name():
     """Get the command line --config option."""

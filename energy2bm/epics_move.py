@@ -35,7 +35,6 @@ def init_energy_change_PVs(params):
     energy_change_PVs['dmm_us_arm']               = PV('2bma:m30.VAL')
     energy_change_PVs['dmm_ds_arm']               = PV('2bma:m31.VAL')
     energy_change_PVs['dmm_m2y']                  = PV('2bma:m32.VAL')
-    energy_change_PVs['fast_shutter_y']           = PV('2bma:m7.VAL')
     energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
 
     if params.station == '2-BM-A':
@@ -152,17 +151,6 @@ def move_DMM_X(energy_change_PVs, params):
         time.sleep(3) 
 
 
-def move_fast_shutter(energy_change_PVs, params):
-
-    log.info(' ')
-    log.info('     *** moving fast shutter')
-
-    if params.testing:
-        log.warning('     *** testing mode:  set fast shutter y %s mm' % params.fast_shutter_y) 
-    else:
-        log.info('     *** moving fast shutter y %s mm' % params.fast_shutter_y) 
-        energy_change_PVs['fast_shutter_y'].put(params.fast_shutter_y, wait=True)
-
 def move_table(energy_change_PVs, params):
 
     log.info(' ')
@@ -184,6 +172,7 @@ def move_table(energy_change_PVs, params):
             log.info('     *** moving Table Y in station B  %s mm' % params.table_y) 
 
         energy_change_PVs['table_y'].put(params.table_y, wait=True)
+
 
 def move_flag(energy_change_PVs, params):
 
