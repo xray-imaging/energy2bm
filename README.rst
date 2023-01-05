@@ -9,13 +9,11 @@ Installation
 
 ::
 
-    $ git clone https://github.com/xray-imaging/2bm-ops.git
-    $ cd 2bm-ops
-    $ python setup.py install
+    $ git clone https://github.com/xray-imaging/energy2bm.git
+    $ cd energy
+    $ pip install .
 
 in a prepared virtualenv or as root for system-wide installation.
-
-.. warning:: If your python installation is in a location different from #!/usr/bin/env python please edit the first line of the bin/tomopy file to match yours.
 
 
 Usage
@@ -46,8 +44,6 @@ to list of all available options::
                    and save in a config file
       status       Show status
 
-
-
 Configuration File
 ------------------
 
@@ -74,17 +70,10 @@ The config file name is named **~/log/energy2bm_mono_27.0.conf**. You can restor
 
 :memo: The file name after --config must include the full path. 
 
-
-
 Testing mode
 ------------
 
 In testing mode, the motor positions are printed but not actual motor motion occurs. To enable testing mode set:: 
 
-    TESTING = True 
-
-in `epics_move <https://github.com/xray-imaging/2bm-ops/blob/master/energy2bm/epics_move.py>`_ file, then re-install with::
-
-    $ cd 2bm-ops
-    $ python setup.py install
+    $ energy set --testing
 

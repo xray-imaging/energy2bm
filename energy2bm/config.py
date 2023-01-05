@@ -245,7 +245,7 @@ def log_values(args):
     """
     args = args.__dict__
 
-    log.warning('2bm-ops status start')
+    log.warning('energy status start')
     for section, name in zip(SECTIONS, NICE_NAMES):
         entries = sorted((k for k in args.keys() if k.replace('_', '-') in SECTIONS[section]))
 
