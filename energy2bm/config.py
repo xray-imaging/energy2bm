@@ -295,7 +295,6 @@ def save_current_positions_to_config(args):
     log.warning('save current beamline positions to config')
     args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
     args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
-    args.a_slits_h_center           = energy_change_PVs['a_slits_h_center'].get()       
     args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
     args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
     args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              

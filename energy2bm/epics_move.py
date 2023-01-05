@@ -36,7 +36,6 @@ def init_energy_change_PVs(params):
     energy_change_PVs['dmm_ds_arm']               = PV('2bma:m31.VAL')
     energy_change_PVs['dmm_m2y']                  = PV('2bma:m32.VAL')
     energy_change_PVs['xia_slits_y']              = PV('2bma:m7.VAL')
-    energy_change_PVs['a_slits_h_center']         = PV('2bma:Slit1Hcenter.VAL')
     energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
 
     # before we used the tomoscan prefix so if A or B are selected we could move the A or B table. Now we only move the B table
@@ -160,11 +159,8 @@ def move_xia_slits(energy_change_PVs, params):
     log.info('     *** moving xia slits')
 
     if params.testing:
-        log.warning('     *** testing mode:  set A slits h center  %s mm' % params.a_slits_h_center) 
         log.warning('     *** testing mode:  set xia slits y %s mm' % params.xia_slits_y) 
     else:
-        log.info('     *** moving A slits h center  %s mm' % params.a_slits_h_center) 
-        energy_change_PVs['a_slits_h_center'].put(params.a_slits_h_center, wait=True)
         log.info('     *** moving xia slits y %s mm' % params.xia_slits_y) 
         energy_change_PVs['xia_slits_y'].put(params.xia_slits_y, wait=True)
 

@@ -43,7 +43,6 @@ def set_default_config(params):
 
     params.dmm_usx = lookup[params.mode][energy_calibrated]["dmm_usx"]
     params.dmm_dsx = lookup[params.mode][energy_calibrated]["dmm_dsx"]
-    params.a_slits_h_center = lookup[params.mode][energy_calibrated]["a_slits_h_center"]  
     params.xia_slits_y = lookup[params.mode][energy_calibrated]["xia_slits_y"]   
     params.filter = lookup[params.mode][energy_calibrated]["filter"]   
     params.table_y = lookup[params.mode][energy_calibrated]["table_y"]   
