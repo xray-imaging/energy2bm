@@ -35,10 +35,8 @@ def init_energy_change_PVs(params):
     energy_change_PVs['dmm_us_arm']               = PV('2bma:m30.VAL')
     energy_change_PVs['dmm_ds_arm']               = PV('2bma:m31.VAL')
     energy_change_PVs['dmm_m2y']                  = PV('2bma:m32.VAL')
-    energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
 
-    energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')        
-    
+    energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')            
     energy_change_PVs['flag']                     = PV('2bma:m44.VAL')
 
     energy_change_PVs['Energy']                   = PV(params.energyioc_prefix + 'Energy.VAL')

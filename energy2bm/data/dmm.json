@@ -1,7 +1,6 @@
 {
     "Mono": {
         "09.660": {
-            "camera_y": 21.2,
             "dmm_ds_arm": 2.143,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -18,7 +17,6 @@
             "flag": 0
         },
         "17.040": {
-            "camera_y": 6.3,
             "dmm_ds_arm": 1.418,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -35,7 +33,6 @@
             "flag": 0
         },
         "18.000": {
-            "camera_y": 5.4,
             "dmm_ds_arm": 1.37,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -52,7 +49,6 @@
             "flag": 0
         },
         "18.990": {
-            "camera_y": 4.6,
             "dmm_ds_arm": 1.325,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -69,7 +65,6 @@
             "flag": 0
         },
         "20.000": {
-            "camera_y": 3.8,
             "dmm_ds_arm": 1.28,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -86,7 +81,6 @@
             "flag": 0
         },
         "23.220": {
-            "camera_y": 1.5,
             "dmm_ds_arm": 1.172,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -103,7 +97,6 @@
             "flag": 0
         },
         "24.350": {
-            "camera_y": 1.0,
             "dmm_ds_arm": 1.15,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -120,7 +113,6 @@
             "flag": 0
         },
         "25.510": {
-            "camera_y": 0.1,
             "dmm_ds_arm": 1.103,
             "dmm_dsx": 82.5,
             "dmm_dsy": -0.1,
@@ -137,7 +129,6 @@
             "flag": 0
         },
         "40.000": {
-            "camera_y": -5.3,
             "dmm_ds_arm": 1.072,
             "dmm_dsx": 27.5,
             "dmm_dsy": -5.1,
@@ -154,7 +145,6 @@
             "flag": 0
         },
         "45.000": {
-            "camera_y": -6.3,
             "dmm_ds_arm": 1.022,
             "dmm_dsx": 27.5,
             "dmm_dsy": -5.1,
@@ -171,7 +161,6 @@
             "flag": 0
         },
         "50.000": {
-            "camera_y": -8.9,
             "dmm_ds_arm": 0.973,
             "dmm_dsx": 27.5,
             "dmm_dsy": -5.1,
