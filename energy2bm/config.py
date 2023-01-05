@@ -124,9 +124,10 @@ SECTIONS['energyioc'] = {
     }
 
 BEAMLINE_PARAMS = ('energy','mirror-vertical-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
-SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'energyioc')
+SAVE_PARAMS = BEAMLINE_PARAMS
 
 NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'EnergyIOC')
+
 
 def get_config_name():
     """Get the command line --config option."""
@@ -141,7 +142,6 @@ def get_config_name():
                     name = name[1:]
                 return name
     return name
-
 
 def parse_known_args(parser, subparser=False):
     """
@@ -158,7 +158,6 @@ def parse_known_args(parser, subparser=False):
         values = ""
 
     return parser.parse_known_args(values)[0]
-
 
 def config_to_list(config_name=CONFIG_FILE_NAME):
     """
@@ -192,7 +191,6 @@ def config_to_list(config_name=CONFIG_FILE_NAME):
 
     return result
   
-
 class Params(object):
     def __init__(self, sections=()):
         self.sections = sections + ('general', )
@@ -212,7 +210,6 @@ class Params(object):
         self.add_arguments(parser)
 
         return parser.parse_args('')
-
 
 def write(config_file, args=None, sections=None):
     """
@@ -239,7 +236,6 @@ def write(config_file, args=None, sections=None):
     #print(args.energy_value)
     with open(config_file, 'w') as f:        
         config.write(f)
-
 
 def log_values(args):
     """Log all values set in the args namespace.
@@ -268,7 +264,6 @@ def log_values(args):
 
     log.warning('tomopy-cli status end')
 
-
 def save_params_to_config(args):
 
     # update tomopy.conf
@@ -276,14 +271,12 @@ def save_params_to_config(args):
     write(CONFIG_FILE_NAME, args=args, sections=sections)
     log.info('  *** saved to %s ' % (CONFIG_FILE_NAME))
     
-
 def save_current_positions_to_config(args):
 
     energy_change_PVs = epics_move.init_energy_change_PVs(args)
     log.warning('save current beamline positions to config')
     args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
     args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
-    args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
     args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
     args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
     args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
@@ -304,4 +297,3 @@ def save_current_positions_to_config(args):
     config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
-    

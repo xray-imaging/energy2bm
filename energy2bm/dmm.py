@@ -3,14 +3,16 @@ import sys
 import json
 import time
 import shutil
-from pathlib import Path
 import numpy as np
+
+from pathlib import Path
 
 from energy2bm import util
 from energy2bm import epics_move
 from energy2bm import log
 
 data_path = Path(__file__).parent / 'data'
+
 
 def set_default_config(params):
     log.info('set default motor values')
@@ -79,4 +81,3 @@ def move(params):
     log.info(' ')
     log.info('   *** Change Energy: Done!  *** ')
     return True
-
