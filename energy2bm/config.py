@@ -310,8 +310,7 @@ def save_current_positions_to_config(args):
     args.dmm_usx                    = energy_change_PVs['dmm_usx'].get()                 
     args.dmm_dsx                    = energy_change_PVs['dmm_dsx'].get()                 
     args.filter                     = energy_change_PVs['filter'].get()  
-    args.table_a_y                  = energy_change_PVs['table_a_y'].get()  
-    args.table_b_y                  = energy_change_PVs['table_b_y'].get()  
+    args.table_y                    = energy_change_PVs['table_y'].get()  
     args.flag                       = energy_change_PVs['flag'].get()  
 
     # update tomopy.conf
@@ -319,7 +318,10 @@ def save_current_positions_to_config(args):
     head, tail = os.path.splitext(args.config)
     now = datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S")
 
-    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
+    station = 'b'
+    if args.station=='2-BM-A':
+        station = 'a'
+    config_name_energy = head + station + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
     

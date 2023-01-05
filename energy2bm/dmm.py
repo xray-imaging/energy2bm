@@ -45,8 +45,7 @@ def set_default_config(params):
     params.dmm_dsx = lookup[params.mode][energy_calibrated]["dmm_dsx"]
     params.fast_shutter_y = lookup[params.mode][energy_calibrated]["fast_shutter_y"]   
     params.filter = lookup[params.mode][energy_calibrated]["filter"]   
-    params.table_a_y = lookup[params.mode][energy_calibrated]["table_a_y"]   
-    params.table_b_y = lookup[params.mode][energy_calibrated]["table_b_y"]   
+    params.table_y = lookup[params.mode][energy_calibrated]["table_y"]   
     params.flag = lookup[params.mode][energy_calibrated]["flag"]   
     return 0
 
