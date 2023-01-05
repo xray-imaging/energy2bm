@@ -177,8 +177,9 @@ def close_shutters(energy_change_PVs, params):
     log.info(' ')
     log.info('     *** close_shutters')
     if params.testing:
-        log.warning('     *** testing mode - shutters are deactivated during the scans !!!!')
+        log.warning('     *** testing mode - A-shutter will be closed during energy change')
     else:
+        log.warning('     *** closing A-shutter')
         energy_change_PVs['ShutterA_Close'].put(1, wait=True)
         # uncomment and test with beam:
         # util.wait_pv(energy_change_PVs['ShutterA_Move_Status'], ShutterA_Close_Value)
