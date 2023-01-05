@@ -37,10 +37,7 @@ def init_energy_change_PVs(params):
     energy_change_PVs['dmm_m2y']                  = PV('2bma:m32.VAL')
     energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
 
-    if params.station == '2-BM-A':
-        energy_change_PVs['table_y']              = PV('2bma:m33.VAL')
-    else:
-        energy_change_PVs['table_y']              = PV('2bmb:table3.Y')        
+    energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')        
     
     energy_change_PVs['flag']                     = PV('2bma:m44.VAL')
 
@@ -157,20 +154,13 @@ def move_table(energy_change_PVs, params):
     log.info('     *** moving Table Y')
 
     if params.testing:
-        if params.station=='2-BM-A':  
-            log.warning('     *** testing mode:  set Table Y in station A %s mm' % params.table_y) 
-        else:
-            log.warning('     *** testing mode:  set Table Y in station B %s mm' % params.table_y) 
+        log.warning('     *** testing mode:  set Table Y in station B %s mm' % params.table_y) 
     else:
         if params.table_y==0 and params.flag==0:
             log.warning('Ignore moving Table Y and Flag since they have not been initialized')
             return
 
-        if params.station=='2-BM-A':  
-            log.info('     *** moving Table Y in station A  %s mm' % params.table_y) 
-        else:
-            log.info('     *** moving Table Y in station B  %s mm' % params.table_y) 
-
+        log.info('     *** moving Table Y in station B  %s mm' % params.table_y) 
         energy_change_PVs['table_y'].put(params.table_y, wait=True)
 
 

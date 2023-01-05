@@ -71,7 +71,6 @@ def move(params):
         epics_move.move_DMM_X(energy_change_PVs, params)
         epics_move.move_DMM_Y(energy_change_PVs, params)        
 
-
     epics_move.move_table(energy_change_PVs, params)
     epics_move.move_flag(energy_change_PVs, params)
 

@@ -38,11 +38,7 @@ SECTIONS['general'] = {
     'testing': {
         'default': False,
         'help': 'Enable test mode to show DMM new motor positions. The DMM motors will not move',
-        'action': 'store_true'},        
-    'station': {
-        'default': '2-BM-B',
-        'type': str,
-        'choices': ['2-BM-A', '2-BM-B']},
+        'action': 'store_true'},
         }
 
 SECTIONS['energy'] = {
@@ -305,10 +301,7 @@ def save_current_positions_to_config(args):
     head, tail = os.path.splitext(args.config)
     now = datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S")
 
-    station = 'b'
-    if args.station=='2-BM-A':
-        station = 'a'
-    config_name_energy = head + station + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
+    config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
     
