@@ -39,6 +39,10 @@ SECTIONS['general'] = {
         'default': False,
         'help': 'Enable test mode to show DMM new motor positions. The DMM motors will not move',
         'action': 'store_true'},        
+    'station': {
+        'default': '2-BM-B',
+        'type': str,
+        'choices': ['2-BM-A', '2-BM-B']},
         }
 
 SECTIONS['energy'] = {
@@ -49,7 +53,8 @@ SECTIONS['energy'] = {
     'mode': {
         'default': 'Mono',
         'type': str,
-        'choices': ['Mono', 'Pink', 'White']},        }
+        'choices': ['Mono', 'Pink', 'White']},        
+        }
 
 SECTIONS['mirror-vertical-positions'] = {
     'mirror-angle': {
@@ -291,7 +296,7 @@ def save_current_positions_to_config(args):
     log.warning('save current beamline positions to config')
     args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
     args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
-    args.fast_shutter_y                = energy_change_PVs['fast_shutter_y'].get()             
+    args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
     args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
     args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
     args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
