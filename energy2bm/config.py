@@ -62,12 +62,8 @@ SECTIONS['mirror-vertical-positions'] = {
         'help': " "}, 
         }
 
-SECTIONS['slits-motor-positions'] = {
-    'a-slits-h-center':  {
-        'default': 7.2,
-        'type': float,
-        'help': " "},           
-    'xia-slits-y':  {
+SECTIONS['fast-shutter-motor-positions'] = {
+    'fast-shutter-y':  {
         # 'choices': [-1.65, 30.35],
         'default': 30.35,
         'type': float,
@@ -135,7 +131,7 @@ SECTIONS['energyioc'] = {
         'help': "The epics IOC hosting the Energy PV, i.e.'2bm:MCTOptics:' "},
     }
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','fast-shutter-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
 SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'energyioc')
 
 NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'EnergyIOC')
@@ -295,7 +291,7 @@ def save_current_positions_to_config(args):
     log.warning('save current beamline positions to config')
     args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
     args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
-    args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
+    args.fast_shutter_y                = energy_change_PVs['fast_shutter_y'].get()             
     args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
     args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
     args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
