@@ -52,12 +52,16 @@ def set_default_config(params):
 
 def move(params):
 
-    if not util.yes_or_no('   *** Yes or No'):                
-        log.info(' ')
-        log.warning('   *** Energy not changed')
-        return False
+    if params.force:
+        pass
+    else:
+        if not util.yes_or_no('Confirm energy change?'):              
+            log.info(' ')
+            log.warning('   *** Energy not changed')
+            return False
 
     log.info('move motors')
+
     energy_change_PVs = epics_move.init_energy_change_PVs(params)
     
     epics_move.close_shutters(energy_change_PVs, params)

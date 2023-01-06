@@ -39,6 +39,10 @@ SECTIONS['general'] = {
         'default': False,
         'help': 'Enable test mode to show DMM new motor positions. The DMM motors will not move',
         'action': 'store_true'},
+    'force': {
+        'default': False,
+        'help': 'When set the enegy change will occurs without a confirmation request',
+        'action': 'store_true'},
         }
 
 SECTIONS['energy'] = {
@@ -262,11 +266,12 @@ def log_values(args):
                 elif (value is False):
                     log.warning("  {:<16} {}".format(entry, value))
 
-    log.warning('tomopy-cli status end')
+    log.warning('energy status end')
 
 def save_params_to_config(args):
 
-    # update tomopy.conf
+    # Update current status in default config file.
+    # The default confign file name is set in CONFIG_FILE_NAME
     sections = BEAMLINE_PARAMS
     write(CONFIG_FILE_NAME, args=args, sections=sections)
     log.info('  *** saved to %s ' % (CONFIG_FILE_NAME))
@@ -289,7 +294,9 @@ def save_current_positions_to_config(args):
     args.table_y                    = energy_change_PVs['table_y'].get()  
     args.flag                       = energy_change_PVs['flag'].get()  
 
-    # update tomopy.conf
+    # Store status in a unique config file for later re-use. 
+    # The unique file name is:
+    # energy2bm_mode_energy_yyyy-mm-dd_hh_mm_ss.conf
     sections = BEAMLINE_PARAMS
     head, tail = os.path.splitext(args.config)
     now = datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S")
