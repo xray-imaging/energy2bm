@@ -1,12 +1,15 @@
+import time
 
 from epics import PV
+
 from energy2bm import log
-import time
+from energy2bm import util
 
 ShutterA_Open_Value  = 1
 ShutterA_Close_Value = 0
 ShutterB_Open_Value  = 1
 ShutterB_Close_Value = 0
+
 
 def init_energy_change_PVs(params):
 
@@ -15,7 +18,8 @@ def init_energy_change_PVs(params):
     log.info('     *** testing mode:  set PVs')
     log.warning('     *** energy PVs: %s' % (params.energyioc_prefix + 'Energy.VAL'))
     log.warning('     *** energy PVs: %s' % (params.energyioc_prefix + 'EnergyMode.VAL'))
-    # shutter pv's
+    
+    # 2-BM EPICS PVs
     energy_change_PVs['ShutterA_Open']            = PV('2bma:A_shutter:open.VAL')
     energy_change_PVs['ShutterA_Close']           = PV('2bma:A_shutter:close.VAL')
     energy_change_PVs['ShutterA_Move_Status']     = PV('PA:02BM:STA_A_FES_OPEN_PL')
@@ -35,23 +39,14 @@ def init_energy_change_PVs(params):
     energy_change_PVs['dmm_us_arm']               = PV('2bma:m30.VAL')
     energy_change_PVs['dmm_ds_arm']               = PV('2bma:m31.VAL')
     energy_change_PVs['dmm_m2y']                  = PV('2bma:m32.VAL')
-    energy_change_PVs['xia_slits_y']              = PV('2bma:m7.VAL')
-    energy_change_PVs['a_slits_h_center']         = PV('2bma:Slit1Hcenter.VAL')
-    energy_change_PVs['camera_y']                 = PV('2bma:m21.VAL')
 
-    # before we used the tomoscan prefix so if A or B are selected we could move the A or B table. Now we only move the B table
-    if params.energyioc_prefix=='2bm:MCTOptics:':  
-        energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')        
-    else:
-        energy_change_PVs['table_y']                  = PV('2bma:m33.VAL')
-    
+    energy_change_PVs['table_y']                  = PV('2bmb:table3.Y')            
     energy_change_PVs['flag']                     = PV('2bma:m44.VAL')
 
     energy_change_PVs['Energy']                   = PV(params.energyioc_prefix + 'Energy.VAL')
     energy_change_PVs['Energy_Mode']              = PV(params.energyioc_prefix + 'EnergyMode.VAL')
  
     return energy_change_PVs
-
 
 def energy_pv(energy_change_PVs, params):
 
@@ -60,7 +55,6 @@ def energy_pv(energy_change_PVs, params):
     else:
         energy_change_PVs['Energy_Mode'].put(params.mode, wait=True)
         energy_change_PVs['Energy'].put(params.energy_value, wait=True)
-
 
 def move_filter(energy_change_PVs, params):
 
@@ -72,7 +66,6 @@ def move_filter(energy_change_PVs, params):
     else:
         log.info('     *** Set filter:  %s ' % params.filter)
         energy_change_PVs['filter'].put(params.filter, wait=True)
-
 
 def move_mirror(energy_change_PVs, params):
 
@@ -89,7 +82,6 @@ def move_mirror(energy_change_PVs, params):
         log.info('     *** mirror_angle %s mrad' % params.mirror_angle)
         energy_change_PVs['mirror_angle'].put(params.mirror_angle, wait=True)
         time.sleep(1) 
-
 
 def move_DMM_Y(energy_change_PVs, params):
 
@@ -109,7 +101,6 @@ def move_DMM_Y(energy_change_PVs, params):
         energy_change_PVs['dmm_dsy'].put(params.dmm_dsy, wait=True)
         time.sleep(3) 
 
-
 def move_DMM_arms(energy_change_PVs, params):
 
     log.info(' ')
@@ -125,7 +116,6 @@ def move_DMM_arms(energy_change_PVs, params):
         energy_change_PVs['dmm_ds_arm'].put(params.dmm_ds_arm, wait=True, timeout=1000.0)
         time.sleep(3)
 
-
 def move_DMM_dmm_m2y(energy_change_PVs, params):    
 
     log.info(' ')
@@ -136,7 +126,6 @@ def move_DMM_dmm_m2y(energy_change_PVs, params):
     else:
         log.info('     *** moving  dmm m2y %s mm' % params.dmm_m2y) 
         energy_change_PVs['dmm_m2y'].put(params.dmm_m2y, wait=True, timeout=1000.0)
-
 
 def move_DMM_X(energy_change_PVs, params):
 
@@ -153,48 +142,45 @@ def move_DMM_X(energy_change_PVs, params):
         energy_change_PVs['dmm_dsx'].put(params.dmm_dsx, wait=True)
         time.sleep(3) 
 
-
-def move_xia_slits(energy_change_PVs, params):
-
-    log.info(' ')
-    log.info('     *** moving xia slits')
-
-    if params.testing:
-        log.warning('     *** testing mode:  set A slits h center  %s mm' % params.a_slits_h_center) 
-        log.warning('     *** testing mode:  set xia slits y %s mm' % params.xia_slits_y) 
-    else:
-        log.info('     *** moving A slits h center  %s mm' % params.a_slits_h_center) 
-        energy_change_PVs['a_slits_h_center'].put(params.a_slits_h_center, wait=True)
-        log.info('     *** moving xia slits y %s mm' % params.xia_slits_y) 
-        energy_change_PVs['xia_slits_y'].put(params.xia_slits_y, wait=True)
-
-def move_tabley_flag(energy_change_PVs, params):
+def move_table(energy_change_PVs, params):
 
     log.info(' ')
-    log.info('     *** moving Table Y in hutch B and Flag')
+    log.info('     *** moving Table Y')
 
     if params.testing:
         log.warning('     *** testing mode:  set Table Y in station B %s mm' % params.table_y) 
-        log.warning('     *** testing mode:  set Flag y %s mm' % params.flag) 
     else:
         if params.table_y==0 and params.flag==0:
             log.warning('Ignore moving Table Y and Flag since they have not been initialized')
             return
+
         log.info('     *** moving Table Y in station B  %s mm' % params.table_y) 
         energy_change_PVs['table_y'].put(params.table_y, wait=True)
+
+def move_flag(energy_change_PVs, params):
+
+    log.info(' ')
+    log.info('     *** moving Flag')
+
+    if params.testing:
+        log.warning('     *** testing mode:  set Flag y %s mm' % params.flag) 
+    else:
+        if params.flag==0:
+            log.warning('Ignore moving Flag since they have not been initialized')
+            return
+
         log.info('     *** moving Flag %s mm'  % params.flag) 
         energy_change_PVs['flag'].put(params.flag, wait=True)
-
 
 def close_shutters(energy_change_PVs, params):
 
     log.info(' ')
     log.info('     *** close_shutters')
     if params.testing:
-        log.warning('     *** testing mode - shutters are deactivated during the scans !!!!')
+        log.warning('     *** testing mode - A-shutter will be closed during energy change')
     else:
+        log.warning('     *** closing A-shutter')
         energy_change_PVs['ShutterA_Close'].put(1, wait=True)
-        # wait_pv(energy_change_PVs['ShutterA_Move_Status'], ShutterA_Close_Value)
+        # uncomment and test with beam:
+        # util.wait_pv(energy_change_PVs['ShutterA_Move_Status'], ShutterA_Close_Value)
         log.info('     *** close_shutter A: Done!')
-
-        

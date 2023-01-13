@@ -3,14 +3,16 @@ import sys
 import json
 import time
 import shutil
-from pathlib import Path
 import numpy as np
+
+from pathlib import Path
 
 from energy2bm import util
 from energy2bm import epics_move
 from energy2bm import log
 
 data_path = Path(__file__).parent / 'data'
+
 
 def set_default_config(params):
     log.info('set default motor values')
@@ -43,8 +45,6 @@ def set_default_config(params):
 
     params.dmm_usx = lookup[params.mode][energy_calibrated]["dmm_usx"]
     params.dmm_dsx = lookup[params.mode][energy_calibrated]["dmm_dsx"]
-    params.a_slits_h_center = lookup[params.mode][energy_calibrated]["a_slits_h_center"]  
-    params.xia_slits_y = lookup[params.mode][energy_calibrated]["xia_slits_y"]   
     params.filter = lookup[params.mode][energy_calibrated]["filter"]   
     params.table_y = lookup[params.mode][energy_calibrated]["table_y"]   
     params.flag = lookup[params.mode][energy_calibrated]["flag"]   
@@ -52,12 +52,16 @@ def set_default_config(params):
 
 def move(params):
 
-    if not util.yes_or_no('   *** Yes or No'):                
-        log.info(' ')
-        log.warning('   *** Energy not changed')
-        return False
+    if params.force:
+        pass
+    else:
+        if not util.yes_or_no('Confirm energy change?'):              
+            log.info(' ')
+            log.warning('   *** Energy not changed')
+            return False
 
     log.info('move motors')
+
     energy_change_PVs = epics_move.init_energy_change_PVs(params)
     
     epics_move.close_shutters(energy_change_PVs, params)
@@ -73,13 +77,11 @@ def move(params):
         epics_move.move_DMM_X(energy_change_PVs, params)
         epics_move.move_DMM_Y(energy_change_PVs, params)        
 
-    #epics_move.move_xia_slits(energy_change_PVs, params)
-    log.warning('Do not move slits since they are not reproducible')
-    epics_move.move_tabley_flag(energy_change_PVs, params)
+    epics_move.move_table(energy_change_PVs, params)
+    epics_move.move_flag(energy_change_PVs, params)
 
     epics_move.energy_pv(energy_change_PVs, params)
 
     log.info(' ')
     log.info('   *** Change Energy: Done!  *** ')
     return True
-

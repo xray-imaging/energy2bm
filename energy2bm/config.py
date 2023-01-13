@@ -38,7 +38,11 @@ SECTIONS['general'] = {
     'testing': {
         'default': False,
         'help': 'Enable test mode to show DMM new motor positions. The DMM motors will not move',
-        'action': 'store_true'},        
+        'action': 'store_true'},
+    'force': {
+        'default': False,
+        'help': 'When set the enegy change will occurs without a confirmation request',
+        'action': 'store_true'},
         }
 
 SECTIONS['energy'] = {
@@ -49,7 +53,8 @@ SECTIONS['energy'] = {
     'mode': {
         'default': 'Mono',
         'type': str,
-        'choices': ['Mono', 'Pink', 'White']},        }
+        'choices': ['Mono', 'Pink', 'White']},        
+        }
 
 SECTIONS['mirror-vertical-positions'] = {
     'mirror-angle': {
@@ -60,18 +65,6 @@ SECTIONS['mirror-vertical-positions'] = {
         'default':  -0.2,
         'type': float,
         'help': " "}, 
-        }
-
-SECTIONS['slits-motor-positions'] = {
-    'a-slits-h-center':  {
-        'default': 7.2,
-        'type': float,
-        'help': " "},           
-    'xia-slits-y':  {
-        # 'choices': [-1.65, 30.35],
-        'default': 30.35,
-        'type': float,
-        'help': " "},           
         }
 
 SECTIONS['dmm-motor-positions'] = {
@@ -111,7 +104,6 @@ SECTIONS['dmm-motor-positions'] = {
 
 SECTIONS['filter-selector'] = {
     'filter': {
-        # 'choices': [0, 4],
         'default': 0,
         'type': util.positive_int,
         'help': " "},
@@ -121,7 +113,7 @@ SECTIONS['tabley-flag'] = {
     'table-y': {
         'default': 0,
         'type': float,
-        'help': " "},
+        'help': "Table vertical position"},
     'flag': {
         'default': 0,
         'type': float,
@@ -135,10 +127,11 @@ SECTIONS['energyioc'] = {
         'help': "The epics IOC hosting the Energy PV, i.e.'2bm:MCTOptics:' "},
     }
 
-BEAMLINE_PARAMS = ('energy','mirror-vertical-positions','slits-motor-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
-SAVE_PARAMS = BEAMLINE_PARAMS#('energy', 'energyioc')
+BEAMLINE_PARAMS = ('energy','mirror-vertical-positions', 'dmm-motor-positions', 'filter-selector', 'tabley-flag', 'energyioc')
+SAVE_PARAMS = BEAMLINE_PARAMS
 
-NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'XIA Slits Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'EnergyIOC')
+NICE_NAMES = ('General', 'DMM Energy', 'Mirror Vertical Motor Positions', 'DMM Motor Positions', 'Filter Selector', 'Table Y and Flag', 'EnergyIOC')
+
 
 def get_config_name():
     """Get the command line --config option."""
@@ -153,7 +146,6 @@ def get_config_name():
                     name = name[1:]
                 return name
     return name
-
 
 def parse_known_args(parser, subparser=False):
     """
@@ -170,7 +162,6 @@ def parse_known_args(parser, subparser=False):
         values = ""
 
     return parser.parse_known_args(values)[0]
-
 
 def config_to_list(config_name=CONFIG_FILE_NAME):
     """
@@ -204,7 +195,6 @@ def config_to_list(config_name=CONFIG_FILE_NAME):
 
     return result
   
-
 class Params(object):
     def __init__(self, sections=()):
         self.sections = sections + ('general', )
@@ -224,7 +214,6 @@ class Params(object):
         self.add_arguments(parser)
 
         return parser.parse_args('')
-
 
 def write(config_file, args=None, sections=None):
     """
@@ -252,7 +241,6 @@ def write(config_file, args=None, sections=None):
     with open(config_file, 'w') as f:        
         config.write(f)
 
-
 def log_values(args):
     """Log all values set in the args namespace.
 
@@ -261,7 +249,7 @@ def log_values(args):
     """
     args = args.__dict__
 
-    log.warning('2bm-ops status start')
+    log.warning('energy status start')
     for section, name in zip(SECTIONS, NICE_NAMES):
         entries = sorted((k for k in args.keys() if k.replace('_', '-') in SECTIONS[section]))
 
@@ -278,25 +266,22 @@ def log_values(args):
                 elif (value is False):
                     log.warning("  {:<16} {}".format(entry, value))
 
-    log.warning('tomopy-cli status end')
-
+    log.warning('energy status end')
 
 def save_params_to_config(args):
 
-    # update tomopy.conf
+    # Update current status in default config file.
+    # The default confign file name is set in CONFIG_FILE_NAME
     sections = BEAMLINE_PARAMS
     write(CONFIG_FILE_NAME, args=args, sections=sections)
     log.info('  *** saved to %s ' % (CONFIG_FILE_NAME))
     
-
 def save_current_positions_to_config(args):
 
     energy_change_PVs = epics_move.init_energy_change_PVs(args)
     log.warning('save current beamline positions to config')
     args.mirror_angle               = energy_change_PVs['mirror_angle'].get()            
     args.mirror_vertical_position   = energy_change_PVs['mirror_vertical_position'].get()
-    args.a_slits_h_center           = energy_change_PVs['a_slits_h_center'].get()       
-    args.xia_slits_y                = energy_change_PVs['xia_slits_y'].get()             
     args.dmm_usy_ob                 = energy_change_PVs['dmm_usy_ob'].get()              
     args.dmm_usy_ib                 = energy_change_PVs['dmm_usy_ib'].get()              
     args.dmm_dsy                    = energy_change_PVs['dmm_dsy'].get()                 
@@ -309,7 +294,9 @@ def save_current_positions_to_config(args):
     args.table_y                    = energy_change_PVs['table_y'].get()  
     args.flag                       = energy_change_PVs['flag'].get()  
 
-    # update tomopy.conf
+    # Store status in a unique config file for later re-use. 
+    # The unique file name is:
+    # energy2bm_mode_energy_yyyy-mm-dd_hh_mm_ss.conf
     sections = BEAMLINE_PARAMS
     head, tail = os.path.splitext(args.config)
     now = datetime.strftime(datetime.now(), "%Y-%m-%d_%H_%M_%S")
@@ -317,4 +304,3 @@ def save_current_positions_to_config(args):
     config_name_energy = head + '_' + args.mode +'_' + str(args.energy_value) + '_' + now + tail
     write(config_name_energy, args=args, sections=sections)
     log.info('  *** saved to %s ' % (config_name_energy))
-    

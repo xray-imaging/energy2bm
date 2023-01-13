@@ -2,7 +2,6 @@ import numpy as np
 
 from energy2bm import log
 
-
 def positive_int(value):
     """Convert *value* to an integer and make sure it is positive."""
     result = int(value)
@@ -26,3 +25,27 @@ def find_nearest(array, value):
     idx = (np.abs(array - value)).argmin()
     value = "{0:4.3f}".format(array[idx])
     return value
+
+def wait_pv(epics_pv, wait_val, timeout=-1):
+    """Wait on a pv to be a value until max_timeout (default forever)
+       delay for pv to change
+    """
+
+    time.sleep(.01)
+    start_time = time.time()
+    while True:
+        pv_val = epics_pv.get()
+        if isinstance(pv_val, float):
+            if abs(pv_val - wait_val) < EPSILON:
+                return True
+        if pv_val != wait_val:
+            if timeout > -1:
+                current_time = time.time()
+                diff_time = current_time - start_time
+                if diff_time >= timeout:
+                    log.error('  *** wait_pv(%s, %d, %5.2f reached max timeout. Return False',
+                                  epics_pv.pvname, wait_val, timeout)
+                    return False
+            time.sleep(.01)
+        else:
+            return True
